@@ -324,7 +324,7 @@ shade(height.HPDI, weight.seq) # add full-hdpi interval
 
 $h_i ∼ Normal(\mu_i, \sigma)$  
 $\mu_i = \alpha + \beta log(w_i)$  
-$\alpha ∼ Normal(178, 20)$
+$\alpha ∼ Normal(178, 20)$  
 $\beta ∼ LogNormal(0, 1)$  
 $\sigma ∼ Uniform(0, 50)$
 

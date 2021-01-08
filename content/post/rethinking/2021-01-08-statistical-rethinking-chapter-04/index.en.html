@@ -362,7 +362,7 @@ shade(height.HPDI, weight.seq) # add full-hdpi interval</code></pre>
 <p><strong>Question:</strong> Model the relationship between height (cm) and the natural logarithm of weight (log-kg). Use the entire Howell1 data frame, all 544 rows, adults and non-adults. Fit this model, using the quadratic approximation:</p>
 <p><span class="math inline">\(h_i ∼ Normal(\mu_i, \sigma)\)</span><br />
 <span class="math inline">\(\mu_i = \alpha + \beta log(w_i)\)</span><br />
-<span class="math inline">\(\alpha ∼ Normal(178, 20)\)</span>
+<span class="math inline">\(\alpha ∼ Normal(178, 20)\)</span><br />
 <span class="math inline">\(\beta ∼ LogNormal(0, 1)\)</span><br />
 <span class="math inline">\(\sigma ∼ Uniform(0, 50)\)</span></p>
 <p>where <span class="math inline">\(h_i\)</span> is the height of individual <span class="math inline">\(i\)</span> and <span class="math inline">\(w_i\)</span> is the weight (in kg) of individual <span class="math inline">\(i\)</span>. The function for computing a natural log in <code>R</code> is just <code>log()</code>. Can you interpret the resulting estimates?</p>
