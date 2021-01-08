@@ -282,7 +282,7 @@ formula <- alist(
   height ~ dnorm(mu, sigma),
   mu <- a + b * (weight-weight_bar),
   a ~ dnorm(110, 30),
-  b ~ dnorm(0, 10),
+  b ~ dlnorm(0, 1),
   sigma ~ dunif(0, 60)
 )
 m <- quap(formula, data = d2)
