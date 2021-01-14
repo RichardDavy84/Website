@@ -32,11 +32,11 @@ hero_media = "Toad.png"
 # Call to action links (optional).
 #   Display link(s) by specifying a URL and label below. Icon is optional for `[cta]`.
 #   Remove a link/note by deleting a cta/note block.
-[btn]
+[butn]
   url = "/authors/ErikKusch"
   label = "About me"
   
-# [btn_alt]
+# [butn_alt]
 #   url = "#contact"
 #   label = "Contact me"
 
@@ -47,7 +47,7 @@ hero_media = "Toad.png"
 I aim to understand how global and local processes and patterns in biological systems come about and are reinforced thus generating knowledge about the resilience of the Earth's ecosystems. My PhD project is under the guidance of [Alejandro Ordonez](https://pure.au.dk/portal/en/persons/alejandro-ordonez-gloria(93af1df3-ce78-48c3-94fa-2317fa00bd4a).html) and co-supervised by [Roberto Salguero-Gómez](https://www.zoo.ox.ac.uk/people/dr-rob-salguero-gomez). 
 
 <style>
-.btn {
+.butn {
   background-color: inherit;
   padding: 14px;
   border-radius: 0px;
@@ -60,7 +60,7 @@ I aim to understand how global and local processes and patterns in biological sy
 }
 
 /* On mouse-over */
-.btn:hover {background: #eee;}
+.butn:hover {background: #eee;}
 
 .success {background-color: forestgreen;}
 .info {background-color: #67da6f;}
@@ -72,5 +72,5 @@ I aim to understand how global and local processes and patterns in biological sy
 </style>
 
 
-<button class="btn default">[About Me](about)</button>
-<button class="btn default">[Reach Me](contact)</button>
+<button class="butn default">[About Me](about)</button>
+<button class="butn default">[Reach Me](contact)</button>
