@@ -8,3 +8,5 @@ blogdown/
 
 */Worskpace.RData
 */*/*/Data/
+
+!/layouts/shortcodes/blogdown/
