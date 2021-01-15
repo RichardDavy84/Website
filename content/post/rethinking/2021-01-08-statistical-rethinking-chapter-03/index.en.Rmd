@@ -1,7 +1,7 @@
 ---
 title: Statistical Rethinking - Chapter 03
 author: Erik Kusch
-date: '2021-01-08'
+date: '2021-01-07'
 slug: statistical-rethinking-chapter-03
 categories:
   - Statistical Rethinking
@@ -12,7 +12,7 @@ tags:
 subtitle: 'Small Worlds in Large Worlds'
 summary: 'Answers and solutions to the exercises belonging to chapter 3 in [Satistical Rethinking 2](https://xcelab.net/rm/statistical-rethinking/) by Richard McElreath.'
 authors: []
-lastmod: '2021-01-08T08:00:00+01:00'
+lastmod: '2021-01-07T08:00:00+01:00'
 featured: no
 image:
   caption: ''
@@ -35,7 +35,7 @@ options(width = 200)
 ```
 
 # Introduction
-These are answers and solutions to the exercises at the end of chapter 3 in [Satistical Rethinking 2](https://xcelab.net/rm/statistical-rethinking/) by Richard McElreath. I have created these notes as a part of my ongoing involvement in the [AU Bayes Study Group](/project/aubayes/). Much of my inspiration for these solutions /where necessary has been obtained from [Jeffrey Girard](https://jmgirard.com/statistical-rethinking-ch2/).
+These are answers and solutions to the exercises at the end of chapter 3 in [Satistical Rethinking 2](https://xcelab.net/rm/statistical-rethinking/) by Richard McElreath. I have created these notes as a part of my ongoing involvement in the [AU Bayes Study Group](/project/aubayes/). Much of my inspiration for these solutions, where necessary, has been obtained from [Jeffrey Girard](https://jmgirard.com/statistical-rethinking-ch3/).
 
 Loading `rethinking` package for visualisations:
 ```{r}

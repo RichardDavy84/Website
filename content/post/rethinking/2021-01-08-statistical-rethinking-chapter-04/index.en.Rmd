@@ -35,7 +35,7 @@ options(width = 200)
 ```
 
 # Introduction
-These are answers and solutions to the exercises at the end of chapter 4 in [Satistical Rethinking 2](https://xcelab.net/rm/statistical-rethinking/) by Richard McElreath. I have created these notes as a part of my ongoing involvement in the [AU Bayes Study Group](/project/aubayes/). Much of my inspiration for these solutions /where necessary has been obtained from [Jeffrey Girard](https://jmgirard.com/statistical-rethinking-ch2/).
+These are answers and solutions to the exercises at the end of chapter 4 in [Satistical Rethinking 2](https://xcelab.net/rm/statistical-rethinking/) by Richard McElreath. I have created these notes as a part of my ongoing involvement in the [AU Bayes Study Group](/project/aubayes/). Much of my inspiration for these solutions, where necessary, has been obtained from [Jeffrey Girard](https://jmgirard.com/statistical-rethinking-ch4/).
 
 # Easy Exercises
 ## Practice E1
