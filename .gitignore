@@ -6,6 +6,9 @@ public/
 Rubbish/
 blogdown/
 
+.DS_Store
+Thumbs.db
+
 */Worskpace.RData
 */*/*/Data/
 
