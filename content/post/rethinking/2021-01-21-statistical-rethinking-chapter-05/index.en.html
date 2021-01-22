@@ -68,9 +68,9 @@ header-includes:
 </li>
 <li><span class="math inline">\(μ_i=α+β_xx_i+β_zz_i\)</span></li>
 </ol>
-<p><strong>Answer:</strong> <em>1 and 3 are multiple regressions.</em><br />
+<p><strong>Answer:</strong> <em>2 and 4 are multiple regressions.</em><br />
 Model 1 does only considers one predictor variable (<span class="math inline">\(x_i\)</span>) and can thus not be a multiple regression. Models 2 and 4 contain multiple predictors with (<span class="math inline">\(x_i\)</span> and <span class="math inline">\(z_i\)</span>) with separate slope parameters (<span class="math inline">\(\beta_x\)</span> and <span class="math inline">\(\beta_z\)</span>) and thus qualify to be considered multiple regressions. The presence or absence of an intercept parameter (<span class="math inline">\(\alpha\)</span>) does not change this interpretation.</p>
-<!-- Model 3 is a tad out there. While it only contains one slope parameter ($\beta$), it does make use of two variables ($x_i$ and $z_i$). It can be rewritten as $μ_i=α+βx_i–βz_i$. Now, the notation is in line with models 2 and 4, and it should be quite obvious that this is a multiple regression as well.  -->
+<p>Model 3 is a tad out there. While it only contains one slope parameter (<span class="math inline">\(\beta\)</span>), it does make use of two variables (<span class="math inline">\(x_i\)</span> and <span class="math inline">\(z_i\)</span>). It can be rewritten as <span class="math inline">\(μ_i=α+βx_i–βz_i\)</span>. Now, the notation is in line with models 2 and 4, but has a fixed slope for both. For that reason, I do not think that it is a multiple regression.</p>
 </div>
 <div id="practice-e2" class="section level2">
 <h2>Practice E2</h2>
@@ -82,7 +82,8 @@ Model 1 does only considers one predictor variable (<span class="math inline">\(
 <p><strong>Question:</strong> Write down a multiple regression to evaluate the claim: <em>Neither amount of funding nor size of laboratory is by itself a good predictor of time to PhD degree; but together these variables are both positively associated with time to degree</em>. Write down the model definition and indicate which side of zero each slope parameter should be on.</p>
 <p><strong>Answer:</strong> <span class="math inline">\(T = \alpha + \beta_FF + \beta_SS\)</span><br />
 with <span class="math inline">\(T\)</span> (time to PhD), <span class="math inline">\(F\)</span> (funding), and <span class="math inline">\(S\)</span> (size of laboratory).</p>
-<p>Since the combined effect of both slopes is supposed to be positive, the individual slopes must both be positive.</p>
+<p>On a side-note, I am a bit unclear as to whether the question should really state that they have a “positive” effect as this indicates, by intuition, a decrease in time to PhD, but in statistical terms, denote the exact opposite.</p>
+<p>Since the combined effect of both slopes is supposed to be positive, the individual slopes must both be positive (or negative, depending on what you understand by “positive effect on time”).</p>
 <!-- I decided to simulate one case in `R`: -->
 <!-- ```{r} -->
 <!-- N <- 1e3 # number of samples -->
@@ -171,7 +172,6 @@ with <span class="math inline">\(T\)</span> (time to PhD), <span class="math inl
 <!-- lines(F.seq, modE3_FS_F.mean, col='green') -->
 <!-- shade(modE3_FS_F.pi, F.seq, col = col.alpha("green",0.5)) -->
 <!-- ``` -->
-<p>On a side-note, I am a bit unclear as to whether the question should really state that they have a “positive” effect as this indicates, by intuition, a decrease in time to PhD, but in statistical terms, denote the exact opposite.</p>
 </div>
 <div id="practice-e4" class="section level2">
 <h2>Practice E4</h2>
@@ -261,7 +261,7 @@ ggpairs(d)</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-5-1.png" width="1440" /></p>
 <p>Let’s start with some bivariate models:</p>
 <pre class="r"><code>## Latitude centred on equator
-m &lt;- quap(
+m1 &lt;- quap(
   alist(
     S ~ dnorm(mu, sigma),
     mu &lt;- a + bL * L,
@@ -271,13 +271,13 @@ m &lt;- quap(
   ),
   data = d
 )
-precis(m)</code></pre>
+precis(m1)</code></pre>
 <pre><code>##             mean         sd        5.5%     94.5%
 ## a     0.09656591 0.12275009 -0.09961245 0.2927443
 ## bL    0.26165086 0.13796469  0.04115663 0.4821451
 ## sigma 1.23678173 0.08745475  1.09701214 1.3765513</code></pre>
 <pre class="r"><code>## Human footprint
-m &lt;- quap(
+m2 &lt;- quap(
   alist(
     S ~ dnorm(mu, sigma),
     mu &lt;- a + bH * H,
@@ -287,13 +287,13 @@ m &lt;- quap(
   ),
   data = d
 )
-precis(m)</code></pre>
+precis(m2)</code></pre>
 <pre><code>##              mean        sd       5.5%      94.5%
 ## a      0.07758373 0.1209797 -0.1157652  0.2709327
 ## bH    -0.30689555 0.1147838 -0.4903422 -0.1234489
 ## sigma  1.21600759 0.0859864  1.0785847  1.3534305</code></pre>
 <p>Finally, let’s combine these into one big multiple regression:</p>
-<pre class="r"><code>m &lt;- quap(
+<pre class="r"><code>m3 &lt;- quap(
   alist(
     S ~ dnorm(mu, sigma),
     mu &lt;- a + bH * H + bL * L,
@@ -304,18 +304,21 @@ precis(m)</code></pre>
   ),
   data = d
 )
-precis(m)</code></pre>
+precis(m3)</code></pre>
 <pre><code>##              mean         sd       5.5%      94.5%
 ## a      0.03603387 0.10567367 -0.1328531  0.2049208
 ## bH    -0.78399406 0.13167742 -0.9944400 -0.5735481
 ## bL     0.86622135 0.15576555  0.6172779  1.1151648
 ## sigma  1.05757879 0.07482312  0.9379970  1.1771606</code></pre>
 <p>Both associations became stronger! To link this back to reality, equatoward position has been linked to increased species richness for a long time (through many hypotheses I won’t go into here), there is also a global pattern of reduced human footprint around the equator (although this may change… looking at you, Brazil). Human footprint itself has been unequivocally linked with a decrease in species richness.</p>
+<p>Let’s look at this in plotted form:</p>
+<pre class="r"><code>plot(coeftab(m3, m2, m1), par = c(&quot;bH&quot;, &quot;bL&quot;))</code></pre>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-8-1.png" width="1440" /></p>
 <p>In a Directed Acyclic Graph, this works out to:</p>
 <pre class="r"><code>dag &lt;- dagitty(&quot;dag { L -&gt; S L -&gt; H H -&gt; S}&quot;)
 coordinates(dag) &lt;- list(x = c(L = 0, S = 1, H = 2), y = c(L = 0, S = 1, H = 0))
 drawdag(dag)</code></pre>
-<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-8-1.png" width="1440" /></p>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-9-1.png" width="1440" /></p>
 </div>
 <div id="practice-m3" class="section level2">
 <h2>Practice M3</h2>
@@ -335,7 +338,7 @@ par(mfrow = c(1, 3))
 hist(d$LDS)
 hist(d$logLDS)
 hist(d$logLDS.s)</code></pre>
-<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-9-1.png" width="1440" /></p>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-10-1.png" width="1440" /></p>
 <p>Now I am ready to build the model:</p>
 <pre class="r"><code>m &lt;- map(
   alist(
@@ -406,7 +409,7 @@ mu.PI &lt;- apply(mu, 2, PI, prob = 0.95)
 plot(weight ~ area, data = d, col = rangi2)
 abline(ma)
 shade(mu.PI, area.seq)</code></pre>
-<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-12-1.png" width="1440" /></p>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-13-1.png" width="1440" /></p>
 <pre class="r"><code>## Group Size
 mg &lt;- quap(
   alist(
@@ -429,7 +432,7 @@ mu.PI &lt;- apply(mu, 2, PI, prob = 0.95)
 plot(weight ~ groupsize, data = d, col = rangi2)
 abline(mg)
 shade(mu.PI, groupsize.seq)</code></pre>
-<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-12-2.png" width="1440" /></p>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-13-2.png" width="1440" /></p>
 <p>According to these two bivariate models, neither <code>area</code> nor <code>groupsize</code> have strong associations with <code>weight</code> of which we could be certain.</p>
 </div>
 <div id="practice-h2" class="section level2">
@@ -455,7 +458,7 @@ precis(mag)</code></pre>
 ## sigma  1.1184516 0.07342985  1.0010965  1.2358067</code></pre>
 <p>Now, I want to actually have a look at the underlying data:</p>
 <pre class="r"><code>ggpairs(d[, 3:5])</code></pre>
-<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-14-1.png" width="1440" /></p>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-15-1.png" width="1440" /></p>
 <p><code>groupsize</code> and <code>area</code> are pretty heavily associated it seems. Finally, we establish counterfactual plots:</p>
 <pre class="r"><code>## Fixing Group Size
 G.avg &lt;- mean(d$groupsize)
@@ -474,7 +477,7 @@ mtext(&quot;groupsize = 4.345&quot;)
 lines(A.seq, mu.mean)
 shade(mu.PI, A.seq)
 shade(A.PI, A.seq)</code></pre>
-<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-15-1.png" width="1440" /></p>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-16-1.png" width="1440" /></p>
 <pre class="r"><code>## Fixing Area
 A.avg &lt;- mean(d$area)
 G.seq &lt;- seq(from = 1, to = 10, length.out = 1e4)
@@ -492,7 +495,7 @@ mtext(&quot;area = 3.169&quot;)
 lines(G.seq, mu.mean)
 shade(mu.PI, G.seq)
 shade(G.PI, G.seq)</code></pre>
-<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-15-2.png" width="1440" /></p>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-16-2.png" width="1440" /></p>
 <p>This is a clear example of a masking relationship. When considered in isolation (bivariate models) neither <code>groupsize</code> nor <code>area</code> show clear associations with <code>weight</code>. However, as soon as we use a multiple regression, we find that <code>weight</code> declines as <code>groupsize</code> increases, while <code>area</code> has the opposite effect. These effects cancel each other out in bivariate settings.</p>
 </div>
 <div id="practice-h3" class="section level2">
@@ -541,7 +544,7 @@ precis(m)</code></pre>
 <p><strong>Question:</strong> Is <code>avgfood</code> or <code>area</code> a better predictor of body weight? If you had to choose one or the other to include in a model, which would it be? Support your assessment with any tables or plots you choose.</p>
 <p><strong>Answer:</strong> According to intuition, I would prefer <code>avgfood</code> because it is directly and obviously linked to a gain in calories and thus <code>weight</code> whereas <code>area</code> is a fairly indirect relationship. However, I still want to test this in <code>R</code>. Let’s first look at the raw data:</p>
 <pre class="r"><code>ggpairs(d[, -1])</code></pre>
-<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-18-1.png" width="1440" /></p>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-19-1.png" width="1440" /></p>
 <p><code>avgfood</code> and <code>area</code> are strikingly correlated with one another. To chose the most informative of these two, I build models of <code>weight</code> solely dependant on standardised records of both (so the slope estimates are comparable in their magnitude) as well as <code>groupsize</code>:</p>
 <pre class="r"><code>## Average Food
 d$avgfood.s &lt;- (d$avgfood - mean(d$avgfood)) / sd(d$avgfood)

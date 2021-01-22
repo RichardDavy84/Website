@@ -56,10 +56,10 @@ These are answers and solutions to the exercises at the end of chapter 5 in [Sat
 (3) $μ_i=α+β(x_i–z_i)$  
 (4) $μ_i=α+β_xx_i+β_zz_i$  
 
-**Answer:**  *1 and 3 are multiple regressions.*  
+**Answer:**  *2 and 4 are multiple regressions.*  
 Model 1 does only considers one predictor variable ($x_i$) and can thus not be a multiple regression. Models 2 and 4 contain multiple predictors with ($x_i$ and $z_i$) with separate slope parameters ($\beta_x$ and $\beta_z$) and thus qualify to be considered multiple regressions. The presence or absence of an intercept parameter ($\alpha$) does not change this interpretation. 
 
-<!-- Model 3 is a tad out there. While it only contains one slope parameter ($\beta$), it does make use of two variables ($x_i$ and $z_i$). It can be rewritten as $μ_i=α+βx_i–βz_i$. Now, the notation is in line with models 2 and 4, and it should be quite obvious that this is a multiple regression as well.  -->
+Model 3 is a tad out there. While it only contains one slope parameter ($\beta$), it does make use of two variables ($x_i$ and $z_i$). It can be rewritten as $μ_i=α+βx_i–βz_i$. Now, the notation is in line with models 2 and 4, but has a fixed slope for both. For that reason, I do not think that it is a multiple regression.
 
 ## Practice E2
 
@@ -75,7 +75,9 @@ Model 1 does only considers one predictor variable ($x_i$) and can thus not be a
 **Answer:** $T = \alpha + \beta_FF + \beta_SS$  
 with $T$ (time to PhD), $F$ (funding), and $S$ (size of laboratory).  
 
-Since the combined effect of both slopes is supposed to be positive, the individual slopes must both be positive. 
+On a side-note, I am a bit unclear as to whether the question should really state that they have a "positive" effect as this indicates, by intuition, a decrease in time to PhD, but in statistical terms, denote the exact opposite.
+
+Since the combined effect of both slopes is supposed to be positive, the individual slopes must both be positive (or negative, depending on what you understand by "positive effect on time"). 
 
 <!-- I decided to simulate one case in `R`: -->
 <!-- ```{r} -->
@@ -172,9 +174,6 @@ Since the combined effect of both slopes is supposed to be positive, the individ
 <!-- ``` -->
 
 
-On a side-note, I am a bit unclear as to whether the question should really state that they have a "positive" effect as this indicates, by intuition, a decrease in time to PhD, but in statistical terms, denote the exact opposite.
-
-
 ## Practice E4
 
 **Question:** Suppose you have a single categorical predictor with 4 levels (unique values), labelled $A$, $B$, $C$ and $D$. Let $A_i$ be an indicator variable that is 1 where case $i$ is in category $A$. Also suppose $B_i$, $C_i$, and $D_i$ for the other categories. Now which of the following linear models are inferentially equivalent ways to include the categorical variable in a regression? Models are inferentially equivalent when it’s possible to compute one posterior distribution from the posterior distribution of another model.  
@@ -263,7 +262,7 @@ ggpairs(d)
 Let's start with some bivariate models:
 ```{r}
 ## Latitude centred on equator
-m <- quap(
+m1 <- quap(
   alist(
     S ~ dnorm(mu, sigma),
     mu <- a + bL * L,
@@ -273,9 +272,9 @@ m <- quap(
   ),
   data = d
 )
-precis(m)
+precis(m1)
 ## Human footprint
-m <- quap(
+m2 <- quap(
   alist(
     S ~ dnorm(mu, sigma),
     mu <- a + bH * H,
@@ -285,12 +284,12 @@ m <- quap(
   ),
   data = d
 )
-precis(m)
+precis(m2)
 ```
 
 Finally, let's combine these into one big multiple regression:
 ```{r}
-m <- quap(
+m3 <- quap(
   alist(
     S ~ dnorm(mu, sigma),
     mu <- a + bH * H + bL * L,
@@ -301,9 +300,14 @@ m <- quap(
   ),
   data = d
 )
-precis(m)
+precis(m3)
 ```
 Both associations became stronger! To link this back to reality, equatoward position has been linked to increased species richness for a long time (through many hypotheses I won't go into here), there is also a global pattern of reduced human footprint around the equator (although this may change... looking at you, Brazil). Human footprint itself has been unequivocally linked with a decrease in species richness.
+
+Let's look at this in plotted form:
+```{r}
+plot(coeftab(m3, m2, m1), par=c("bH", "bL"))
+```
 
 In a Directed Acyclic Graph, this works out to:
 
