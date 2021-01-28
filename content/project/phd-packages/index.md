@@ -11,10 +11,10 @@ links:
   icon_pack: fab
   name: Follow
   url: https://twitter.com/KuschErik
-# - icon: github
-#   icon_pack: fab
-#   name: Download
-#   url: https://github.com/ErikKusch/KrigR
+- icon: github
+  icon_pack: fab
+  name: GitHub
+  url: https://github.com/ErikKusch/PhD-Project
 - icon: researchgate
   icon_pack: fab
   name: Updates
@@ -26,9 +26,9 @@ tags:
 - Resilience
 - Climate Data
 title: Effects of Biological Extinctions across Scales and Trophic Levels
-url_code: "https://github.com/ErikKusch/PhD-Project"
+url_code: ""
 url_pdf: ""
-# url_slides: "https://github.com/ErikKusch/KrigR/tree/master/Workshop"
+url_slides: ""
 url_video: ""
 ---
 

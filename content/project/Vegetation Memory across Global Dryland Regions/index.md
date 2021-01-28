@@ -11,10 +11,10 @@ links:
   icon_pack: fab
   name: Follow
   url: https://twitter.com/KuschErik
-# - icon: github
-#   icon_pack: fab
-#   name: See the code
-#   url: https://github.com/ErikKusch/Vegetation-Memory
+- icon: github
+  icon_pack: fab
+  name: GitHub
+  url: https://github.com/ErikKusch/Vegetation-Memory
 - icon: researchgate
   icon_pack: fab
   name: Updates
@@ -26,7 +26,7 @@ tags:
 - Statistical Downscaling
 - KrigR
 title: Vegetation Memory across Global Dryland Regions
-url_code: "https://github.com/ErikKusch/Vegetation-Memory"
+url_code: ""
 url_pdf: ""
 url_poster: "/talks/2020_ISEC_Poster.pdf"
 url_slides: ""

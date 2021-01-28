@@ -11,10 +11,10 @@ links:
   icon_pack: fab
   name: Follow
   url: https://twitter.com/KuschErik
-# - icon: github
-#   icon_pack: fab
-#   name: See the code
-#   url: https://github.com/ErikKusch/Vegetation-Memory-Causes
+- icon: github
+  icon_pack: fab
+  name: GitHub
+  url: https://github.com/ErikKusch/Vegetation-Memory-Causes
 - icon: researchgate
   icon_pack: fab
   name: Updates
@@ -28,7 +28,7 @@ tags:
 - Statistical Downscaling
 - KrigR
 title: Causes and Processes of Dryland Vegetation Memory
-url_code: "https://github.com/ErikKusch/Vegetation-Memory-Causes"
+url_code: ""
 url_pdf: ""
 url_slides: ""
 url_video: ""
@@ -42,7 +42,7 @@ However, these patterns alone only tell part of the story. How do these come abo
 
 
 # Description
-MODIS EVI data is aggregated at bi-weekly intervals and used as a proxy of vegetation response in the dryland study regions between January 2000 and December 2019. Independent climate data is provided using the `KrigR` package ([KrigR - Downloading and Downscaling of ERA5(-Land) data using R]({{< ref "project/KrigR" >}})). Doing so allows us to make use of the high temporal resolution of the European Centre for Medium-range Weather Forecasts ReAnalysis 5 (ERA5) data from the European Centre for Medium-Range Weather Forecasts (ECMWF) at spatial resolutions of roughly 1x1km. Effectively, this increases the spatial resolution of vegetation memory products by almost one order of magnitude when compared to my previous project at 9x9km resolution. Vegetation memory is calculated the same way as during my previous project.
+MODIS EVI data is aggregated at bi-weekly intervals and used as a proxy of vegetation response in the dryland study regions between January 2000 and December 2019. Independent climate data is provided using the `KrigR` package ([KrigR - Downloading and Downscaling of ERA5(-Land) data using R]({{< ref "project/KrigR" >}}ar)). Doing so allows us to make use of the high temporal resolution of the European Centre for Medium-range Weather Forecasts ReAnalysis 5 (ERA5) data from the European Centre for Medium-Range Weather Forecasts (ECMWF) at spatial resolutions of roughly 1x1km. Effectively, this increases the spatial resolution of vegetation memory products by almost one order of magnitude when compared to my previous project at 9x9km resolution. Vegetation memory is calculated the same way as during my previous project.
 
 Using these high-resolution vegetation memory products, we can reasonably argue that ground-data obtained through functional trait campaigns or vegetation plot exercises represents the 1x1km grid reasonably well. Thus we are able to assess correlations between the different vegetation components and ground-truthed expressions of plant life. To identify what shapes vegetation memory expressions, I am investigating a range of three potential predictor families:  
 1. **Plant Functional Traits** - I expect investment in certain functional characteristics to greatly influence resistance and recovery potential. For example, sturdy leaves should grant resistance to temperature fluctuations but are costly to recover once lost.

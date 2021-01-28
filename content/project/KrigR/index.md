@@ -7,18 +7,22 @@ image:
   caption: KrigR Workflow
   focal_point: Smart
 links:
-- icon: twitter
+- icon: github
   icon_pack: fab
-  name: Follow
-  url: https://twitter.com/KuschErik
-# - icon: github
-#   icon_pack: fab
-#   name: Download
-#   url: https://github.com/ErikKusch/KrigR
+  name: GitHub
+  url: https://github.com/ErikKusch/KrigR
+- icon: file-powerpoint
+  icon_pack: fas
+  name: Slides
+  url: /post/krigr-mats/KrigRSlides.rar
 - icon: researchgate
   icon_pack: fab
   name: Updates
   url: https://www.researchgate.net/project/KrigR-Downloading-and-Downscaling-of-ERA5-data-using-R
+- icon: twitter
+  icon_pack: fab
+  name: Follow
+  url: https://twitter.com/KuschErik
 # slides: example
 summary: An `R` package designed for intuitive downloading, aggregating, and statistical downscaling of ERA5(-Land) data.
 tags:
@@ -26,9 +30,9 @@ tags:
 - Statistical Downscaling
 - KrigR
 title: KrigR - Downloading and Downscaling of ERA5(-Land) data using R
-url_code: "https://github.com/ErikKusch/KrigR"
+url_code: ""
 url_pdf: ""
-url_slides: "https://github.com/ErikKusch/KrigR/tree/master/Workshop"
+url_slides: ""
 url_video: ""
 ---
 
