@@ -10,6 +10,9 @@ blogdown/
 Thumbs.db
 
 */Worskpace.RData
+*/Data/
+*/*/Data/
 */*/*/Data/
+*/*/*/*/Data/
 
 !/layouts/shortcodes/blogdown/
