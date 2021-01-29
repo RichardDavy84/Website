@@ -422,7 +422,7 @@ Plot_Krigs(State_Krig, Dates = c(&quot;02-01-1995&quot;, &quot;03-01-1995&quot;,
 <p>Finally, let’s see how long it took to carry out this shapefile-informed downscaling:</p>
 <pre class="r"><code>BaseTime &lt;- KrigStop - KrigStart
 BaseTime</code></pre>
-<pre><code>## Time difference of 1.070704 mins</code></pre>
+<pre><code>## Time difference of 51.7916 secs</code></pre>
 </div>
 </div>
 <div id="kriging---the-pipeline" class="section level1">
@@ -446,7 +446,8 @@ dir.create(Dir.StatePipe)</code></pre>
   Target_res = .02,
   Cores = 1,
   FileName = &quot;State_Pipe.nc&quot;,
-  Dir = Dir.StatePipe
+  Dir = Dir.StatePipe,
+  Keep_Temporary = FALSE
 )
 Pipe_Krig[-3] # we will talk later about why we leave out the third list element produced by krigR here
 Plot_Krigs(Pipe_Krig, Dates = c(&quot;02-01-1995&quot;, &quot;03-01-1995&quot;, &quot;04-01-1995&quot;))</code></pre>
@@ -534,8 +535,8 @@ Plot_Krigs(State_Krig, Shp = State_Shp, Dates = c(&quot;02-01-1995&quot;, &quot;
 <p>Let’s see how long this took:</p>
 <pre class="r"><code>ShapeTime &lt;- KrigStop - KrigStart
 ShapeTime</code></pre>
-<pre><code>## Time difference of 2.189736 secs</code></pre>
-<p>Running this downscaling process for Saxony using the shapefile took 2.0451366 of the original downscaling time using an extent statement.</p>
+<pre><code>## Time difference of 1.886406 secs</code></pre>
+<p>Running this downscaling process for Saxony using the shapefile took 0.036423 of the original downscaling time using an extent statement.</p>
 <p class="atten">
 Using a <code>shapefile</code> rather than an <code>extent</code> statement <strong>speeds up</strong> the <strong>Kriging process</strong>!
 </p>
@@ -658,7 +659,7 @@ Plot_Krigs(Points_Krig, Shp = BigfootLand, Dates = c(&quot;Climatology&quot;))</
 That went by quick! We can’t really see the results clearly here and will look at the in more detail in just a second. Firstly, let’s see how long this took:</p>
 <pre class="r"><code>PointsTime &lt;- KrigStop - KrigStart
 PointsTime</code></pre>
-<pre><code>## Time difference of 6.226395 secs</code></pre>
+<pre><code>## Time difference of 6.925082 secs</code></pre>
 <p>From experience, Kriging for a region this large instead of just for small regions around locations would easily take upwards of 10 hours! This is a big improvement.</p>
 <p>What did we gain by doing this? Why not just obtain the raw reanalysis data and be done with it? For this, we plot our data:</p>
 <pre class="r"><code>## DATA EXTRACTION
@@ -761,8 +762,8 @@ Plot_Krigs(State_Krig, Shp = State_Shp, Dates = c(&quot;02-01-1995&quot;, &quot;
 <p>The results look just like the ones that we obtained without using the shapefile and just one-core processing. Let’s see how long this took:</p>
 <pre class="r"><code>CoreTime &lt;- KrigStop - KrigStart
 CoreTime</code></pre>
-<pre><code>## Time difference of 4.396599 secs</code></pre>
-<p>Running this downscaling process for Saxony using the shapefile took 2.0078214 of the original downscaling time using an extent statement (the effects multi-core Kriging really kick in when looking at rasters with many bands because the initial opening of clusters for parallel processing takes some time by itself.).</p>
+<pre><code>## Time difference of 9.386615 secs</code></pre>
+<p>Running this downscaling process for Saxony using the shapefile took 4.9759253 of the original downscaling time using an extent statement (the effects multi-core Kriging really kick in when looking at rasters with many bands because the initial opening of clusters for parallel processing takes some time by itself.).</p>
 <p class="atten">
 Using the <code>Cores</code> argument with a value of n (with n &gt; 1) <strong>speeds up</strong> the <strong>Kriging process</strong> of multi-layer rasters by an order of n!
 </p>
@@ -1108,7 +1109,7 @@ plot_grid(plotlist = list(Raw_plot, NDVI_plot, Plots_ls[[1]], Plots_ls[[2]]), nr
 ## 
 ## $KrigingEquation
 ## ERA ~ DEM
-## &lt;environment: 0x0000000036a9e3f0&gt;
+## &lt;environment: 0x0000000023f79ba8&gt;
 ## 
 ## $Cores
 ## [1] 1
@@ -1208,7 +1209,7 @@ TKDry_ras &lt;- raster(file.path(Dir.TP, &quot;tkdry_l1.nc&quot;))</code></pre>
   API_Key = API_Key
 )
 Plot_Raw(State_Raw, Shp = State_Shp, Dates = c(&quot;02-01-1995&quot;, &quot;03-01-1995&quot;, &quot;04-01-1995&quot;), Legend = &quot;Soil Temperature (0-7cm) [K]&quot;)</code></pre>
-<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-8-1.png" width="1440" /></p>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-9-1.png" width="1440" /></p>
 </div>
 <div id="covariates-4" class="section level2">
 <h2>Covariates</h2>
@@ -1241,7 +1242,7 @@ names(Finecovs) &lt;- c(&quot;TKWet&quot;, &quot;TKDry&quot;, &quot;DEM&quot;) #
 # combine data into covariate list
 Covs_ls &lt;- list(Coarsecovs, Finecovs)
 Plot_Covs(Covs_ls, State_Shp)</code></pre>
-<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-11-1.png" width="1440" /></p>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-12-1.png" width="1440" /></p>
 </div>
 <div id="kriging-3" class="section level2">
 <h2>Kriging</h2>
@@ -1251,7 +1252,7 @@ Plot_Covs(Covs_ls, State_Shp)</code></pre>
   Covariates_coarse = Covs_ls[[1]], # covariates at training resolution
   Covariates_fine = Covs_ls[[2]], # covariates at target resolution
   Keep_Temporary = FALSE, # delete temporary krigs of layers
-  Cores = 3, # only run this on 1 core
+  Cores = 3, # run this on 3 cores
   KrigingEquation = &quot;ERA ~ DEM + TKDry + TKWet&quot;, # this time, we need to specify a new formula. Try and see what happens if you forget to do this.
   FileName = &quot;State_TP.nc&quot;, # save the finished file as this
   Dir = Dir.TP, # where to save the output
@@ -1260,7 +1261,7 @@ Plot_Covs(Covs_ls, State_Shp)</code></pre>
 <pre><code>## Warning in KrigR:::check_Krig(Data = Data, CovariatesCoarse = Covariates_coarse, : It is not recommended to use kriging for statistical downscaling of more than one order of magnitude. You are
 ## currently attempting this. Kriging will proceed.</code></pre>
 <pre class="r"><code>Plot_Krigs(State_Krig, Shp = State_Shp, Dates = c(&quot;02-01-1995&quot;, &quot;03-01-1995&quot;, &quot;04-01-1995&quot;), Legend = &quot;Soil Temperature (0-7cm) [K]&quot;)</code></pre>
-<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-12-1.png" width="1440" />
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-13-1.png" width="1440" />
 Setting aside the output of the Kriging itself, you find a warning message produced by <code>krigR()</code> - since we specified a resolution of 0.01 as our target and our raw data (both third-party and GMTED2010) comes at a native resolution of 0.0083, we cannot aggregate to 0.01 and are stuck with 0.0083. <code>krigR()</code> warns us that this means we krig below the threshold of 0.09 which could be argued to be sensible bny rule of thumb as our lowest resolution we might go to, but proceeds with the Kriging.</p>
 <p class="atten">
 You can use the <code>KrigingEquation</code> argument in <code>krigR()</code> to specify the use of third-party covariates and/or data to be kriged. You can specify additive as well as interaction effects.

@@ -382,19 +382,20 @@ dir.create(Dir.StatePipe)
 We have coded the `krigR()` function in such a way that it can either be addressed at already present spatial products within your `R` environment, or handle all the downloading and resampling of input data and covariates for you from scratch. To run the exact same Kriging approach as within our extent-example, we can specify the `krigR()` function as such:
 ```{r PipeExec, results = 'hide', fig.keep = 'all', cache.lazy=TRUE}
 Pipe_Krig <- krigR(Variable = '2m_temperature',
-                    Type = 'reanalysis',
-                    DataSet = 'era5-land',
-                    DateStart = '1995-01-02',
-                    DateStop = '1995-01-04',
-                    TResolution = 'day',
-                    TStep = 1,
-                    Extent = Extent,
-                    API_User = API_User,
-                    API_Key = API_Key,
-                    Target_res = .02,
-                    Cores = 1,
-                    FileName = "State_Pipe.nc",
-                    Dir = Dir.StatePipe)
+                   Type = 'reanalysis',
+                   DataSet = 'era5-land',
+                   DateStart = '1995-01-02',
+                   DateStop = '1995-01-04',
+                   TResolution = 'day',
+                   TStep = 1,
+                   Extent = Extent,
+                   API_User = API_User,
+                   API_Key = API_Key,
+                   Target_res = .02,
+                   Cores = 1,
+                   FileName = "State_Pipe.nc",
+                   Dir = Dir.StatePipe,
+                   Keep_Temporary = FALSE)
 Pipe_Krig[-3] # we will talk later about why we leave out the third list element produced by krigR here
 Plot_Krigs(Pipe_Krig, Dates = c("02-01-1995", "03-01-1995", "04-01-1995"))
 ```
@@ -943,6 +944,10 @@ for(Plot in 1:2){ # loop over both output types
 plot_grid(plotlist = list(Raw_plot, NDVI_plot, Plots_ls[[1]], Plots_ls[[2]]), nrow = 2, labels = "AUTO")
 ```
 
+```{r echo = FALSE}
+unlink(file.path(Dir.NDVI, "2m_temperature_2000-01-01_2000-12-31_year.nc"), recursive = TRUE) # remove NDVI file for potential reruns
+```
+
 ## The Call List
 
 So far, we have only ever looked at the first two elements in the list returned by `krigR()`. A quick look at the help file, the code, or this guide reveals that there is a third list element - the *call list*. When coding this feature into `krigR()` we intended for this to be a neat, clean, storage-friendly way of keeping track of how the spatial product was created. It does so without storing additional spatial products. Let's have a look at it: 
@@ -1058,7 +1063,7 @@ State_Krig <- krigR(Data = State_Raw, # what to krig
                     Covariates_coarse = Covs_ls[[1]], # covariates at training resolution
                     Covariates_fine = Covs_ls[[2]], # covariates at target resolution
                     Keep_Temporary = FALSE, # delete temporary krigs of layers
-                    Cores = 3, # only run this on 1 core
+                    Cores = 3, # run this on 3 cores
                     KrigingEquation = "ERA ~ DEM + TKDry + TKWet", # this time, we need to specify a new formula. Try and see what happens if you forget to do this.
                     FileName = "State_TP.nc", # save the finished file as this
                     Dir = Dir.TP, # where to save the output
