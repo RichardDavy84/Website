@@ -19,6 +19,14 @@ links:
   icon_pack: fab
   name: Updates
   url: https://www.researchgate.net/project/KrigR-Downloading-and-Downscaling-of-ERA5-data-using-R
+- icon: code-branch
+  icon_pack: fas
+  name: Workshop Material
+  url: post/krigr-mats/krigrworkshop/
+- icon: youtube
+  icon_pack: fab
+  name: Workshop Recording
+  url: https://www.youtube.com/watch?v=wwb107L4wVw&ab_channel=ErikKusch
 - icon: twitter
   icon_pack: fab
   name: Follow
