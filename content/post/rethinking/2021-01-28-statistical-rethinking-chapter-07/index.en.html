@@ -100,7 +100,7 @@ library(ggplot2)</code></pre>
 <p><strong>Question:</strong> Write down and compare the definitions of AIC, and WAIC. Which of these criteria is most general? Which assumptions are required to transform a more general criterion into a less general one?</p>
 <p><strong>Answer:</strong></p>
 <ol style="list-style-type: decimal">
-<li><em>AIC</em> <span class="math inline">\(= D_{train}+2p\)</span> (<span class="math inline">\(D_{train} =\)</span> in-sample deviance, <span class="math inline">\(p =\)</span> number of parameters estimated in the model). It is built on the assumptions that:
+<li><em>AIC</em> <span class="math inline">\(= D_{train}+2p\)</span>; (<span class="math inline">\(D_{train} =\)</span> in-sample deviance, <span class="math inline">\(p =\)</span> number of parameters estimated in the model). It is built on the assumptions that:
 <ol style="list-style-type: upper-alpha">
 <li>Priors are flat or overwhelmed by model<br />
 </li>
@@ -109,7 +109,7 @@ library(ggplot2)</code></pre>
 <li>Sample size <span class="math inline">\(&gt;&gt;\)</span> Number of parameters<br />
 </li>
 </ol></li>
-<li><em>WAIC</em> <span class="math inline">\(= −2(lppd −\sum_i(var_θ log p(y_i|θ))\)</span> (<span class="math inline">\(y_i =\)</span> observation <span class="math inline">\(i\)</span>, <span class="math inline">\(θ =\)</span> posterior distribution, <span class="math inline">\(lppd(y, Θ) =\sum_ilog\frac{1}{S} \sum_Sp(y_i|Θ_s) =\)</span> log-pointwise-predictive-density) . It is built on the assumptions that: Sample size <span class="math inline">\(&gt;&gt;\)</span> Number of parameters.</li>
+<li><em>WAIC</em> <span class="math inline">\(= −2(lppd −\sum_i(var_θ log p(y_i|θ))\)</span>; (<span class="math inline">\(y_i =\)</span> observation <span class="math inline">\(i\)</span>, <span class="math inline">\(θ =\)</span> posterior distribution, <span class="math inline">\(lppd(y, Θ) =\sum_ilog\frac{1}{S} \sum_Sp(y_i|Θ_s) =\)</span> log-pointwise-predictive-density) . It is built on the assumptions that: Sample size <span class="math inline">\(&gt;&gt;\)</span> Number of parameters.</li>
 </ol>
 <p>WAIC is clearly the more general method here as it comes with less assumptions. To transform WAIC into AIC, we need to assume A. and B. of the assumptions of AIC.</p>
 </div>
@@ -192,10 +192,10 @@ m7H1c &lt;- quap(
 # Comparing Models
 comparison &lt;- compare(m7H1a, m7H1b, m7H1c)
 comparison</code></pre>
-<pre><code>##           WAIC       SE    dWAIC       dSE    pWAIC    weight
-## m7H1b 88.57173 24.58244 0.000000        NA 6.810042 0.4986826
-## m7H1c 89.80620 24.81557 1.234470 0.8424237 7.573411 0.2690063
-## m7H1a 90.09952 23.23110 1.527785 2.2887449 6.619547 0.2323111</code></pre>
+<pre><code>##           WAIC       SE     dWAIC      dSE    pWAIC    weight
+## m7H1a 90.45012 23.62374 0.0000000       NA 6.757043 0.4956618
+## m7H1c 91.28685 26.05692 0.8367334 2.992177 8.319496 0.3262054
+## m7H1b 92.49685 28.16490 2.0467281 4.979291 8.875278 0.1781329</code></pre>
 <p>According to these WAIC values and their Standard Deviations, I cannot make a clear statement as to which relationship between tax rate and tax revenue should be assumed.</p>
 <p>Let me plot these to make a clearer image of what I mean:</p>
 <pre class="r"><code>## base sequence for predictions
@@ -229,7 +229,7 @@ ggplot(plot_df) +
 <div id="practice-h2" class="section level2">
 <h2>Practice H2</h2>
 <p><strong>Question:</strong> In the <code>Laffer</code> data, there is one country with a high tax revenue that is an outlier. Use PSIS and WAIC to measure the importance of this outlier in the models you fit in the previous problem. Then use robust regression with a Student’s t distribution to revisit the curve fitting problem. How much does a curved relationship depend upon the outlier point?</p>
-<p><strong>Answer:</strong> Our outlier is the country with the highest tax revenue, so let’s remove that one:</p>
+<p><strong>Answer:</strong> Using the <code>rethinking</code> package, we could identify the outlier by a very high WAIC value in the output of <code>WAIC(..., pointwise = TRUE)</code>, where <code>...</code> represents our model name. From the plot, we already now that our outlier is the country with the highest tax revenue, so let’s remove that one:</p>
 <pre class="r"><code># data preparation
 data(Laffer)
 d &lt;- Laffer
@@ -276,9 +276,9 @@ m7H2c &lt;- quap(
 comparison &lt;- compare(m7H2a, m7H2b, m7H2c)
 comparison</code></pre>
 <pre><code>##           WAIC       SE    dWAIC      dSE    pWAIC    weight
-## m7H2b 59.38361 9.609167 0.000000       NA 3.909940 0.6112222
-## m7H2c 60.96342 9.531661 1.579811 1.101195 4.644641 0.2774262
-## m7H2a 62.78915 9.625501 3.405535 4.395678 4.093925 0.1113517</code></pre>
+## m7H2b 60.02820 9.977769 0.000000       NA 4.232550 0.5536025
+## m7H2c 61.58198 9.865926 1.553786 1.325771 5.038542 0.2545644
+## m7H2a 62.14784 9.267956 2.119643 4.367861 3.764430 0.1918330</code></pre>
 <p>Well, the models still greatly overlap in their usefulness.</p>
 <p>Next, let’s use a robust regression. I was unsure whether to revert back to the data which contains the outlier here. I chose to do so:</p>
 <pre class="r"><code># Revert back to full data
@@ -325,22 +325,22 @@ m7H2cS &lt;- quap(
 comparison &lt;- compare(m7H2aS, m7H2bS, m7H2cS)
 comparison</code></pre>
 <pre><code>##            WAIC       SE    dWAIC      dSE    pWAIC     weight
-## m7H2bS 70.26228 14.03530 0.000000       NA 3.663533 0.76187564
-## m7H2cS 73.52579 14.01676 3.263509 1.299918 5.491107 0.14901233
-## m7H2aS 74.55406 13.46718 4.291778 4.974401 3.781876 0.08911204</code></pre>
+## m7H2bS 69.94952 13.91838 0.000000       NA 3.476688 0.70353856
+## m7H2cS 72.42499 13.80584 2.475476 1.277576 4.928691 0.20405400
+## m7H2aS 74.00935 13.41252 4.059830 4.929539 3.532379 0.09240744</code></pre>
 <p>What happened in comparison to our original models (including the outlier)?</p>
 <pre class="r"><code>comparison &lt;- compare(m7H1a, m7H1b, m7H1c, m7H2a, m7H2b, m7H2c, m7H2aS, m7H2bS, m7H2cS)
 comparison</code></pre>
-<pre><code>##            WAIC        SE      dWAIC       dSE    pWAIC       weight
-## m7H2c  61.16394  9.484821  0.0000000        NA 4.722010 4.024329e-01
-## m7H2b  61.26833 10.363578  0.1043902  1.446554 4.841738 3.819666e-01
-## m7H2a  62.47490  9.453461  1.3109593  3.757471 3.961721 2.089403e-01
-## m7H2bS 69.98231 13.852810  8.8183642 10.766818 3.498545 4.895646e-03
-## m7H2cS 72.92767 13.996184 11.7637325 10.907414 5.167677 1.122616e-03
-## m7H2aS 74.04889 13.336984 12.8849475 10.218511 3.535459 6.408592e-04
-## m7H1b  87.88671 23.741388 26.7227680 20.823386 6.542018 6.337502e-07
-## m7H1c  89.98688 24.946017 28.8229430 21.942706 7.700847 2.217537e-07
-## m7H1a  90.01762 23.320442 28.8536765 20.344957 6.618579 2.183721e-07</code></pre>
+<pre><code>##            WAIC        SE     dWAIC       dSE    pWAIC       weight
+## m7H2b  59.79030  9.841695  0.000000        NA 4.067366 6.535780e-01
+## m7H2c  62.26254  9.912189  2.472237  1.147973 5.246398 1.898707e-01
+## m7H2a  62.71122  9.561643  2.920917  4.350162 4.059275 1.517149e-01
+## m7H2bS 70.40288 13.965556 10.612581 10.566515 3.730833 3.241939e-03
+## m7H2cS 72.47587 13.889781 12.685564 10.599651 4.918294 1.149906e-03
+## m7H2aS 74.37885 13.525537 14.588552 10.350694 3.717900 4.440518e-04
+## m7H1b  89.97887 26.201032 30.188566 22.894148 7.647914 1.819423e-07
+## m7H1a  90.16793 23.614744 30.377634 20.373350 6.729483 1.655305e-07
+## m7H1c  90.69203 25.291334 30.901726 22.020210 7.975363 1.273717e-07</code></pre>
 <p>Removing the outlier definitely made our models perform a lot better across the board. So did using a robust regression.</p>
 </div>
 <div id="practice-h3" class="section level2">
@@ -453,7 +453,7 @@ compare(m6.9, m6.10)</code></pre>
 <li><code>area</code></li>
 </ol>
 <p>Can you explain the relative differences in WAIC scores, using the fox DAG from last week’s home-work? Be sure to pay attention to the standard error of the score differences (<code>dSE</code>).</p>
-<p><strong>Answer:</strong> The previous chapter in the pdf version I am using did not ask any questions about the fox data. I consulted <a href="https://sr2-solutions.wjakethompson.com/overfitting.html#chapter-7">Jake Thomspon’s Blog here</a></p>
+<p><strong>Answer:</strong> The previous chapter in the pdf version I am using did not ask any questions about the fox data. I consulted <a href="https://sr2-solutions.wjakethompson.com/overfitting.html#chapter-7">Jake Thomspon’s Blog here</a>:</p>
 <pre class="r"><code># data loading and prepping
 data(foxes)
 d &lt;- foxes

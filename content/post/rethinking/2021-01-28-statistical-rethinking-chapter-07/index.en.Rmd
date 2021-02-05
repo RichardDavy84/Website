@@ -94,11 +94,11 @@ I have never seen a D3 in real-life, but we could easily imagine a D6 where the 
 
 **Answer:**  
 
-1. *AIC* $= D_{train}+2p$ ($D_{train} =$ in-sample deviance, $p =$ number of parameters estimated in the model). It is built on the assumptions that:  
+1. *AIC* $= D_{train}+2p$; ($D_{train} =$ in-sample deviance, $p =$ number of parameters estimated in the model). It is built on the assumptions that:  
     A) Priors are flat or overwhelmed by model  
     B) Posterior distribution is approximately multivariate Gaussian  
     C) Sample size $>>$ Number of parameters  
-2. *WAIC* $= −2(lppd −\sum_i(var_θ log p(y_i|θ))$ ($y_i =$ observation $i$, $θ =$ posterior distribution, $lppd(y, Θ) =\sum_ilog\frac{1}{S} \sum_Sp(y_i|Θ_s) =$ log-pointwise-predictive-density) . It is built on the assumptions that: Sample size $>>$ Number of parameters.  
+2. *WAIC* $= −2(lppd −\sum_i(var_θ log p(y_i|θ))$; ($y_i =$ observation $i$, $θ =$ posterior distribution, $lppd(y, Θ) =\sum_ilog\frac{1}{S} \sum_Sp(y_i|Θ_s) =$ log-pointwise-predictive-density) . It is built on the assumptions that: Sample size $>>$ Number of parameters.  
 
 WAIC is clearly the more general method here as it comes with less assumptions. To transform WAIC into AIC, we need to assume A. and B. of the assumptions of AIC.
 
@@ -217,7 +217,7 @@ I think this highlights quite well just how little difference there is in how th
 ## Practice H2
 **Question:** In the `Laffer` data, there is one country with a high tax revenue that is an outlier. Use PSIS and WAIC to measure the importance of this outlier in the models you fit in the previous problem. Then use robust regression with a Student’s t distribution to revisit the curve fitting problem. How much does a curved relationship depend upon the outlier point?
 
-**Answer:** Our outlier is the country with the highest tax revenue, so let's remove that one:
+**Answer:** Using the `rethinking` package, we could identify the outlier by a very high WAIC value in the output of `WAIC(..., pointwise = TRUE)`, where `...` represents our model name. From the plot, we already now that our outlier is the country with the highest tax revenue, so let's remove that one:
 ```{r}
 # data preparation
 data(Laffer)
@@ -418,7 +418,7 @@ So why would we want to use model `m6.9` given the WAIC above instead of model `
 
 Can you explain the relative differences in WAIC scores, using the fox DAG from last week’s home-work? Be sure to pay attention to the standard error of the score differences (`dSE`).
 
-**Answer:** The previous chapter in the pdf version I am using did not ask any questions about the fox data. I consulted [Jake Thomspon's Blog here](https://sr2-solutions.wjakethompson.com/overfitting.html#chapter-7)
+**Answer:** The previous chapter in the pdf version I am using did not ask any questions about the fox data. I consulted [Jake Thomspon's Blog here](https://sr2-solutions.wjakethompson.com/overfitting.html#chapter-7):
 ```{r}
 # data loading and prepping
 data(foxes)
