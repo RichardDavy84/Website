@@ -145,7 +145,8 @@ So now, irrespective of $W$ or $S$, we will always obtain $\mu_i = 0$ when $T=1$
 
 **Answer:** Here's our regression:
 
-$Ravens∼Normal(μ,σ)$
+$Ravens∼Normal(μ,σ)$  
+
 $μ=α+β_pPrey+β_wWolves+β_{pw}Prey*Wolves$
 
 with $Ravens$, $Wolves$, and $Prey$ being the number of ravens, wolves, and prey animals respectively, in a given habitat.
@@ -222,7 +223,7 @@ precis(m.H1, depth = 2)
 
 **Answer:** 
 ```{r}
-m.H2 <- map(
+m.H2 <- quap(
   alist(
     blooms ~ dnorm(mu, sigma),
     mu <- a + bW*water_cent + bS*shade_cent + bWS*water_cent*shade_cent,
@@ -239,7 +240,7 @@ precis(m.H2)
 compare(m.H1, m.H2)
 ```
 
-The model including the bed index variables (`m.H1`) shows a slightly better WAIC than the model that omits the bed variable (`m.H2`), and most of the Akaike weight. Judging from this (and the variation in the bed intercepts of model `m.H1`), we can infer that there's a lot of variability between the flower beds which model `m.H1` addresses. Let me visualise this in a plot:
+The model including the bed index variables (`m.H2`) shows a slightly better WAIC than the model that contains the bed variable (`m.H1`), and most of the Akaike weight. Judging from this (and the variation in the bed intercepts of model `m.H1`), we can infer that there's a lot of variability between the flower beds which model `m.H1` addresses, but might overfit in doing so. Let me visualise this in a plot:
 
 ```{r}
 post <- extract.samples(m.H1)
@@ -432,7 +433,7 @@ Again, I find myself agreeing with the hypothesis seeing how I have identified a
 
 **Answer:** Again, I build a model which conditions on centred logarithmic area of nations, while building an interaction between `mean.growing.season` and `sd.growing.season`:
 ```{r}
-m.H4c <- map(
+m.H4c <- quap(
   alist(
     log_lpc ~ dnorm(mu, sigma),
     mu <- a + 
