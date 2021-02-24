@@ -108,11 +108,11 @@ package_vec &lt;- c(
   &quot;ggplot2&quot;, # for plotting
   &quot;viridis&quot;, # colour palettes
   &quot;cowplot&quot;, # gridding multiple plots
-  &quot;ggmap&quot;, # obtaining google maps
+  &quot;rosm&quot;, # obtaining satellite maps
   &quot;gimms&quot; # to get some pre-existing data to match in our downscaling
 )
 sapply(package_vec, install.load.package)</code></pre>
-<pre><code>##   tidyr ggplot2 viridis cowplot   ggmap   gimms 
+<pre><code>##   tidyr ggplot2 viridis cowplot    rosm   gimms 
 ##    TRUE    TRUE    TRUE    TRUE    TRUE    TRUE</code></pre>
 <p>Before we can proceed, you need to open up an account at the CDS and create an API key by following this link: <a href="https://cds.climate.copernicus.eu/api-how-to" class="uri">https://cds.climate.copernicus.eu/api-how-to</a>. This is required so that you may issue download requests through the <code>KrigR</code> package. Once you have done so, please register the user ID and API Key as characters as seen below:</p>
 <pre class="r"><code>API_User &lt;- &quot;XXXXXX&quot;
@@ -283,14 +283,7 @@ We will start with a <strong>simple Kriging process</strong> and subsequently <s
 <p>The most simple way in which you can run the functions of the <code>KrigR</code> package is by specifying a rectangular bounding box (i.e. an <strong>extent</strong>) to specify your study region(s). Here, we will run a small downscaling exercise of my birth-state of Saxony. It is a medium-sized state in the east of Germany and lends itself to some nice statistical downscaling since it presents us with mountainous regions along the south-eastern border and flatland areas towards the north-western edges.</p>
 <p>Here’s the full area we will be obtaining and downscaling data for:</p>
 <pre class="r"><code>Extent &lt;- extent(c(11.8, 15.1, 50.1, 51.7)) # roughly the extent of Saxony
-GoogMap &lt;- get_map(c(
-  left = Extent[1],
-  right = Extent[2],
-  bottom = Extent[3],
-  top = Extent[4]
-))
-ggmap(GoogMap) +
-  theme_bw() + labs(x = &quot;Longitude&quot;, y = &quot;Latitude&quot;)</code></pre>
+bmaps.plot(bbox = Extent, type = &quot;AerialWithLabels&quot;, quiet = TRUE, progress = &quot;none&quot;)</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/StateExt-1.png" width="1440" /></p>
 <p>Here, you can see a map of the region with the mountains of the Erzgebirge along the southern border to the Czech Republic as well as the flat terrains around Leipzig in the north of Saxony.</p>
 <p>Now, let’s create a separate directory within which we will store the raw ERA5-land data, GMTED2010 DEM covariate data, and Kriging outputs:</p>
@@ -422,7 +415,7 @@ Plot_Krigs(State_Krig, Dates = c(&quot;02-01-1995&quot;, &quot;03-01-1995&quot;,
 <p>Finally, let’s see how long it took to carry out this shapefile-informed downscaling:</p>
 <pre class="r"><code>BaseTime &lt;- KrigStop - KrigStart
 BaseTime</code></pre>
-<pre><code>## Time difference of 51.7916 secs</code></pre>
+<pre><code>## Time difference of 49.10878 secs</code></pre>
 </div>
 </div>
 <div id="kriging---the-pipeline" class="section level1">
@@ -467,16 +460,9 @@ The computational cost of Kriging depends on many factors, one of which is numbe
 <p>Let’s revisit our above Saxony-Kriging example, but this time, we will use a shapefile to mask for the exact boundaries of the state itself! We extract the shapefile from the states &amp; provinces data set as follows:</p>
 <pre class="r"><code>Position &lt;- which(StateMask$name_en == &quot;Saxony&quot;) # find Saxony
 State_Shp &lt;- StateMask[Position,]
-GoogMap &lt;- get_map(c(left = extent(State_Shp)[1],
-                     right = extent(State_Shp)[2],
-                     bottom = extent(State_Shp)[3],
-                     top = extent(State_Shp)[4]))
-ggmap(GoogMap) +
-  geom_polygon(data = State_Shp, aes(x = long, y = lat, group = group),
-               colour = &quot;black&quot;, fill = NA, size = 2) +
-  theme_bw() + labs(x = &quot;Longitude&quot;, y = &quot;Latitude&quot;)</code></pre>
+bmaps.plot(bbox = extent(State_Shp), type = &quot;AerialWithLabels&quot;, quiet = TRUE, progress = &quot;none&quot;, stoponlargerequest = FALSE)</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/StateShape-1.png" width="1440" />
-Here, you can see a map of the region with an overlay of the state-borders of Saxony as defined by our shapefile.</p>
+Here, you can see a map of the region with. Notice the outline of the state of Saxony; we will reconstruct that using our shapefile.</p>
 <p>Again, we create a directory for all the .nc files that our functions create:</p>
 <pre class="r"><code>Dir.StateShp &lt;- file.path(Dir.Data, &quot;State_Shape&quot;)
 dir.create(Dir.StateShp)</code></pre>
@@ -513,7 +499,7 @@ Note that we have implemented masking by shapefile in such a way that every cell
 )
 Plot_Covs(Covs_ls, State_Shp)</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/CovShape-1.png" width="1440" />
-Notice that despite the covariate rasters (and input rasters, for that matter) containing 578 and 2.080810^{4} for training and target resolution respectively, we only obtain data for 234 and 8385 cells respectively due to our specification of a shapefile.</p>
+Notice that despite the covariate rasters (and input rasters, for that matter) containing 578 and 2.080810^{4} for training and target resolution respectively, we only obtain data for 299 and 8765 cells respectively due to our specification of a shapefile.</p>
 </div>
 <div id="kriging-1" class="section level3">
 <h3>Kriging</h3>
@@ -535,8 +521,8 @@ Plot_Krigs(State_Krig, Shp = State_Shp, Dates = c(&quot;02-01-1995&quot;, &quot;
 <p>Let’s see how long this took:</p>
 <pre class="r"><code>ShapeTime &lt;- KrigStop - KrigStart
 ShapeTime</code></pre>
-<pre><code>## Time difference of 1.886406 secs</code></pre>
-<p>Running this downscaling process for Saxony using the shapefile took 0.036423 of the original downscaling time using an extent statement.</p>
+<pre><code>## Time difference of 3.670155 secs</code></pre>
+<p>Running this downscaling process for Saxony using the shapefile took 0.0747352 of the original downscaling time using an extent statement.</p>
 <p class="atten">
 Using a <code>shapefile</code> rather than an <code>extent</code> statement <strong>speeds up</strong> the <strong>Kriging process</strong>!
 </p>
@@ -554,14 +540,10 @@ Bigfoot.data &lt;- read.csv(Bigfoot.URL) # red the data
 Bigfoot_ext &lt;- extent(min(Bigfoot.data$Lon), max(Bigfoot.data$Lon),
                       min(Bigfoot.data$Lat), max(Bigfoot.data$Lat))
 BigfootLand &lt;- crop(LandMask , Bigfoot_ext)
-GoogMap &lt;- get_map(c(left = Bigfoot_ext[1],
-                     right = Bigfoot_ext[2],
-                     bottom = Bigfoot_ext[3],
-                     top = Bigfoot_ext[4])
-                   )
-ggmap(GoogMap) +
-  geom_point(data = Bigfoot.data, aes(x = Lon, y = Lat), pch = 3) +
-  theme_bw() + labs(x = &quot;Longitude&quot;, y = &quot;Latitude&quot;)</code></pre>
+bmaps.plot(bbox = Bigfoot_ext, type = &quot;AerialWithLabels&quot;, quiet = TRUE, progress = &quot;none&quot;)
+osm.points(x = Bigfoot.data$Lon,
+           y = Bigfoot.data$Lat,
+           pch=10, cex=0.3, col = &quot;red&quot;)</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/PointsMap1-1.png" width="1440" /></p>
 <p>As we can see, Bigfoot is mostly reported to be found in the west and east of the contiguous US with some occurrences ranging across Canada and Alaska. Quite obviously, there are large areas here, within which we do not require fine-resolution climate data to understand Bigfoot occurrence.</p>
 <p>What does this look like with our land mask?</p>
@@ -659,7 +641,7 @@ Plot_Krigs(Points_Krig, Shp = BigfootLand, Dates = c(&quot;Climatology&quot;))</
 That went by quick! We can’t really see the results clearly here and will look at the in more detail in just a second. Firstly, let’s see how long this took:</p>
 <pre class="r"><code>PointsTime &lt;- KrigStop - KrigStart
 PointsTime</code></pre>
-<pre><code>## Time difference of 6.925082 secs</code></pre>
+<pre><code>## Time difference of 10.69015 secs</code></pre>
 <p>From experience, Kriging for a region this large instead of just for small regions around locations would easily take upwards of 10 hours! This is a big improvement.</p>
 <p>What did we gain by doing this? Why not just obtain the raw reanalysis data and be done with it? For this, we plot our data:</p>
 <pre class="r"><code>## DATA EXTRACTION
@@ -762,8 +744,8 @@ Plot_Krigs(State_Krig, Shp = State_Shp, Dates = c(&quot;02-01-1995&quot;, &quot;
 <p>The results look just like the ones that we obtained without using the shapefile and just one-core processing. Let’s see how long this took:</p>
 <pre class="r"><code>CoreTime &lt;- KrigStop - KrigStart
 CoreTime</code></pre>
-<pre><code>## Time difference of 9.386615 secs</code></pre>
-<p>Running this downscaling process for Saxony using the shapefile took 4.9759253 of the original downscaling time using an extent statement (the effects multi-core Kriging really kick in when looking at rasters with many bands because the initial opening of clusters for parallel processing takes some time by itself.).</p>
+<pre><code>## Time difference of 8.603323 secs</code></pre>
+<p>Running this downscaling process for Saxony using the shapefile took 2.3441307 of the original downscaling time using an extent statement (the effects multi-core Kriging really kick in when looking at rasters with many bands because the initial opening of clusters for parallel processing takes some time by itself.).</p>
 <p class="atten">
 Using the <code>Cores</code> argument with a value of n (with n &gt; 1) <strong>speeds up</strong> the <strong>Kriging process</strong> of multi-layer rasters by an order of n!
 </p>
@@ -962,8 +944,8 @@ Matching Kriging outputs with a pre-existing data set is as easy as plugging the
 ## crs        : +proj=longlat +datum=WGS84 +no_defs 
 ## source     : memory
 ## names      : var1.pred 
-## min values :   271.968 
-## max values :  299.2638</code></pre>
+## min values :  271.4974 
+## max values :   299.116</code></pre>
 <p>We nailed this!</p>
 <p>Let’s take one final look at our (A) raw ERA5 data, (B) NDVI data, (C) Kriged ERA5 data, and (D) standard error of our Kriging output:</p>
 <pre class="r"><code>### ERA-Plot
@@ -1109,7 +1091,7 @@ plot_grid(plotlist = list(Raw_plot, NDVI_plot, Plots_ls[[1]], Plots_ls[[2]]), nr
 ## 
 ## $KrigingEquation
 ## ERA ~ DEM
-## &lt;environment: 0x0000000023f79ba8&gt;
+## &lt;environment: 0x000000003231f400&gt;
 ## 
 ## $Cores
 ## [1] 1
@@ -1285,18 +1267,17 @@ You can use the <code>KrigingEquation</code> argument in <code>krigR()</code> to
 ## [1] parallel  stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-##  [1] gimms_1.1.3       ggmap_3.0.0       cowplot_1.1.0     viridis_0.5.1     viridisLite_0.3.0 ggplot2_3.3.2     tidyr_1.1.2       KrigR_0.1.0       httr_1.4.2        stars_0.4-3      
+##  [1] gimms_1.1.3       rosm_0.2.5        cowplot_1.1.0     viridis_0.5.1     viridisLite_0.3.0 ggplot2_3.3.2     tidyr_1.1.2       KrigR_0.1.0       httr_1.4.2        stars_0.4-3      
 ## [11] abind_1.4-5       fasterize_1.0.3   sf_0.9-6          lubridate_1.7.9   automap_1.0-14    doParallel_1.0.15 iterators_1.0.12  foreach_1.5.0     rgdal_1.5-18      raster_3.3-13    
 ## [21] sp_1.4-4          stringr_1.4.0     keyring_1.1.0     ecmwfr_1.3.0      ncdf4_1.17       
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] bitops_1.0-6        xts_0.12.1          R.cache_0.14.0      tools_4.0.2         backports_1.1.10    R6_2.5.0            KernSmooth_2.23-17  zyp_0.10-1.1        rgeos_0.5-5        
-## [10] DBI_1.1.0           colorspace_1.4-1    withr_2.3.0         tidyselect_1.1.0    gridExtra_2.3       curl_4.3            compiler_4.0.2      gstat_2.0-6         labeling_0.3       
-## [19] bookdown_0.21       scales_1.1.1        classInt_0.4-3      digest_0.6.27       rmarkdown_2.6       R.utils_2.10.1      jpeg_0.1-8.1        pkgconfig_2.0.3     htmltools_0.5.0    
-## [28] styler_1.3.2        rlang_0.4.10        FNN_1.1.3           farver_2.0.3        generics_0.0.2      jsonlite_1.7.2      zoo_1.8-8           dplyr_1.0.2         R.oo_1.24.0        
-## [37] magrittr_2.0.1      Rcpp_1.0.5          munsell_0.5.0       lifecycle_0.2.0     R.methodsS3_1.8.1   stringi_1.5.3       yaml_2.2.1          plyr_1.8.6          grid_4.0.2         
-## [46] crayon_1.3.4        lattice_0.20-41     knitr_1.30          pillar_1.4.6        boot_1.3-25         rjson_0.2.20        spacetime_1.2-3     codetools_0.2-16    glue_1.4.2         
-## [55] evaluate_0.14       blogdown_1.0.2      vctrs_0.3.4         png_0.1-7           RgoogleMaps_1.4.5.3 gtable_0.3.0        purrr_0.3.4         rematch2_2.1.2      reshape_0.8.8      
-## [64] assertthat_0.2.1    xfun_0.20           lwgeom_0.2-5        e1071_1.7-3         class_7.3-17        Kendall_2.2         tibble_3.0.3        intervals_0.15.2    memoise_1.1.0      
-## [73] units_0.6-7         ellipsis_0.3.1</code></pre>
+##  [1] xts_0.12.1         R.cache_0.14.0     tools_4.0.2        backports_1.1.10   R6_2.5.0           KernSmooth_2.23-17 zyp_0.10-1.1       rgeos_0.5-5        DBI_1.1.0          colorspace_1.4-1  
+## [11] withr_2.3.0        tidyselect_1.1.0   gridExtra_2.3      curl_4.3           compiler_4.0.2     gstat_2.0-6        labeling_0.3       bookdown_0.21      scales_1.1.1       classInt_0.4-3    
+## [21] digest_0.6.27      rmarkdown_2.6      R.utils_2.10.1     jpeg_0.1-8.1       pkgconfig_2.0.3    htmltools_0.5.0    styler_1.3.2       rlang_0.4.10       FNN_1.1.3          generics_0.0.2    
+## [31] farver_2.0.3       zoo_1.8-8          jsonlite_1.7.2     dplyr_1.0.2        R.oo_1.24.0        magrittr_2.0.1     Rcpp_1.0.5         munsell_0.5.0      lifecycle_0.2.0    R.methodsS3_1.8.1 
+## [41] stringi_1.5.3      yaml_2.2.1         plyr_1.8.6         grid_4.0.2         crayon_1.3.4       lattice_0.20-41    knitr_1.30         pillar_1.4.6       boot_1.3-25        rjson_0.2.20      
+## [51] spacetime_1.2-3    codetools_0.2-16   glue_1.4.2         evaluate_0.14      blogdown_1.0.2     vctrs_0.3.4        png_0.1-7          gtable_0.3.0       purrr_0.3.4        rematch2_2.1.2    
+## [61] reshape_0.8.8      assertthat_0.2.1   xfun_0.20          lwgeom_0.2-5       e1071_1.7-3        class_7.3-17       Kendall_2.2        tibble_3.0.3       intervals_0.15.2   memoise_1.1.0     
+## [71] units_0.6-7        ellipsis_0.3.1</code></pre>
 </div>
