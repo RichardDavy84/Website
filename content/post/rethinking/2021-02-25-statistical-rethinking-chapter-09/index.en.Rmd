@@ -301,14 +301,14 @@ m.M3 <- ulam(
   ),
   data = dd.trim,
   start = start,
-  chains = 1, 
+  chains = 2, cores = 2, 
   iter = 100
 )
 warm_list <- c(5,10,100,500,1000) # define warmup values to run through
 n_eff <- matrix( NA , nrow=length(warm_list), ncol=5) # first make matrix to hold n_eff results
 for(i in 1:length(warm_list)){ # loop over warm_list and collect n_eff
 w <- warm_list[i]
-m_temp <- ulam(m.M3 , chains = 1, iter = 1000+w , warmup = w, start = start)
+m_temp <- ulam(m.M3, chains = 2, cores = 2, iter = 1000+w , warmup = w, start = start)
 n_eff[i,] <- precis(m_temp,2)$n_eff
 }
 colnames(n_eff) <- rownames(precis(m_temp,2))
@@ -330,6 +330,7 @@ mp <- map2stan(
   data = list(y = 1), 
   start = list(a = 0, b = 0), 
   iter = 1e4, 
+  chains = 2, cores = 2, 
   warmup = 100, 
   WAIC = FALSE
   )
@@ -349,7 +350,7 @@ Oof. Those uncertainties don't look good at all! So what does the model even do?
 plot(mp, n_cols=1, col="royalblue4")
 ```
 
-As we can see, there are quite some outliers in the sampling of the cauchy distribution (`b`). Why is that? Because the cauchy distribution has very heavy tails thus making it more likely to jump to a value that is far out there in terms of posterior probability. Note that this also decreases `n_eff`. Unfortunately, I have no idea what that last row in the plot is...
+As we can see, there are quite some outliers in the sampling of the cauchy distribution (`b`). Why is that? Because the cauchy distribution has very heavy tails thus making it more likely to jump to a value that is far out there in terms of posterior probability. Note that this also decreases `n_eff`. `lp` in the above is the log-posterior.
 
 Now let's see how the samples we drew measure up against the underlying functions of `a` and `b`, respectively:
 ```{r}
@@ -596,7 +597,7 @@ text(x = f, y = pop_size, labels = names(f)) # add names of islands / their posi
 
 $$w∼Binom(θ,n)$$
 $$θ∼Unif(0,1)$$
-Our Mentropolis algorithm looks like this:
+Our Metropolis algorithm looks like this:
 ```{r}
 set.seed(42)
 # the globe tossing data

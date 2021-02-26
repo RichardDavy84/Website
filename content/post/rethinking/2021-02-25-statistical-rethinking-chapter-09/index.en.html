@@ -207,19 +207,19 @@ m.M1Uni &lt;- ulam(
 ## nobs      170     170</code></pre>
 <p>These are strikingly the same. What about the individual model outputs in more detail?</p>
 <pre class="r"><code>precis(m.M1Exp, depth = 2)</code></pre>
-<pre><code>##             mean         sd         5.5%       94.5%    n_eff     Rhat4
-## a[1]   0.8864457 0.01605138  0.860987469  0.91243479 3005.763 0.9994138
-## a[2]   1.0507302 0.01001553  1.034829151  1.06683544 3521.893 0.9981873
-## b[1]   0.1303924 0.07573325  0.006560575  0.24978471 2608.251 0.9999536
-## b[2]  -0.1423070 0.05683615 -0.232964465 -0.05140117 3036.654 0.9990748
-## sigma  0.1114823 0.00606908  0.102374887  0.12166300 2258.505 1.0003882</code></pre>
-<pre class="r"><code>precis(m.M1Uni, depth = 2)</code></pre>
 <pre><code>##             mean          sd         5.5%       94.5%    n_eff     Rhat4
-## a[1]   0.8864136 0.016580747  0.860362421  0.91202420 2157.664 0.9988905
-## a[2]   1.0503298 0.010426655  1.033874634  1.06688468 2937.356 1.0003624
-## b[1]   0.1316695 0.074982017  0.008488316  0.25080372 2509.804 1.0005553
-## b[2]  -0.1428492 0.053696193 -0.230239603 -0.05627152 2682.415 0.9991681
-## sigma  0.1115728 0.006035315  0.102055585  0.12135406 2513.283 1.0001488</code></pre>
+## a[1]   0.8870009 0.016426009  0.860792179  0.91311718 3058.788 0.9996989
+## a[2]   1.0505361 0.010071546  1.034204572  1.06683596 2441.124 0.9999430
+## b[1]   0.1301043 0.077527323  0.004816816  0.25715720 2608.055 1.0003659
+## b[2]  -0.1406151 0.057408481 -0.229519391 -0.04690189 2217.859 0.9990160
+## sigma  0.1116362 0.006415611  0.102074010  0.12233708 1975.102 0.9998487</code></pre>
+<pre class="r"><code>precis(m.M1Uni, depth = 2)</code></pre>
+<pre><code>##             mean          sd        5.5%       94.5%    n_eff     Rhat4
+## a[1]   0.8868006 0.016145899  0.86083581  0.91210244 2324.419 0.9996491
+## a[2]   1.0503724 0.009881112  1.03492424  1.06566846 2246.733 0.9984072
+## b[1]   0.1349258 0.077868755  0.01094043  0.25535022 2022.241 0.9987576
+## b[2]  -0.1412553 0.056157769 -0.22859115 -0.04936888 2147.391 0.9994074
+## sigma  0.1116857 0.006618065  0.10138439  0.12259272 3154.068 0.9994567</code></pre>
 <p>Again, these are very similar aside from the effective number of samples (<code>n_eff</code>) which is much higher for all parameter estimates in the model with the exponential prior on <code>sigma</code> (<code>m.M1Exp</code>) except for <code>sigma</code> itself, which boasts a higher <code>n_eff</code> in the uniform-prior model (<code>m.M1Uni</code>). As such, we conclude that while the different priors have an impact on <code>n_eff</code>, they do not change the posterior distributions. Let me visualise this:</p>
 <pre class="r"><code>Plot_df &lt;- data.frame(
   Posteriors = c(
@@ -283,15 +283,15 @@ coeftab(Explist[[1]], Explist[[2]], Explist[[3]], Explist[[4]])</code></pre>
 <pre><code>##       Explist[[1]] Explist[[2]] Explist[[3]] Explist[[4]]
 ## a[1]     0.89         0.89         0.89         0.89     
 ## a[2]     1.05         1.05         1.05         1.05     
-## b[1]     0.13         0.13         0.13         0.14     
-## b[2]    -0.14        -0.14        -0.14        -0.15     
+## b[1]     0.13         0.13         0.13         0.13     
+## b[2]    -0.14        -0.14        -0.14        -0.14     
 ## sigma    0.11         0.11         0.11         0.09     
 ## nobs      170          170          170          170</code></pre>
 <pre class="r"><code>coeftab(Caulist[[1]], Caulist[[2]], Caulist[[3]], Caulist[[4]])</code></pre>
 <pre><code>##       Caulist[[1]] Caulist[[2]] Caulist[[3]] Caulist[[4]]
 ## a[1]     0.89         0.89         0.89         0.89     
 ## a[2]     1.05         1.05         1.05         1.05     
-## b[1]     0.13         0.13         0.13         0.14     
+## b[1]     0.13         0.13         0.13         0.13     
 ## b[2]    -0.14        -0.14        -0.14        -0.14     
 ## sigma    0.11         0.11         0.11         0.11     
 ## nobs      170          170          170          170</code></pre>
@@ -341,197 +341,25 @@ m.M3 &lt;- ulam(
   ),
   data = dd.trim,
   start = start,
-  chains = 1,
+  chains = 2, cores = 2,
   iter = 100
-)</code></pre>
-<pre><code>## 
-## SAMPLING FOR MODEL &#39;3e007720fce7c8c85360644ebac8b910&#39; NOW (CHAIN 1).
-## Chain 1: 
-## Chain 1: Gradient evaluation took 0 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
-## Chain 1: Adjust your expectations accordingly!
-## Chain 1: 
-## Chain 1: 
-## Chain 1: WARNING: There aren&#39;t enough warmup iterations to fit the
-## Chain 1:          three stages of adaptation as currently configured.
-## Chain 1:          Reducing each adaptation stage to 15%/75%/10% of
-## Chain 1:          the given number of warmup iterations:
-## Chain 1:            init_buffer = 7
-## Chain 1:            adapt_window = 38
-## Chain 1:            term_buffer = 5
-## Chain 1: 
-## Chain 1: Iteration:  1 / 100 [  1%]  (Warmup)
-## Chain 1: Iteration: 10 / 100 [ 10%]  (Warmup)
-## Chain 1: Iteration: 20 / 100 [ 20%]  (Warmup)
-## Chain 1: Iteration: 30 / 100 [ 30%]  (Warmup)
-## Chain 1: Iteration: 40 / 100 [ 40%]  (Warmup)
-## Chain 1: Iteration: 50 / 100 [ 50%]  (Warmup)
-## Chain 1: Iteration: 51 / 100 [ 51%]  (Sampling)
-## Chain 1: Iteration: 60 / 100 [ 60%]  (Sampling)
-## Chain 1: Iteration: 70 / 100 [ 70%]  (Sampling)
-## Chain 1: Iteration: 80 / 100 [ 80%]  (Sampling)
-## Chain 1: Iteration: 90 / 100 [ 90%]  (Sampling)
-## Chain 1: Iteration: 100 / 100 [100%]  (Sampling)
-## Chain 1: 
-## Chain 1:  Elapsed Time: 0.01 seconds (Warm-up)
-## Chain 1:                0.009 seconds (Sampling)
-## Chain 1:                0.019 seconds (Total)
-## Chain 1:</code></pre>
-<pre class="r"><code>warm_list &lt;- c(5, 10, 100, 500, 1000) # define warmup values to run through
+)
+warm_list &lt;- c(5, 10, 100, 500, 1000) # define warmup values to run through
 n_eff &lt;- matrix(NA, nrow = length(warm_list), ncol = 5) # first make matrix to hold n_eff results
 for (i in 1:length(warm_list)) { # loop over warm_list and collect n_eff
   w &lt;- warm_list[i]
-  m_temp &lt;- ulam(m.M3, chains = 1, iter = 1000 + w, warmup = w, start = start)
+  m_temp &lt;- ulam(m.M3, chains = 2, cores = 2, iter = 1000 + w, warmup = w, start = start)
   n_eff[i, ] &lt;- precis(m_temp, 2)$n_eff
-}</code></pre>
-<pre><code>## 
-## SAMPLING FOR MODEL &#39;3e007720fce7c8c85360644ebac8b910&#39; NOW (CHAIN 1).
-## Chain 1: 
-## Chain 1: Gradient evaluation took 0 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
-## Chain 1: Adjust your expectations accordingly!
-## Chain 1: 
-## Chain 1: 
-## Chain 1: WARNING: No variance estimation is
-## Chain 1:          performed for num_warmup &lt; 20
-## Chain 1: 
-## Chain 1: Iteration:    1 / 1005 [  0%]  (Warmup)
-## Chain 1: Iteration:    6 / 1005 [  0%]  (Sampling)
-## Chain 1: Iteration:  105 / 1005 [ 10%]  (Sampling)
-## Chain 1: Iteration:  205 / 1005 [ 20%]  (Sampling)
-## Chain 1: Iteration:  305 / 1005 [ 30%]  (Sampling)
-## Chain 1: Iteration:  405 / 1005 [ 40%]  (Sampling)
-## Chain 1: Iteration:  505 / 1005 [ 50%]  (Sampling)
-## Chain 1: Iteration:  605 / 1005 [ 60%]  (Sampling)
-## Chain 1: Iteration:  705 / 1005 [ 70%]  (Sampling)
-## Chain 1: Iteration:  805 / 1005 [ 80%]  (Sampling)
-## Chain 1: Iteration:  905 / 1005 [ 90%]  (Sampling)
-## Chain 1: Iteration: 1005 / 1005 [100%]  (Sampling)
-## Chain 1: 
-## Chain 1:  Elapsed Time: 0 seconds (Warm-up)
-## Chain 1:                0.036 seconds (Sampling)
-## Chain 1:                0.036 seconds (Total)
-## Chain 1: 
-## 
-## SAMPLING FOR MODEL &#39;3e007720fce7c8c85360644ebac8b910&#39; NOW (CHAIN 1).
-## Chain 1: 
-## Chain 1: Gradient evaluation took 0 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
-## Chain 1: Adjust your expectations accordingly!
-## Chain 1: 
-## Chain 1: 
-## Chain 1: WARNING: No variance estimation is
-## Chain 1:          performed for num_warmup &lt; 20
-## Chain 1: 
-## Chain 1: Iteration:    1 / 1010 [  0%]  (Warmup)
-## Chain 1: Iteration:   11 / 1010 [  1%]  (Sampling)
-## Chain 1: Iteration:  111 / 1010 [ 10%]  (Sampling)
-## Chain 1: Iteration:  212 / 1010 [ 20%]  (Sampling)
-## Chain 1: Iteration:  313 / 1010 [ 30%]  (Sampling)
-## Chain 1: Iteration:  414 / 1010 [ 40%]  (Sampling)
-## Chain 1: Iteration:  515 / 1010 [ 50%]  (Sampling)
-## Chain 1: Iteration:  616 / 1010 [ 60%]  (Sampling)
-## Chain 1: Iteration:  717 / 1010 [ 70%]  (Sampling)
-## Chain 1: Iteration:  818 / 1010 [ 80%]  (Sampling)
-## Chain 1: Iteration:  919 / 1010 [ 90%]  (Sampling)
-## Chain 1: Iteration: 1010 / 1010 [100%]  (Sampling)
-## Chain 1: 
-## Chain 1:  Elapsed Time: 0.001 seconds (Warm-up)
-## Chain 1:                0.164 seconds (Sampling)
-## Chain 1:                0.165 seconds (Total)
-## Chain 1: 
-## 
-## SAMPLING FOR MODEL &#39;3e007720fce7c8c85360644ebac8b910&#39; NOW (CHAIN 1).
-## Chain 1: 
-## Chain 1: Gradient evaluation took 0 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
-## Chain 1: Adjust your expectations accordingly!
-## Chain 1: 
-## Chain 1: 
-## Chain 1: WARNING: There aren&#39;t enough warmup iterations to fit the
-## Chain 1:          three stages of adaptation as currently configured.
-## Chain 1:          Reducing each adaptation stage to 15%/75%/10% of
-## Chain 1:          the given number of warmup iterations:
-## Chain 1:            init_buffer = 15
-## Chain 1:            adapt_window = 75
-## Chain 1:            term_buffer = 10
-## Chain 1: 
-## Chain 1: Iteration:    1 / 1100 [  0%]  (Warmup)
-## Chain 1: Iteration:  101 / 1100 [  9%]  (Sampling)
-## Chain 1: Iteration:  210 / 1100 [ 19%]  (Sampling)
-## Chain 1: Iteration:  320 / 1100 [ 29%]  (Sampling)
-## Chain 1: Iteration:  430 / 1100 [ 39%]  (Sampling)
-## Chain 1: Iteration:  540 / 1100 [ 49%]  (Sampling)
-## Chain 1: Iteration:  650 / 1100 [ 59%]  (Sampling)
-## Chain 1: Iteration:  760 / 1100 [ 69%]  (Sampling)
-## Chain 1: Iteration:  870 / 1100 [ 79%]  (Sampling)
-## Chain 1: Iteration:  980 / 1100 [ 89%]  (Sampling)
-## Chain 1: Iteration: 1090 / 1100 [ 99%]  (Sampling)
-## Chain 1: Iteration: 1100 / 1100 [100%]  (Sampling)
-## Chain 1: 
-## Chain 1:  Elapsed Time: 0.012 seconds (Warm-up)
-## Chain 1:                0.112 seconds (Sampling)
-## Chain 1:                0.124 seconds (Total)
-## Chain 1: 
-## 
-## SAMPLING FOR MODEL &#39;3e007720fce7c8c85360644ebac8b910&#39; NOW (CHAIN 1).
-## Chain 1: 
-## Chain 1: Gradient evaluation took 0 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
-## Chain 1: Adjust your expectations accordingly!
-## Chain 1: 
-## Chain 1: 
-## Chain 1: Iteration:    1 / 1500 [  0%]  (Warmup)
-## Chain 1: Iteration:  150 / 1500 [ 10%]  (Warmup)
-## Chain 1: Iteration:  300 / 1500 [ 20%]  (Warmup)
-## Chain 1: Iteration:  450 / 1500 [ 30%]  (Warmup)
-## Chain 1: Iteration:  501 / 1500 [ 33%]  (Sampling)
-## Chain 1: Iteration:  650 / 1500 [ 43%]  (Sampling)
-## Chain 1: Iteration:  800 / 1500 [ 53%]  (Sampling)
-## Chain 1: Iteration:  950 / 1500 [ 63%]  (Sampling)
-## Chain 1: Iteration: 1100 / 1500 [ 73%]  (Sampling)
-## Chain 1: Iteration: 1250 / 1500 [ 83%]  (Sampling)
-## Chain 1: Iteration: 1400 / 1500 [ 93%]  (Sampling)
-## Chain 1: Iteration: 1500 / 1500 [100%]  (Sampling)
-## Chain 1: 
-## Chain 1:  Elapsed Time: 0.033 seconds (Warm-up)
-## Chain 1:                0.044 seconds (Sampling)
-## Chain 1:                0.077 seconds (Total)
-## Chain 1: 
-## 
-## SAMPLING FOR MODEL &#39;3e007720fce7c8c85360644ebac8b910&#39; NOW (CHAIN 1).
-## Chain 1: 
-## Chain 1: Gradient evaluation took 0 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
-## Chain 1: Adjust your expectations accordingly!
-## Chain 1: 
-## Chain 1: 
-## Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
-## Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
-## Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
-## Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
-## Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
-## Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
-## Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
-## Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
-## Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
-## Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
-## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
-## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
-## Chain 1: 
-## Chain 1:  Elapsed Time: 0.055 seconds (Warm-up)
-## Chain 1:                0.042 seconds (Sampling)
-## Chain 1:                0.097 seconds (Total)
-## Chain 1:</code></pre>
-<pre class="r"><code>colnames(n_eff) &lt;- rownames(precis(m_temp, 2))
+}
+colnames(n_eff) &lt;- rownames(precis(m_temp, 2))
 rownames(n_eff) &lt;- warm_list
 n_eff # columns show parameters, rows show n_eff</code></pre>
-<pre><code>##            a[1]       a[2]        b[1]        b[2]      sigma
-## 5      35.56209   45.68008    5.820013    8.469551   14.09319
-## 10    810.71555 1219.86616  290.290358  462.198338  596.06486
-## 100  1247.42388  900.04895  439.302954  548.439464  542.47763
-## 500  1024.56144 1749.48099 1411.965763 1386.418312 1406.32429
-## 1000 1189.87284 1518.47481 1530.058993 1116.923371 1253.20735</code></pre>
+<pre><code>##             a[1]        a[2]        b[1]        b[2]       sigma
+## 5       5.903345    3.527661    7.476369    1.618142    3.695732
+## 10   2011.987593 1640.917138  973.329525 1104.374945  916.737856
+## 100  1661.106196 2258.688740  842.458239 1321.829745 1291.113859
+## 500  3189.427465 3502.669365 2790.076526 2624.348711 2221.655063
+## 1000 2702.581240 3247.665141 2185.635917 3004.055507 2912.602052</code></pre>
 <p>As we can see, past just 10 warmup samples, <code>n_eff</code> does not change much (in terms of how useful our samples are). In this case, we could be quite happy with a warmup of 10.</p>
 </div>
 </div>
@@ -548,52 +376,20 @@ n_eff # columns show parameters, rows show n_eff</code></pre>
   data = list(y = 1),
   start = list(a = 0, b = 0),
   iter = 1e4,
+  chains = 2, cores = 2,
   warmup = 100,
   WAIC = FALSE
 )</code></pre>
-<pre><code>## 
-## SAMPLING FOR MODEL &#39;a76c47dcc5ce98f19af73ae2a2b31e08&#39; NOW (CHAIN 1).
-## Chain 1: 
-## Chain 1: Gradient evaluation took 0 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
-## Chain 1: Adjust your expectations accordingly!
-## Chain 1: 
-## Chain 1: 
-## Chain 1: WARNING: There aren&#39;t enough warmup iterations to fit the
-## Chain 1:          three stages of adaptation as currently configured.
-## Chain 1:          Reducing each adaptation stage to 15%/75%/10% of
-## Chain 1:          the given number of warmup iterations:
-## Chain 1:            init_buffer = 15
-## Chain 1:            adapt_window = 75
-## Chain 1:            term_buffer = 10
-## Chain 1: 
-## Chain 1: Iteration:    1 / 10000 [  0%]  (Warmup)
-## Chain 1: Iteration:  101 / 10000 [  1%]  (Sampling)
-## Chain 1: Iteration: 1100 / 10000 [ 11%]  (Sampling)
-## Chain 1: Iteration: 2100 / 10000 [ 21%]  (Sampling)
-## Chain 1: Iteration: 3100 / 10000 [ 31%]  (Sampling)
-## Chain 1: Iteration: 4100 / 10000 [ 41%]  (Sampling)
-## Chain 1: Iteration: 5100 / 10000 [ 51%]  (Sampling)
-## Chain 1: Iteration: 6100 / 10000 [ 61%]  (Sampling)
-## Chain 1: Iteration: 7100 / 10000 [ 71%]  (Sampling)
-## Chain 1: Iteration: 8100 / 10000 [ 81%]  (Sampling)
-## Chain 1: Iteration: 9100 / 10000 [ 91%]  (Sampling)
-## Chain 1: Iteration: 10000 / 10000 [100%]  (Sampling)
-## Chain 1: 
-## Chain 1:  Elapsed Time: 0.002 seconds (Warm-up)
-## Chain 1:                0.226 seconds (Sampling)
-## Chain 1:                0.228 seconds (Total)
-## Chain 1:</code></pre>
 <p>Compare the samples for the parameters <code>a</code> and <code>b</code>. Can you explain the different trace plots, using what you know about the Cauchy distribution?</p>
 <p><strong>Answer:</strong> First of all, let’s inspect the posterior:</p>
 <pre class="r"><code>precis(mp)</code></pre>
-<pre><code>##          mean        sd      5.5%    94.5%     n_eff     Rhat4
-## a 0.004280069  1.009035 -1.590049 1.615974 6359.8064 0.9999392
-## b 1.723906639 37.088661 -5.120589 6.599559  463.8496 1.0046542</code></pre>
+<pre><code>##           mean         sd      5.5%    94.5%    n_eff     Rhat4
+## a -0.001658073  0.9929496 -1.609535 1.576197 13228.47 0.9999635
+## b  0.211343696 17.6493463 -5.057218 5.139947  5656.09 0.9999865</code></pre>
 <p>Oof. Those uncertainties don’t look good at all! So what does the model even do? It simply just samples <code>a</code> from a normal distribution with mean 0 and standard deviation 1. <code>b</code> is sampled from a cauchy distribution. Let’s look at the traceplot for this:</p>
 <pre class="r"><code>plot(mp, n_cols = 1, col = &quot;royalblue4&quot;)</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-14-1.png" width="1440" /></p>
-<p>As we can see, there are quite some outliers in the sampling of the cauchy distribution (<code>b</code>). Why is that? Because the cauchy distribution has very heavy tails thus making it more likely to jump to a value that is far out there in terms of posterior probability. Note that this also decreases <code>n_eff</code>. Unfortunately, I have no idea what that last row in the plot is…</p>
+<p>As we can see, there are quite some outliers in the sampling of the cauchy distribution (<code>b</code>). Why is that? Because the cauchy distribution has very heavy tails thus making it more likely to jump to a value that is far out there in terms of posterior probability. Note that this also decreases <code>n_eff</code>. <code>lp</code> in the above is the log-posterior.</p>
 <p>Now let’s see how the samples we drew measure up against the underlying functions of <code>a</code> and <code>b</code>, respectively:</p>
 <pre class="r"><code>post &lt;- extract.samples(mp)
 par(mfrow = c(1, 2))
@@ -661,21 +457,21 @@ m5.3_stan &lt;- ulam(
 <p>Now we compare the models:</p>
 <pre class="r"><code>compare(m5.1_stan, m5.2_stan, m5.3_stan, func = PSIS)</code></pre>
 <pre><code>##               PSIS        SE     dPSIS       dSE    pPSIS       weight
-## m5.1_stan 125.9973 12.881465  0.000000        NA 3.766658 0.7151234443
-## m5.3_stan 127.8450 12.888449  1.847648 0.7632576 4.860575 0.2839026026
-## m5.2_stan 139.1950  9.860792 13.197695 9.3004218 2.885890 0.0009739531</code></pre>
+## m5.1_stan 125.8327 12.851006  0.000000        NA 3.668253 0.6999619781
+## m5.3_stan 127.5320 12.816489  1.699247 0.8162701 4.701011 0.2992869363
+## m5.2_stan 139.5072  9.915891 13.674523 9.3466661 3.046405 0.0007510857</code></pre>
 <pre class="r"><code>compare(m5.1_stan, m5.2_stan, m5.3_stan, func = WAIC)</code></pre>
-<pre><code>##               WAIC        SE    dWAIC       dSE    pWAIC       weight
-## m5.1_stan 125.8431 12.654530  0.00000        NA 3.689531 0.7139341221
-## m5.3_stan 127.6787 12.674624  1.83564 0.7558837 4.777444 0.2851372787
-## m5.2_stan 139.1328  9.742313 13.28974 9.2046726 2.854785 0.0009285992</code></pre>
+<pre><code>##               WAIC        SE     dWAIC       dSE    pWAIC       weight
+## m5.1_stan 125.7438 12.671502  0.000000        NA 3.623802 0.6865441502
+## m5.3_stan 127.3165 12.569254  1.572727 0.8350809 4.593300 0.3127195815
+## m5.2_stan 139.4195  9.772618 13.675663 9.2952338 3.002524 0.0007362682</code></pre>
 <p>WAIC tells a similar story as PSIS, but the model only containing age (<code>m5.1_stan</code>) wins. The model with both predictors (<code>m5.3_stan</code>) does almost as well. However, their respective PSIS and WAIC values are nearly identical. Furthermore, both models get assigned all of the WAIC weight. Let’s call these equal in performance and investigate why:</p>
 <pre class="r"><code>precis(m5.3_stan)</code></pre>
-<pre><code>##               mean         sd       5.5%      94.5%     n_eff     Rhat4
-## a      0.002177273 0.10322803 -0.1606536  0.1678104 1741.5639 1.0004254
-## bA    -0.610145734 0.16718426 -0.8700749 -0.3402724  880.1382 1.0037296
-## bM    -0.059829706 0.16821240 -0.3286798  0.2107478  919.6016 1.0055149
-## sigma  0.825957415 0.08738421  0.6952943  0.9707388 1468.4170 0.9993807</code></pre>
+<pre><code>##               mean         sd       5.5%      94.5%    n_eff     Rhat4
+## a      0.001911015 0.10156156 -0.1593126  0.1619227 1411.228 0.9998513
+## bA    -0.613121357 0.15881769 -0.8630583 -0.3599152 1256.856 0.9996824
+## bM    -0.068096219 0.15901946 -0.3143977  0.1921707 1210.006 1.0004537
+## sigma  0.827959793 0.08583939  0.7048266  0.9760780 1518.261 0.9992775</code></pre>
 <p>While <code>m5.3_stan</code> contains the marriage predictor, it is very unsure of it’s influence. In practical terms, this means that <code>m5.1_stan</code> and <code>m5.3_stan</code> make basically the same predictions</p>
 </div>
 <div id="practice-h3" class="section level2">
@@ -785,9 +581,9 @@ m.H4_2 &lt;- ulam(
 )</code></pre>
 <p>Now we compare them with WAIC:</p>
 <pre class="r"><code>compare(m.H4_1, m.H4_2)</code></pre>
-<pre><code>##            WAIC       SE     dWAIC       dSE    pWAIC   weight
-## m.H4_2 188.8283 12.28582 0.0000000        NA 3.670430 0.517123
-## m.H4_1 188.9653 12.21340 0.1370379 0.2419745 3.771368 0.482877</code></pre>
+<pre><code>##            WAIC       SE     dWAIC      dSE    pWAIC    weight
+## m.H4_1 205.2138 10.78402 0.0000000       NA 3.230116 0.6027191
+## m.H4_2 206.0474 11.32360 0.8336155 2.593928 2.533800 0.3972809</code></pre>
 <p>The models are pretty much tied. The model with truncated priors (<code>m.H4_2</code>) is less flexible as indicated by <code>pWAIC</code>. This is because the prior is more informative and the variance in the posterior distribution is smaller as a result.</p>
 </div>
 <div id="practice-h5" class="section level2">
@@ -823,7 +619,7 @@ text(x = f, y = pop_size, labels = names(f)) # add names of islands / their posi
 <p><strong>Answer:</strong> We want to fit the following model:</p>
 <p><span class="math display">\[w∼Binom(θ,n)\]</span>
 <span class="math display">\[θ∼Unif(0,1)\]</span>
-Our Mentropolis algorithm looks like this:</p>
+Our Metropolis algorithm looks like this:</p>
 <pre class="r"><code>set.seed(42)
 # the globe tossing data
 w &lt;- 6
