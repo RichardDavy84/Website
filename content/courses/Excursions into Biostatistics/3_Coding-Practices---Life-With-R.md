@@ -12,4 +12,4 @@ type: docs
 weight: 3
 ---
 
-I have prepared some {{< staticref "courses/Excursions into Biostatistics/Coding-Practices---Life-With-R.pdf" "newtab" >}} Lecture Slides {{< /staticref >}} for this session. Unfortunately, they are in pdf format, so you will have to download them straight to your PC.
+I have prepared some {{< staticref "courses/Excursions-into-Biostatistics/Coding-Practices---Life-With-R.pdf" "newtab" >}} Lecture Slides {{< /staticref >}} for this session. Unfortunately, they are in pdf format, so you will have to download them straight to your PC.

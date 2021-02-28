@@ -1,0 +1,33 @@
+---
+title: "Model Selection and Statistical Significance"
+subtitle: 'Be Sure of your Science'
+author: "Erik Kusch"
+date: "2021-02-27"
+slug: Excursion into Biostatistics
+categories: [Excursion into Biostatistics]
+tags: [R, Statistics]
+summary: 'SUMMARY'
+authors: [Erik Kusch]
+lastmod: '2020-02-27'
+featured: no
+projects:
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 2
+    number_sections: false
+    fig_width: 8
+linktitle: Model Selection and Statistical Significance
+menu:
+  Excursions:
+    parent: Seminars
+    weight: 7
+# toc: true
+type: docs
+weight: 7
+---
+
+I have prepared some [Lecture Slides](/courses/Excursions-into-Biostatistics/Model-Selection-and-Statistical-Significance---Reporting-the-Best-Science.pdf) for this session. Unfortunately, they are in pdf format, so you will have to download them straight to your PC.
+
+
+Test123
