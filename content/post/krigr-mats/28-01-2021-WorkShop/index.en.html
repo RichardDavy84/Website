@@ -25,6 +25,7 @@ output:
    toc: true
    toc_depth: 2
    number_sections: false
+# type: docs 
 ---
 
 
@@ -415,7 +416,7 @@ Plot_Krigs(State_Krig, Dates = c(&quot;02-01-1995&quot;, &quot;03-01-1995&quot;,
 <p>Finally, let’s see how long it took to carry out this shapefile-informed downscaling:</p>
 <pre class="r"><code>BaseTime &lt;- KrigStop - KrigStart
 BaseTime</code></pre>
-<pre><code>## Time difference of 49.10878 secs</code></pre>
+<pre><code>## Time difference of 50.12492 secs</code></pre>
 </div>
 </div>
 <div id="kriging---the-pipeline" class="section level1">
@@ -521,8 +522,8 @@ Plot_Krigs(State_Krig, Shp = State_Shp, Dates = c(&quot;02-01-1995&quot;, &quot;
 <p>Let’s see how long this took:</p>
 <pre class="r"><code>ShapeTime &lt;- KrigStop - KrigStart
 ShapeTime</code></pre>
-<pre><code>## Time difference of 3.670155 secs</code></pre>
-<p>Running this downscaling process for Saxony using the shapefile took 0.0747352 of the original downscaling time using an extent statement.</p>
+<pre><code>## Time difference of 3.642711 secs</code></pre>
+<p>Running this downscaling process for Saxony using the shapefile took 0.0726727 of the original downscaling time using an extent statement.</p>
 <p class="atten">
 Using a <code>shapefile</code> rather than an <code>extent</code> statement <strong>speeds up</strong> the <strong>Kriging process</strong>!
 </p>
@@ -641,7 +642,7 @@ Plot_Krigs(Points_Krig, Shp = BigfootLand, Dates = c(&quot;Climatology&quot;))</
 That went by quick! We can’t really see the results clearly here and will look at the in more detail in just a second. Firstly, let’s see how long this took:</p>
 <pre class="r"><code>PointsTime &lt;- KrigStop - KrigStart
 PointsTime</code></pre>
-<pre><code>## Time difference of 10.69015 secs</code></pre>
+<pre><code>## Time difference of 8.56543 secs</code></pre>
 <p>From experience, Kriging for a region this large instead of just for small regions around locations would easily take upwards of 10 hours! This is a big improvement.</p>
 <p>What did we gain by doing this? Why not just obtain the raw reanalysis data and be done with it? For this, we plot our data:</p>
 <pre class="r"><code>## DATA EXTRACTION
@@ -744,8 +745,8 @@ Plot_Krigs(State_Krig, Shp = State_Shp, Dates = c(&quot;02-01-1995&quot;, &quot;
 <p>The results look just like the ones that we obtained without using the shapefile and just one-core processing. Let’s see how long this took:</p>
 <pre class="r"><code>CoreTime &lt;- KrigStop - KrigStart
 CoreTime</code></pre>
-<pre><code>## Time difference of 8.603323 secs</code></pre>
-<p>Running this downscaling process for Saxony using the shapefile took 2.3441307 of the original downscaling time using an extent statement (the effects multi-core Kriging really kick in when looking at rasters with many bands because the initial opening of clusters for parallel processing takes some time by itself.).</p>
+<pre><code>## Time difference of 4.51963 secs</code></pre>
+<p>Running this downscaling process for Saxony using the shapefile took 1.2407325 of the original downscaling time using an extent statement (the effects multi-core Kriging really kick in when looking at rasters with many bands because the initial opening of clusters for parallel processing takes some time by itself.).</p>
 <p class="atten">
 Using the <code>Cores</code> argument with a value of n (with n &gt; 1) <strong>speeds up</strong> the <strong>Kriging process</strong> of multi-layer rasters by an order of n!
 </p>
@@ -1091,7 +1092,7 @@ plot_grid(plotlist = list(Raw_plot, NDVI_plot, Plots_ls[[1]], Plots_ls[[2]]), nr
 ## 
 ## $KrigingEquation
 ## ERA ~ DEM
-## &lt;environment: 0x000000003231f400&gt;
+## &lt;environment: 0x000000001fe55b00&gt;
 ## 
 ## $Cores
 ## [1] 1

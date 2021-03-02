@@ -25,6 +25,7 @@ output:
    toc: true
    toc_depth: 2
    number_sections: false
+# type: docs 
 ---
 
 <style>
