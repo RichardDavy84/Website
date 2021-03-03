@@ -304,10 +304,9 @@ R2_df</code></pre>
 <h3>Receiver-Operator Characteristic (ROC)</h3>
 <p>The Receiver-Operator Characteristic (ROC) shows the trade-off between <em>Sensitivity</em> (rate of true positives) and <em>Specificity</em> (rate of true negatives). It also provides an <em>Area under the Curve</em> which serves as a proxy of classification accuracy.</p>
 <p>First, we establish the ROC-Curve for our classification of <code>Population.Status</code> given sparrow Morphology and a k-means algorithm:</p>
-<pre class="r"><code>pred &lt;- mclust::predict.Mclust(H2_PS_mclust) # get predictions
-Mclust_PS.roc &lt;- roc(
+<pre class="r"><code>Mclust_PS.roc &lt;- roc(
   Sparrows_df$Population.Status, # known outcome
-  pred$z[, 1] # probability of assigning one out of two outcomes
+  H2_PS_mclust$z[, 1] # probability of assigning one out of two outcomes
 )
 plot(Mclust_PS.roc)</code></pre>
 <p><img src="/courses/Excursions into Biostatistics/7_Model-Selection-and-Statistical-Significance---Reporting-the-Best-Science_files/figure-html/unnamed-chunk-14-1.png" width="1440" /></p>
@@ -450,7 +449,7 @@ apply(H1_Test_mat, MARGIN = 2, FUN = function(x) sum((Test_df$Weight - x)^2))</c
 H1_LOOCV_ls &lt;- sapply(H1_Model_ls[-length(H1_Model_ls)], CV_LOOCV)
 End &lt;- Sys.time()
 End - Begin</code></pre>
-<pre><code>## Time difference of 11.4946 secs</code></pre>
+<pre><code>## Time difference of 11.49859 secs</code></pre>
 <pre class="r"><code>sapply(H1_LOOCV_ls, &quot;[[&quot;, &quot;results&quot;)[-1, ]</code></pre>
 <pre><code>##          Comp_Flock.Size Comp_Full Full     
 ## RMSE     1.894279        1.865854  1.609296 
@@ -488,7 +487,7 @@ Begin &lt;- Sys.time()
 H1_kFold_ls &lt;- sapply(H1_Model_ls[-length(H1_Model_ls)], CV_kFold)
 End &lt;- Sys.time()
 End - Begin</code></pre>
-<pre><code>## Time difference of 1.169064 secs</code></pre>
+<pre><code>## Time difference of 1.073135 secs</code></pre>
 <pre class="r"><code>sapply(H1_kFold_ls, &quot;[[&quot;, &quot;results&quot;)[-1, ]</code></pre>
 <pre><code>##            Comp_Flock.Size Comp_Full  Full      
 ## RMSE       1.889439        1.859135   1.603168  
@@ -520,7 +519,7 @@ Begin &lt;- Sys.time()
 H1_BootStrap_ls &lt;- sapply(H1_Model_ls[-length(H1_Model_ls)], BootStrap)
 End &lt;- Sys.time()
 End - Begin</code></pre>
-<pre><code>## Time difference of 2.212069 secs</code></pre>
+<pre><code>## Time difference of 2.171316 secs</code></pre>
 <pre class="r"><code>sapply(H1_BootStrap_ls, &quot;[[&quot;, &quot;results&quot;)[-1, ]</code></pre>
 <pre><code>##            Comp_Flock.Size Comp_Full  Full      
 ## RMSE       1.893652        1.871873   1.622079  

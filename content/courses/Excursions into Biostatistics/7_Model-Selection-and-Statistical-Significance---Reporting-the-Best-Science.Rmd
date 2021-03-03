@@ -213,9 +213,8 @@ The Receiver-Operator Characteristic (ROC) shows the trade-off between *Sensitiv
 
 First, we establish the ROC-Curve for our classification of `Population.Status` given sparrow Morphology and a k-means algorithm:
 ```{r}
-pred <- mclust::predict.Mclust(H2_PS_mclust) # get predictions
 Mclust_PS.roc <- roc(Sparrows_df$Population.Status, # known outcome
-                     pred$z[,1] # probability of assigning one out of two outcomes
+                     H2_PS_mclust$z[,1] # probability of assigning one out of two outcomes
                      )
 plot(Mclust_PS.roc)
 auc(Mclust_PS.roc)
