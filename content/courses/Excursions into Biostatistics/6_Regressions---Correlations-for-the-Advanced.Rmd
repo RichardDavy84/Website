@@ -267,15 +267,14 @@ summary(H1_PredationFULL)
 ```
 Those residuals don't look good, but that's not what I am after with this model. Immediately, we should notice that our model returns `NA` for the parameter estimate of `Predator.TypeNone`. Why does that happen? Because `Predator.TypeNone` coincides with `Predator.PresenceNo` (the `Intercept`) of this model and so does not provide any additional information. In fact, `Predator.Type` offers all the information of `Predator.Presence` and then some! Consequently, including both in a model does not make sense and we can immediately disqualify this model.
 
-
-### Null & Full Model
+## Null & Full Model
 For some comparison further down the line, we need a null model:
 ```{r}
 H1_Null_Sparrows <- lm(Weight ~ 1, data = Sparrows_df)
 H1_Null_CNA <- lm(Weight ~ 1, data = CentralNorthAm_df)
 ```
 
-Our full model contains all of our aforementioned variables/parameters to the best of our knowledge/intuition at this point. We will get to making this model better later. Don't worry:
+Our full model contains all of our aforementioned variables/parameters to the best of our knowledge/intuition at this point. We will get to making this model better later. Don't worry: 
 ```{r}
 H1_FULL_Sparrows <- lm(Weight ~ Climate + TAvg + TSD + Home.Range * Flock.Size + Predator.Type, data = Sparrows_df)
 par(mfrow = c(2,2))

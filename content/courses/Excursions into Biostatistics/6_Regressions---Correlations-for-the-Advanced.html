@@ -40,6 +40,7 @@ weight: 6
 <li><a href="#climate-conditions">Climate Conditions</a></li>
 <li><a href="#competition">Competition</a></li>
 <li><a href="#predation">Predation</a></li>
+<li><a href="#null-full-model">Null &amp; Full Model</a></li>
 <li><a href="#summary-of-linear-regression">Summary of Linear Regression</a></li>
 </ul></li>
 <li><a href="#mixed-effect-models">Mixed Effect Models</a><ul>
@@ -459,8 +460,9 @@ plot(H1_PredationFULL)</code></pre>
 ## F-statistic: 217.2 on 2 and 1063 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Those residuals don’t look good, but that’s not what I am after with this model. Immediately, we should notice that our model returns <code>NA</code> for the parameter estimate of <code>Predator.TypeNone</code>. Why does that happen? Because <code>Predator.TypeNone</code> coincides with <code>Predator.PresenceNo</code> (the <code>Intercept</code>) of this model and so does not provide any additional information. In fact, <code>Predator.Type</code> offers all the information of <code>Predator.Presence</code> and then some! Consequently, including both in a model does not make sense and we can immediately disqualify this model.</p>
 </div>
-<div id="null-full-model" class="section level3">
-<h3>Null &amp; Full Model</h3>
+</div>
+<div id="null-full-model" class="section level2">
+<h2>Null &amp; Full Model</h2>
 <p>For some comparison further down the line, we need a null model:</p>
 <pre class="r"><code>H1_Null_Sparrows &lt;- lm(Weight ~ 1, data = Sparrows_df)
 H1_Null_CNA &lt;- lm(Weight ~ 1, data = CentralNorthAm_df)</code></pre>
@@ -533,7 +535,6 @@ plot(H1_FULL_CNA)</code></pre>
 ## Residual standard error: 1.285 on 242 degrees of freedom
 ## Multiple R-squared:  0.3765, Adjusted R-squared:  0.3585 
 ## F-statistic: 20.88 on 7 and 242 DF,  p-value: &lt; 2.2e-16</code></pre>
-</div>
 </div>
 <div id="summary-of-linear-regression" class="section level2">
 <h2>Summary of Linear Regression</h2>
