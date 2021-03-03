@@ -25,6 +25,9 @@ menu:
 # toc: true
 type: docs
 weight: 7
+header-includes:
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 ---
 
 ```{r setup, include=FALSE}
@@ -111,7 +114,7 @@ load(file = file.path("Data", "H1_Models.RData"))
 
 This just loaded three objects into `R`:  
 - `H1_ModelSparrows_ls` - a list of candidate models built for the entire `Sparrow_df` data set  
-- `Sparrows_df` - the data frame used to build the global candidate models
+- `Sparrows_df` - the data frame used to build the global candidate models  
 - `H1_ModelCNA_ls` - a list of candidate models built just for three coastal sites across Central and North America  
 - `CentralNorthAm_df` - the data frame used to build the candidate model for Central and North America
 
@@ -273,7 +276,7 @@ As far as the categorisation hypotheses are concerned, we now have confirmation 
 We have also learned that random forest is an incredibly powerful method for classification and variable selection.
 
 # Model Validation
-So far, we have not introduced our models to any new data. We have looked at *explanatory power* with (adjusted) $R^2$, and the Anova. We have also looked at *estimates of predictive power* with our information criteria (e.g. AIC, BIC).
+So far, we have not introduced our models to any new data. We have looked at *explanatory power* with (adjusted) $R^2$, and the Anova. We have also looked at *estimates of predictive power* with our information criteria (e.g. AIC, BIC). 
 
 What about actually seeing how robust and accurate our models are? That's what Model Validation is for!
 

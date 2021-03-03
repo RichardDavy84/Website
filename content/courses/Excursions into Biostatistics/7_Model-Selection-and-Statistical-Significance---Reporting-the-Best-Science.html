@@ -25,8 +25,13 @@ menu:
 # toc: true
 type: docs
 weight: 7
+header-includes:
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 ---
 
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <div id="TOC">
 <ul>
@@ -150,7 +155,7 @@ C. <em>Climate</em> as inferred through morphology.</li>
 <pre class="r"><code>load(file = file.path(&quot;Data&quot;, &quot;H1_Models.RData&quot;))</code></pre>
 <p>This just loaded three objects into <code>R</code>:<br />
 - <code>H1_ModelSparrows_ls</code> - a list of candidate models built for the entire <code>Sparrow_df</code> data set<br />
-- <code>Sparrows_df</code> - the data frame used to build the global candidate models
+- <code>Sparrows_df</code> - the data frame used to build the global candidate models<br />
 - <code>H1_ModelCNA_ls</code> - a list of candidate models built just for three coastal sites across Central and North America<br />
 - <code>CentralNorthAm_df</code> - the data frame used to build the candidate model for Central and North America</p>
 <div id="global-models" class="section level3">
@@ -449,7 +454,7 @@ apply(H1_Test_mat, MARGIN = 2, FUN = function(x) sum((Test_df$Weight - x)^2))</c
 H1_LOOCV_ls &lt;- sapply(H1_Model_ls[-length(H1_Model_ls)], CV_LOOCV)
 End &lt;- Sys.time()
 End - Begin</code></pre>
-<pre><code>## Time difference of 11.49859 secs</code></pre>
+<pre><code>## Time difference of 11.43714 secs</code></pre>
 <pre class="r"><code>sapply(H1_LOOCV_ls, &quot;[[&quot;, &quot;results&quot;)[-1, ]</code></pre>
 <pre><code>##          Comp_Flock.Size Comp_Full Full     
 ## RMSE     1.894279        1.865854  1.609296 
@@ -487,7 +492,7 @@ Begin &lt;- Sys.time()
 H1_kFold_ls &lt;- sapply(H1_Model_ls[-length(H1_Model_ls)], CV_kFold)
 End &lt;- Sys.time()
 End - Begin</code></pre>
-<pre><code>## Time difference of 1.073135 secs</code></pre>
+<pre><code>## Time difference of 1.111821 secs</code></pre>
 <pre class="r"><code>sapply(H1_kFold_ls, &quot;[[&quot;, &quot;results&quot;)[-1, ]</code></pre>
 <pre><code>##            Comp_Flock.Size Comp_Full  Full      
 ## RMSE       1.889439        1.859135   1.603168  
@@ -519,7 +524,7 @@ Begin &lt;- Sys.time()
 H1_BootStrap_ls &lt;- sapply(H1_Model_ls[-length(H1_Model_ls)], BootStrap)
 End &lt;- Sys.time()
 End - Begin</code></pre>
-<pre><code>## Time difference of 2.171316 secs</code></pre>
+<pre><code>## Time difference of 2.213253 secs</code></pre>
 <pre class="r"><code>sapply(H1_BootStrap_ls, &quot;[[&quot;, &quot;results&quot;)[-1, ]</code></pre>
 <pre><code>##            Comp_Flock.Size Comp_Full  Full      
 ## RMSE       1.893652        1.871873   1.622079  
