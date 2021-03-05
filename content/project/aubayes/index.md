@@ -26,7 +26,7 @@ tags:
 - Bayes
 - Bayesian Statistics
 - Statistical Rethinking
-title: AU Bayes Study Group
+title: Bayes Study Group
 # url_code: "https://github.com/ErikKusch/KrigR"
 # url_pdf: ""
 # url_slides: "https://github.com/ErikKusch/KrigR/tree/master/Workshop"
@@ -36,10 +36,10 @@ title: AU Bayes Study Group
 # Motivation
 Have you ever read a paper and thought: “Wow, this is really cool”, then read on only to find the word “Bayesian” in the analysis specification and promptly get lost at the terminology and approach to statistics?
 
-If you did/do, you are obviously not alone and I think it might be time we do something about it. To this end, I have created the AU Bayes Study Group within which we work our way through (1) a [lecture series](https://www.youtube.com/playlist?list=PLDcUM9US4XdNM4Edgs7weiyIguLSToZRI) by Bayes Wunderkind Richard McElreath, (2) his corresponding book (“[Statistical Rethinking](https://xcelab.net/rm/statistical-rethinking/)”), and (3) a few practical examples in R. 
+If you did/do, you are obviously not alone and I think it might be time we do something about it. To this end, I have created a Bayes Study Group (formerly AU Bayes Study Group) within which we work our way through (1) a [lecture series](https://www.youtube.com/playlist?list=PLDcUM9US4XdNM4Edgs7weiyIguLSToZRI) by Bayes Wunderkind Richard McElreath, (2) his corresponding book (“[Statistical Rethinking](https://xcelab.net/rm/statistical-rethinking/)”), and (3) a few practical examples in `R`. 
 
 # Conduct & Logistics
-Below, you will find a few key facts outlining how the AU Bayes Study Group sessions are run. You will find that what we do is quite a lot (I would like to think it quite exhaustive, actually). We are following the example set by some colleagues at the University of Oxford here and I have added some extra bits to the material and schedule. Go big or go home, right?
+Below, you will find a few key facts outlining how this Bayes Study Group sessions are run. You will find that what we do is quite a lot (I would like to think it quite exhaustive, actually). We are following the example set by some colleagues at the University of Oxford here and I have added some extra bits to the material and schedule. Go big or go home, right?
  
 That being said, I realise that what I propose is quite a big-time commitment – both in per-week hours and for how long this study group is supposed to run.
  
