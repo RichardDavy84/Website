@@ -124,7 +124,7 @@ Unfortunately, this is about as far as we can take solving this formula. The cha
 
 $$\frac{λ_{x+1}}{λx} = \frac{exp(α + β(x + 1))}{exp(α + βx)} = exp(β)$$
 
-This is reminiscent of the proportional change in odds for logistic regressions. Conclusively, a coefficient of $\beta = 1.7$ in a Poisson model results in a proportional change in the expected count of $exp(1.7) = $ `r round(exp(1.7),2)` when the corresponding predictor variable increases by one unit.
+This is reminiscent of the proportional change in odds for logistic regressions. Conclusively, a coefficient of $\beta = 1.7$ in a Poisson model results in a proportional change in the expected count of exp(1.7) =  `r round(exp(1.7),2)` when the corresponding predictor variable increases by one unit. 
 
 ## Practice M3
 **Question:**  Explain why the logit link is appropriate for a binomial generalized linear model. 
@@ -289,9 +289,9 @@ f <- alist(
         y ~ dbinom(n, p),
         logit(p) <- a + bP*pirateL + bV*victimL + bA*pirateA,
         a ~ dnorm(0,1.5),
-        bP ~ dnorm(0,1),
-        bV ~ dnorm(0,1),
-        bA ~ dnorm(0,1))
+        bP ~ dnorm(0,.5),
+        bV ~ dnorm(0,.5),
+        bA ~ dnorm(0,.5))
 ## quap model
 mH3quap <- quap(f, data=d)
 ## ulam model
@@ -379,10 +379,10 @@ mH3c <- ulam(
         y ~ dbinom(n, p),
         logit(p) <- a + bP*pirateL + bV*victimL + bA*pirateA + bPA*pirateL*pirateA,
         a ~ dnorm(0,1.5),
-        bP ~ dnorm(0,1),
-        bV ~ dnorm(0,1),
-        bA ~ dnorm(0,1),
-        bPA ~ dnorm(0,1)
+        bP ~ dnorm(0,.5),
+        bV ~ dnorm(0,.5),
+        bA ~ dnorm(0,.5),
+        bPA ~ dnorm(0,.5)
   ), data=d, chains=4, log_lik=TRUE)
 compare(mH3ulam, mH3c)
 ```
@@ -392,7 +392,7 @@ plot(coeftab(mH3ulam, mH3c),
      labels = paste(rep(rownames(coeftab(mH3ulam, mH3c)@coefs), each = 2), 
                     rep(c("Base", "Interac"), nrow(coeftab(mH3ulam, mH3c)@coefs)*2), sep = "-"))
 ```
-Jup, there's not really much of a difference here. For the interaction model: the log-odds of successful piracy is smaller when the pirating individual is large and an adult. That is counter-intuitive, isn't it? It is worth pointing out that the individual parameters for these conditions show the expected effects and the identified negative effect of their interaction may be down to the sparsity of the underlying data and we are also highly uncertain of it's sign to begin with.
+Jup, there's not really much of a difference here. For the interaction model: the log-odds of successful piracy is just weakly bigger when the pirating individual is large and an adult. That is counter-intuitive, isn't it? It is worth pointing out that the individual parameters for these conditions show the expected effects and the identified negative effect of their interaction may be down to the sparsity of the underlying data and we are also highly uncertain of it's sign to begin with.
 
 ## Practice H4 
 **Question:** The data contained in `data(salamanders)` are counts of salamanders (*Plethodon elongatus*) from 47 different 49$m^2$ plots in northern California. The column `SALAMAN` is the count in each plot, and the columns `PCTCOVER` and `FORESTAGE` are percent of ground cover and age of trees in the plot, respectively. You will model `SALAMAN` as a Poisson variable.

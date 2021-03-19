@@ -114,7 +114,7 @@ Solving this for <span class="math inline">\(z\)</span> results in:</p>
 <span class="math display">\[Δλ = exp(α + βx)(exp(β) − 1)\]</span></p>
 <p>Unfortunately, this is about as far as we can take solving this formula. The change in <span class="math inline">\(\lambda\)</span> depends on all contents of the model. But about the ratio of <span class="math inline">\(\lambda\)</span> following a one-unit increase in <span class="math inline">\(x\)</span> compared to <span class="math inline">\(\lambda\)</span> a t base-level? We can compute this ratio as:</p>
 <p><span class="math display">\[\frac{λ_{x+1}}{λx} = \frac{exp(α + β(x + 1))}{exp(α + βx)} = exp(β)\]</span></p>
-<p>This is reminiscent of the proportional change in odds for logistic regressions. Conclusively, a coefficient of <span class="math inline">\(\beta = 1.7\)</span> in a Poisson model results in a proportional change in the expected count of $exp(1.7) = $ 5.47 when the corresponding predictor variable increases by one unit.</p>
+<p>This is reminiscent of the proportional change in odds for logistic regressions. Conclusively, a coefficient of <span class="math inline">\(\beta = 1.7\)</span> in a Poisson model results in a proportional change in the expected count of exp(1.7) = 5.47 when the corresponding predictor variable increases by one unit.</p>
 </div>
 <div id="practice-m3" class="section level2">
 <h2>Practice M3</h2>
@@ -191,9 +191,9 @@ m11.4 &lt;- ulam(
 ## Chain 1: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.471 seconds (Warm-up)
-## Chain 1:                0.454 seconds (Sampling)
-## Chain 1:                0.925 seconds (Total)
+## Chain 1:  Elapsed Time: 0.445 seconds (Warm-up)
+## Chain 1:                0.509 seconds (Sampling)
+## Chain 1:                0.954 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &#39;80e2b6267e3dc4ff0c2916d0cf0879e8&#39; NOW (CHAIN 2).
@@ -216,9 +216,9 @@ m11.4 &lt;- ulam(
 ## Chain 2: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.479 seconds (Warm-up)
-## Chain 2:                0.457 seconds (Sampling)
-## Chain 2:                0.936 seconds (Total)
+## Chain 2:  Elapsed Time: 0.482 seconds (Warm-up)
+## Chain 2:                0.412 seconds (Sampling)
+## Chain 2:                0.894 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &#39;80e2b6267e3dc4ff0c2916d0cf0879e8&#39; NOW (CHAIN 3).
@@ -241,15 +241,15 @@ m11.4 &lt;- ulam(
 ## Chain 3: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.45 seconds (Warm-up)
-## Chain 3:                0.344 seconds (Sampling)
-## Chain 3:                0.794 seconds (Total)
+## Chain 3:  Elapsed Time: 0.431 seconds (Warm-up)
+## Chain 3:                0.323 seconds (Sampling)
+## Chain 3:                0.754 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL &#39;80e2b6267e3dc4ff0c2916d0cf0879e8&#39; NOW (CHAIN 4).
 ## Chain 4: 
-## Chain 4: Gradient evaluation took 0.001 seconds
-## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 10 seconds.
+## Chain 4: Gradient evaluation took 0 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
@@ -266,23 +266,23 @@ m11.4 &lt;- ulam(
 ## Chain 4: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.468 seconds (Warm-up)
-## Chain 4:                0.441 seconds (Sampling)
-## Chain 4:                0.909 seconds (Total)
+## Chain 4:  Elapsed Time: 0.485 seconds (Warm-up)
+## Chain 4:                0.332 seconds (Sampling)
+## Chain 4:                0.817 seconds (Total)
 ## Chain 4:</code></pre>
 <pre class="r"><code>precis(m11.4, depth = 2)</code></pre>
 <pre><code>##             mean        sd        5.5%       94.5%     n_eff    Rhat4
-## a[1] -0.46640446 0.3298098 -0.98834691  0.05213588  731.9917 1.005207
-## a[2]  3.90141846 0.7627442  2.80501409  5.21661282 1103.1091 1.001169
-## a[3] -0.77303687 0.3314744 -1.28855510 -0.23017590  732.7531 1.005956
-## a[4] -0.76994033 0.3323388 -1.29667117 -0.25347701  762.1433 1.009108
-## a[5] -0.46785865 0.3200354 -0.97905053  0.05343405  664.5643 1.012621
-## a[6]  0.45720982 0.3393132 -0.09614738  1.01080221  715.7478 1.008007
-## a[7]  1.93445677 0.3963664  1.30102392  2.57234134  933.1757 1.009566
-## b[1] -0.02737786 0.2869253 -0.50590050  0.41931421  713.2071 1.011628
-## b[2]  0.50117367 0.2823540  0.05765241  0.96580039  642.2457 1.008867
-## b[3] -0.35639497 0.2772032 -0.80038390  0.07283561  608.7113 1.009857
-## b[4]  0.38434886 0.2787225 -0.06059698  0.83982610  631.7015 1.011177</code></pre>
+## a[1] -0.45350213 0.3289994 -1.00056594  0.06297082  752.6281 1.004181
+## a[2]  3.87772441 0.7581549  2.78739066  5.18963736 1087.4008 1.002890
+## a[3] -0.75629495 0.3309180 -1.28111524 -0.22684279  794.6715 1.003310
+## a[4] -0.75432022 0.3287244 -1.28859343 -0.22706321  703.7670 1.006296
+## a[5] -0.44227937 0.3233380 -0.96726036  0.07212239  794.9729 1.003323
+## a[6]  0.47199432 0.3352950 -0.06084106  1.01828636  746.1647 1.003032
+## a[7]  1.95799331 0.4144738  1.29986007  2.62585083  929.4140 1.005476
+## b[1] -0.04367392 0.2764061 -0.48454507  0.39286108  664.4983 1.005725
+## b[2]  0.48701340 0.2819234  0.04139252  0.93745991  677.1801 1.005220
+## b[3] -0.38634421 0.2829264 -0.84318768  0.08653495  668.6513 1.007385
+## b[4]  0.37602499 0.2749174 -0.04839728  0.82252808  661.5928 1.003542</code></pre>
 <pre class="r"><code>## Quap Model
 m11.4quap &lt;- quap(
   alist(
@@ -368,9 +368,9 @@ dens(postq$a[, 2], add = TRUE, lwd = 2, col = rangi2)</code></pre>
 ## Chain 1: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.441 seconds (Warm-up)
-## Chain 1:                0.39 seconds (Sampling)
-## Chain 1:                0.831 seconds (Total)
+## Chain 1:  Elapsed Time: 0.438 seconds (Warm-up)
+## Chain 1:                0.347 seconds (Sampling)
+## Chain 1:                0.785 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &#39;80e2b6267e3dc4ff0c2916d0cf0879e8&#39; NOW (CHAIN 2).
@@ -393,15 +393,15 @@ dens(postq$a[, 2], add = TRUE, lwd = 2, col = rangi2)</code></pre>
 ## Chain 2: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.436 seconds (Warm-up)
-## Chain 2:                0.396 seconds (Sampling)
-## Chain 2:                0.832 seconds (Total)
+## Chain 2:  Elapsed Time: 0.426 seconds (Warm-up)
+## Chain 2:                0.449 seconds (Sampling)
+## Chain 2:                0.875 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &#39;80e2b6267e3dc4ff0c2916d0cf0879e8&#39; NOW (CHAIN 3).
 ## Chain 3: 
-## Chain 3: Gradient evaluation took 0 seconds
-## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+## Chain 3: Gradient evaluation took 0.001 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 10 seconds.
 ## Chain 3: Adjust your expectations accordingly!
 ## Chain 3: 
 ## Chain 3: 
@@ -418,9 +418,9 @@ dens(postq$a[, 2], add = TRUE, lwd = 2, col = rangi2)</code></pre>
 ## Chain 3: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.467 seconds (Warm-up)
-## Chain 3:                0.447 seconds (Sampling)
-## Chain 3:                0.914 seconds (Total)
+## Chain 3:  Elapsed Time: 0.446 seconds (Warm-up)
+## Chain 3:                0.423 seconds (Sampling)
+## Chain 3:                0.869 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL &#39;80e2b6267e3dc4ff0c2916d0cf0879e8&#39; NOW (CHAIN 4).
@@ -443,16 +443,16 @@ dens(postq$a[, 2], add = TRUE, lwd = 2, col = rangi2)</code></pre>
 ## Chain 4: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.464 seconds (Warm-up)
-## Chain 4:                0.472 seconds (Sampling)
-## Chain 4:                0.936 seconds (Total)
+## Chain 4:  Elapsed Time: 0.506 seconds (Warm-up)
+## Chain 4:                0.401 seconds (Sampling)
+## Chain 4:                0.907 seconds (Total)
 ## Chain 4:</code></pre>
 <p>To compare these, we can run:</p>
 <pre class="r"><code>(comp &lt;- compare(m11.1, m11.3, m11.4))</code></pre>
 <pre><code>##           WAIC        SE    dWAIC      dSE     pWAIC       weight
-## m11.4 531.9287 19.027162   0.0000       NA 8.3523306 1.000000e+00
-## m11.3 682.2513  9.069731 150.3226 18.48641 3.5130544 2.279564e-33
-## m11.1 687.8863  6.950780 155.9577 19.01547 0.9693863 1.362152e-34</code></pre>
+## m11.4 531.8877 18.864245   0.0000       NA 8.3161813 1.000000e+00
+## m11.3 682.1032  9.088814 150.2155 18.32534 3.4542133 2.405025e-33
+## m11.1 687.9213  7.161993 156.0336 18.90700 0.9904429 1.311424e-34</code></pre>
 <pre class="r"><code>plot(comp)</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-11-1.png" width="1440" /></p>
 <p>This shows clearly that the model accounting for individual intercepts as well as treatment effects (<code>m11.4</code>) outperforms the simpler models.</p>
@@ -485,16 +485,16 @@ f &lt;- alist(
   y ~ dbinom(n, p),
   logit(p) &lt;- a + bP * pirateL + bV * victimL + bA * pirateA,
   a ~ dnorm(0, 1.5),
-  bP ~ dnorm(0, 1),
-  bV ~ dnorm(0, 1),
-  bA ~ dnorm(0, 1)
+  bP ~ dnorm(0, .5),
+  bV ~ dnorm(0, .5),
+  bA ~ dnorm(0, .5)
 )
 ## quap model
 mH3quap &lt;- quap(f, data = d)
 ## ulam model
 mH3ulam &lt;- ulam(f, data = d, chains = 4, log_lik = TRUE)</code></pre>
 <pre><code>## 
-## SAMPLING FOR MODEL &#39;0ca5659ae55fb9998234313d392b5e3a&#39; NOW (CHAIN 1).
+## SAMPLING FOR MODEL &#39;4eaf24dd51e5e9fce10e2cc7d32e0b01&#39; NOW (CHAIN 1).
 ## Chain 1: 
 ## Chain 1: Gradient evaluation took 0 seconds
 ## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
@@ -514,12 +514,12 @@ mH3ulam &lt;- ulam(f, data = d, chains = 4, log_lik = TRUE)</code></pre>
 ## Chain 1: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.035 seconds (Warm-up)
-## Chain 1:                0.033 seconds (Sampling)
-## Chain 1:                0.068 seconds (Total)
+## Chain 1:  Elapsed Time: 0.033 seconds (Warm-up)
+## Chain 1:                0.027 seconds (Sampling)
+## Chain 1:                0.06 seconds (Total)
 ## Chain 1: 
 ## 
-## SAMPLING FOR MODEL &#39;0ca5659ae55fb9998234313d392b5e3a&#39; NOW (CHAIN 2).
+## SAMPLING FOR MODEL &#39;4eaf24dd51e5e9fce10e2cc7d32e0b01&#39; NOW (CHAIN 2).
 ## Chain 2: 
 ## Chain 2: Gradient evaluation took 0 seconds
 ## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
@@ -539,12 +539,12 @@ mH3ulam &lt;- ulam(f, data = d, chains = 4, log_lik = TRUE)</code></pre>
 ## Chain 2: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.037 seconds (Warm-up)
-## Chain 2:                0.03 seconds (Sampling)
-## Chain 2:                0.067 seconds (Total)
+## Chain 2:  Elapsed Time: 0.029 seconds (Warm-up)
+## Chain 2:                0.027 seconds (Sampling)
+## Chain 2:                0.056 seconds (Total)
 ## Chain 2: 
 ## 
-## SAMPLING FOR MODEL &#39;0ca5659ae55fb9998234313d392b5e3a&#39; NOW (CHAIN 3).
+## SAMPLING FOR MODEL &#39;4eaf24dd51e5e9fce10e2cc7d32e0b01&#39; NOW (CHAIN 3).
 ## Chain 3: 
 ## Chain 3: Gradient evaluation took 0 seconds
 ## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
@@ -564,12 +564,12 @@ mH3ulam &lt;- ulam(f, data = d, chains = 4, log_lik = TRUE)</code></pre>
 ## Chain 3: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.037 seconds (Warm-up)
-## Chain 3:                0.03 seconds (Sampling)
-## Chain 3:                0.067 seconds (Total)
+## Chain 3:  Elapsed Time: 0.029 seconds (Warm-up)
+## Chain 3:                0.028 seconds (Sampling)
+## Chain 3:                0.057 seconds (Total)
 ## Chain 3: 
 ## 
-## SAMPLING FOR MODEL &#39;0ca5659ae55fb9998234313d392b5e3a&#39; NOW (CHAIN 4).
+## SAMPLING FOR MODEL &#39;4eaf24dd51e5e9fce10e2cc7d32e0b01&#39; NOW (CHAIN 4).
 ## Chain 4: 
 ## Chain 4: Gradient evaluation took 0 seconds
 ## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
@@ -589,9 +589,9 @@ mH3ulam &lt;- ulam(f, data = d, chains = 4, log_lik = TRUE)</code></pre>
 ## Chain 4: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.037 seconds (Warm-up)
-## Chain 4:                0.034 seconds (Sampling)
-## Chain 4:                0.071 seconds (Total)
+## Chain 4:  Elapsed Time: 0.03 seconds (Warm-up)
+## Chain 4:                0.028 seconds (Sampling)
+## Chain 4:                0.058 seconds (Total)
 ## Chain 4:</code></pre>
 <p>Again, we visualise the parameter estimates</p>
 <pre class="r"><code>plot(coeftab(mH3quap, mH3ulam),
@@ -611,12 +611,12 @@ to use the <code>quap</code> estimates. Otherwise stick to <code>ulam</code> est
 <p>Let’s start by getting a baseline understanding of how often a non-adult, small-bodied pirate is able to fetch a salmon from a small-bodied victim(all dummy variables are at value 0) - this is our intercept <code>a</code>. These are log-odds:</p>
 <pre class="r"><code>post &lt;- extract.samples(mH3ulam)
 mean(logistic(post$a))</code></pre>
-<pre><code>## [1] 0.5855815</code></pre>
-<p>We expect about 0.59% of all of our immature, small pirates to be successful when pirating on small victims.</p>
+<pre><code>## [1] 0.5726483</code></pre>
+<p>We expect about 0.57% of all of our immature, small pirates to be successful when pirating on small victims.</p>
 <p>Now that we are armed with our baseline, we are ready to look at how our slope parameters affect what’s happening in our model.</p>
 <p>First, we start with the effect of pirate-body-size (<code>bP</code>):</p>
 <pre class="r"><code>mean(logistic(post$a + post$bP))</code></pre>
-<pre><code>## [1] 0.9466993</code></pre>
+<pre><code>## [1] 0.8690942</code></pre>
 <p>Damn. Large-bodied pirates win almost all of the time! We could repeat this for all slope parameters, but I find it prudent to move on to our actual task:</p>
 <ol style="list-style-type: decimal">
 <li><strong>Probability</strong> of success:</li>
@@ -674,15 +674,15 @@ for (i in 1:8) lines(c(i, i), y.PI[, i])</code></pre>
     y ~ dbinom(n, p),
     logit(p) &lt;- a + bP * pirateL + bV * victimL + bA * pirateA + bPA * pirateL * pirateA,
     a ~ dnorm(0, 1.5),
-    bP ~ dnorm(0, 1),
-    bV ~ dnorm(0, 1),
-    bA ~ dnorm(0, 1),
-    bPA ~ dnorm(0, 1)
+    bP ~ dnorm(0, .5),
+    bV ~ dnorm(0, .5),
+    bA ~ dnorm(0, .5),
+    bPA ~ dnorm(0, .5)
   ),
   data = d, chains = 4, log_lik = TRUE
 )</code></pre>
 <pre><code>## 
-## SAMPLING FOR MODEL &#39;3064593c29abe77a8eaf3c203b5b18b3&#39; NOW (CHAIN 1).
+## SAMPLING FOR MODEL &#39;3f6607198507ea4881438baca721629d&#39; NOW (CHAIN 1).
 ## Chain 1: 
 ## Chain 1: Gradient evaluation took 0 seconds
 ## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
@@ -702,12 +702,12 @@ for (i in 1:8) lines(c(i, i), y.PI[, i])</code></pre>
 ## Chain 1: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.045 seconds (Warm-up)
-## Chain 1:                0.033 seconds (Sampling)
-## Chain 1:                0.078 seconds (Total)
+## Chain 1:  Elapsed Time: 0.039 seconds (Warm-up)
+## Chain 1:                0.034 seconds (Sampling)
+## Chain 1:                0.073 seconds (Total)
 ## Chain 1: 
 ## 
-## SAMPLING FOR MODEL &#39;3064593c29abe77a8eaf3c203b5b18b3&#39; NOW (CHAIN 2).
+## SAMPLING FOR MODEL &#39;3f6607198507ea4881438baca721629d&#39; NOW (CHAIN 2).
 ## Chain 2: 
 ## Chain 2: Gradient evaluation took 0 seconds
 ## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
@@ -727,12 +727,12 @@ for (i in 1:8) lines(c(i, i), y.PI[, i])</code></pre>
 ## Chain 2: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.043 seconds (Warm-up)
-## Chain 2:                0.035 seconds (Sampling)
-## Chain 2:                0.078 seconds (Total)
+## Chain 2:  Elapsed Time: 0.04 seconds (Warm-up)
+## Chain 2:                0.037 seconds (Sampling)
+## Chain 2:                0.077 seconds (Total)
 ## Chain 2: 
 ## 
-## SAMPLING FOR MODEL &#39;3064593c29abe77a8eaf3c203b5b18b3&#39; NOW (CHAIN 3).
+## SAMPLING FOR MODEL &#39;3f6607198507ea4881438baca721629d&#39; NOW (CHAIN 3).
 ## Chain 3: 
 ## Chain 3: Gradient evaluation took 0 seconds
 ## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
@@ -752,12 +752,12 @@ for (i in 1:8) lines(c(i, i), y.PI[, i])</code></pre>
 ## Chain 3: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.043 seconds (Warm-up)
-## Chain 3:                0.04 seconds (Sampling)
-## Chain 3:                0.083 seconds (Total)
+## Chain 3:  Elapsed Time: 0.039 seconds (Warm-up)
+## Chain 3:                0.035 seconds (Sampling)
+## Chain 3:                0.074 seconds (Total)
 ## Chain 3: 
 ## 
-## SAMPLING FOR MODEL &#39;3064593c29abe77a8eaf3c203b5b18b3&#39; NOW (CHAIN 4).
+## SAMPLING FOR MODEL &#39;3f6607198507ea4881438baca721629d&#39; NOW (CHAIN 4).
 ## Chain 4: 
 ## Chain 4: Gradient evaluation took 0 seconds
 ## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
@@ -777,14 +777,14 @@ for (i in 1:8) lines(c(i, i), y.PI[, i])</code></pre>
 ## Chain 4: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.044 seconds (Warm-up)
-## Chain 4:                0.041 seconds (Sampling)
-## Chain 4:                0.085 seconds (Total)
+## Chain 4:  Elapsed Time: 0.039 seconds (Warm-up)
+## Chain 4:                0.038 seconds (Sampling)
+## Chain 4:                0.077 seconds (Total)
 ## Chain 4:</code></pre>
 <pre class="r"><code>compare(mH3ulam, mH3c)</code></pre>
-<pre><code>##             WAIC       SE     dWAIC       dSE    pWAIC    weight
-## mH3ulam 37.33697 5.359835 0.0000000        NA 5.131486 0.5461083
-## mH3c    37.70689 5.274347 0.3699174 0.5883677 5.413247 0.4538917</code></pre>
+<pre><code>##             WAIC       SE    dWAIC      dSE    pWAIC    weight
+## mH3ulam 58.91314 11.69245 0.000000       NA 8.236279 0.7393412
+## mH3c    60.99823 11.61813 2.085095 1.572937 9.219315 0.2606588</code></pre>
 <p>This is quite obviously a tie. So what about the model estimates?</p>
 <pre class="r"><code>plot(coeftab(mH3ulam, mH3c),
   labels = paste(rep(rownames(coeftab(mH3ulam, mH3c)@coefs), each = 2),
@@ -793,7 +793,7 @@ for (i in 1:8) lines(c(i, i), y.PI[, i])</code></pre>
   )
 )</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-21-1.png" width="1440" />
-Jup, there’s not really much of a difference here. For the interaction model: the log-odds of successful piracy is smaller when the pirating individual is large and an adult. That is counter-intuitive, isn’t it? It is worth pointing out that the individual parameters for these conditions show the expected effects and the identified negative effect of their interaction may be down to the sparsity of the underlying data and we are also highly uncertain of it’s sign to begin with.</p>
+Jup, there’s not really much of a difference here. For the interaction model: the log-odds of successful piracy is just weakly bigger when the pirating individual is large and an adult. That is counter-intuitive, isn’t it? It is worth pointing out that the individual parameters for these conditions show the expected effects and the identified negative effect of their interaction may be down to the sparsity of the underlying data and we are also highly uncertain of it’s sign to begin with.</p>
 </div>
 </div>
 <div id="practice-h4" class="section level2">
@@ -868,9 +868,9 @@ mH4a &lt;- ulam(f, data = d, chains = 4)</code></pre>
 ## Chain 1: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.026 seconds (Warm-up)
-## Chain 1:                0.023 seconds (Sampling)
-## Chain 1:                0.049 seconds (Total)
+## Chain 1:  Elapsed Time: 0.028 seconds (Warm-up)
+## Chain 1:                0.027 seconds (Sampling)
+## Chain 1:                0.055 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &#39;ce27f50b1ba56f91eaeb68bb1bf4432c&#39; NOW (CHAIN 2).
@@ -894,8 +894,8 @@ mH4a &lt;- ulam(f, data = d, chains = 4)</code></pre>
 ## Chain 2: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 2: 
 ## Chain 2:  Elapsed Time: 0.025 seconds (Warm-up)
-## Chain 2:                0.025 seconds (Sampling)
-## Chain 2:                0.05 seconds (Total)
+## Chain 2:                0.024 seconds (Sampling)
+## Chain 2:                0.049 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &#39;ce27f50b1ba56f91eaeb68bb1bf4432c&#39; NOW (CHAIN 3).
@@ -918,8 +918,8 @@ mH4a &lt;- ulam(f, data = d, chains = 4)</code></pre>
 ## Chain 3: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.025 seconds (Warm-up)
-## Chain 3:                0.023 seconds (Sampling)
+## Chain 3:  Elapsed Time: 0.026 seconds (Warm-up)
+## Chain 3:                0.022 seconds (Sampling)
 ## Chain 3:                0.048 seconds (Total)
 ## Chain 3: 
 ## 
@@ -943,9 +943,9 @@ mH4a &lt;- ulam(f, data = d, chains = 4)</code></pre>
 ## Chain 4: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.028 seconds (Warm-up)
-## Chain 4:                0.031 seconds (Sampling)
-## Chain 4:                0.059 seconds (Total)
+## Chain 4:  Elapsed Time: 0.027 seconds (Warm-up)
+## Chain 4:                0.023 seconds (Sampling)
+## Chain 4:                0.05 seconds (Total)
 ## Chain 4:</code></pre>
 <pre class="r"><code>mH4aquap &lt;- quap(f, data = d)
 plot(coeftab(mH4a, mH4aquap),
@@ -999,15 +999,15 @@ mH4b &lt;- ulam(f2, data = d, chains = 4)</code></pre>
 ## Chain 1: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.038 seconds (Warm-up)
-## Chain 1:                0.032 seconds (Sampling)
-## Chain 1:                0.07 seconds (Total)
+## Chain 1:  Elapsed Time: 0.039 seconds (Warm-up)
+## Chain 1:                0.037 seconds (Sampling)
+## Chain 1:                0.076 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &#39;4850e2c86bda45f77f837aaee26a4da5&#39; NOW (CHAIN 2).
 ## Chain 2: 
-## Chain 2: Gradient evaluation took 0.001 seconds
-## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 10 seconds.
+## Chain 2: Gradient evaluation took 0 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
 ## Chain 2: Adjust your expectations accordingly!
 ## Chain 2: 
 ## Chain 2: 
@@ -1024,9 +1024,9 @@ mH4b &lt;- ulam(f2, data = d, chains = 4)</code></pre>
 ## Chain 2: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.038 seconds (Warm-up)
+## Chain 2:  Elapsed Time: 0.04 seconds (Warm-up)
 ## Chain 2:                0.038 seconds (Sampling)
-## Chain 2:                0.076 seconds (Total)
+## Chain 2:                0.078 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &#39;4850e2c86bda45f77f837aaee26a4da5&#39; NOW (CHAIN 3).
@@ -1050,8 +1050,8 @@ mH4b &lt;- ulam(f2, data = d, chains = 4)</code></pre>
 ## Chain 3: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 3: 
 ## Chain 3:  Elapsed Time: 0.041 seconds (Warm-up)
-## Chain 3:                0.037 seconds (Sampling)
-## Chain 3:                0.078 seconds (Total)
+## Chain 3:                0.039 seconds (Sampling)
+## Chain 3:                0.08 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL &#39;4850e2c86bda45f77f837aaee26a4da5&#39; NOW (CHAIN 4).
@@ -1075,14 +1075,14 @@ mH4b &lt;- ulam(f2, data = d, chains = 4)</code></pre>
 ## Chain 4: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 4: 
 ## Chain 4:  Elapsed Time: 0.039 seconds (Warm-up)
-## Chain 4:                0.046 seconds (Sampling)
-## Chain 4:                0.085 seconds (Total)
+## Chain 4:                0.037 seconds (Sampling)
+## Chain 4:                0.076 seconds (Total)
 ## Chain 4:</code></pre>
 <pre class="r"><code>precis(mH4b)</code></pre>
-<pre><code>##         mean         sd       5.5%     94.5%    n_eff     Rhat4
-## a  0.4803815 0.13667280  0.2544537 0.6922108 770.2253 1.0109540
-## bA 0.0175061 0.09351817 -0.1406737 0.1624324 876.0484 0.9990086
-## bC 1.0419314 0.17667592  0.7655562 1.3318217 657.4893 1.0112047</code></pre>
+<pre><code>##         mean        sd       5.5%     94.5%    n_eff    Rhat4
+## a  0.4907557 0.1395195  0.2625130 0.6996702 868.0426 1.001685
+## bA 0.0182695 0.1001303 -0.1470489 0.1743950 881.6340 1.008275
+## bC 1.0332802 0.1793381  0.7593776 1.3205069 786.1359 1.007009</code></pre>
 <p>Fascinating! The estimate for <code>bA</code> is nearly <span class="math inline">\(0\)</span> with a lot of certainty (i.e. a small interval) behind it. While conditioning on percent cover, forest age does not influence salamander count. This looks like a post-treatment effect to me.</p>
 </div>
 </div>
