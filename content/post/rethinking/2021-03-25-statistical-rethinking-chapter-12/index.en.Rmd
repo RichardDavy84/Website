@@ -122,8 +122,8 @@ Let's remind ourselves of the ZI-Poisson distribution from the chapter:
 $$ ZIPoisson(p, \lambda) $$
 
 with:  
-- $p = $probability of no count generating process occurring  
-- $\lambda = $rate at which counts are produced when process occurs  
+- p = probability of no count generating process occurring  
+- λ = rate at which counts are produced when process occurs  
 
 This is an extension of the Poisson distribution which is in itself a special version of the Binomial distribution with many trials and a low success rate. The zero-inflated Poisson may also be expressed as ($F$ and $S$ indicate binomial process has succeeded or failed in prohibiting the poisson process from happening, respectively):
 
@@ -524,7 +524,7 @@ The model I want to build will look at the following variables:
 - `camper`. I assume that being a camper increases the chances that one goes fishing, but not necessarily the number of fish caught.  
 - `persons`. I assume that the number of people in a group increases how many fish are caught.  
 - `child`. Being a child should reasonably determine both whether one fishes (I assume children fish less - call it personal bias) and also that they are less effective than adults.  
-- `hours`. How long one fishes surely determines how many fish are caught. I assume that we should log-transform these data to account for the drastically increasing odds of catching fish when staying longer.  
+- `hours`. How long one fishes surely determines how many fish are caught. I want to include the base rate of these into my model of fish caught. Since said model will be log-linked, I log-transform them.  
 
 Let me fit that model:
 ```{r}
@@ -543,7 +543,7 @@ mH6 <- ulam(
 precis(mH6)
 ```
 
-Overall, park visitors are unlikely to fish (`a0 =``r round(precis(mH6)[2,1], 2)`, logit scale). Counter to my intuition, campers are less likely to fish (`bC0`) while children are more likely to fish (`bc0`). I suggest this is because some children like fishing and want to do it as much as possible (my child-self shudders at the thought), while campers might have to worry about refrigeration or carrying loads of fishing gear on their trips and thus don't fish to begin with.  
+Remember that $p$ stands for the probability of **not** going to fish. Overall, park visitors are pretty likely to fish (`a0 =``r round(precis(mH6)[2,1], 2)`, logit scale). In line with my intuition, campers are more likely to fish (`bC0`) while children are less likely to fish (`bc0`).  
 
 Once one is actually fishing, one is not likely to catch much fish (`a=``r round(precis(mH6)[1,1], 2)`). The parameters pertaining to number of fish caught are expressed on log-scale and so transforming `a` into the outcome scale (counts of fish) by exponentiating, an adult who fishes by themselves without livebait (this is what `a` refers to) catches around `r exp(round(precis(mH6)[1,1], 2))` fish on average. More people catch more fish (`bp`). Using livebait is effective (`bb`). In line with my intuition, children catch less fish than adults (`bc`). Lastly, the more time one spends fishing, the more fish one catches (`bl`).
 
