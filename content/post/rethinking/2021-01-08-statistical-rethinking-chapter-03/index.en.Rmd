@@ -9,7 +9,7 @@ tags:
   - Statistics
   - Bayesian Statistics
   - AU Bayes Study Group
-subtitle: 'Small Worlds in Large Worlds'
+subtitle: 'Sampling the Imaginary'
 summary: 'Answers and solutions to the exercises belonging to chapter 3 in [Satistical Rethinking 2](https://xcelab.net/rm/statistical-rethinking/) by Richard McElreath.'
 authors: []
 lastmod: '2021-01-07T08:00:00+01:00'
