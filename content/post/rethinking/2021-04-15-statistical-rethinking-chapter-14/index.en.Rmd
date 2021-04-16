@@ -45,6 +45,7 @@ For today's exercise, I load the following packages:
 library(rethinking)
 library(rstan)
 library(MASS)
+library(ellipse)
 library(ape)
 library(ggplot2)
 library(tidybayes)

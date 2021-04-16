@@ -55,6 +55,7 @@ the solutions provided to instructors by Richard McElreath himself.</p>
 <pre class="r"><code>library(rethinking)
 library(rstan)
 library(MASS)
+library(ellipse)
 library(ape)
 library(ggplot2)
 library(tidybayes)</code></pre>
@@ -374,10 +375,10 @@ precis(m_M3NonCent, 3)</code></pre>
 <p>So what about running time?</p>
 <pre class="r"><code># Centred
 End_C - Begin_C</code></pre>
-<pre><code>## Time difference of 30.1616 secs</code></pre>
+<pre><code>## Time difference of 31.60123 secs</code></pre>
 <pre class="r"><code># Non-Centred
 End_NC - Begin_NC</code></pre>
-<pre><code>## Time difference of 25.81604 secs</code></pre>
+<pre><code>## Time difference of 27.44722 secs</code></pre>
 <p>Ok. The non-centred model ran slightly faster.</p>
 </div>
 <div id="practice-m4" class="section level2">
@@ -546,15 +547,16 @@ m_M5GP &lt;- ulam(
 <h2>Practice H1</h2>
 <p><strong>Question:</strong> Let’s revisit the Bangladesh fertility data, <code>data(bangladesh)</code>, from the practice problems for Chapter 13. Fit a model with both varying intercepts by <code>district_id</code> and varying slopes of urban by <code>district_id</code>. You are still predicting <code>use.contraception</code>.</p>
 <p>Inspect the correlation between the intercepts and slopes. Can you interpret this correlation, in terms of what it tells you about the pattern of contraceptive use in the sample? It might help to plot the mean (or median) varying effect estimates for both the intercepts and slopes, by district. Then you can visualize the correlation and maybe more easily think through what it means to have a particular correlation. Plotting predicted proportion of women using contraception, with urban women on one axis and rural on the other, might also help.</p>
-<p><strong>Answer:</strong></p>
+<p><strong>Answer:</strong> Once more, I start by loading the data and preparing it as was done in a previous chapter:</p>
 <pre class="r"><code>data(bangladesh)
 d &lt;- bangladesh
 dat_list &lt;- list(
   C = d$use.contraception,
   did = as.integer(as.factor(d$district)),
   urban = d$urban
-)
-m14H1.1 &lt;- ulam(
+)</code></pre>
+<p>Now I can run my model:</p>
+<pre class="r"><code>m_H1 &lt;- ulam(
   alist(
     C ~ bernoulli(p),
     logit(p) &lt;- a[did] + b[did] * urban,
@@ -566,11 +568,14 @@ m14H1.1 &lt;- ulam(
   ),
   data = dat_list, chains = 4, cores = 4, iter = 4000
 )</code></pre>
-<pre class="r"><code>precis(m14H1.1)</code></pre>
+<p>And now look at the posterior estimates of average effects:</p>
+<pre class="r"><code>precis(m_H1)</code></pre>
 <pre><code>##            mean        sd       5.5%      94.5%    n_eff    Rhat4
 ## abar -0.6842219 0.1003302 -0.8475050 -0.5301731 6158.562 1.000395
 ## bbar  0.6369826 0.1590421  0.3866908  0.8900233 4474.285 1.000145</code></pre>
-<pre class="r"><code>precis(m14H1.1, depth = 3, pars = c(&quot;Rho&quot;, &quot;Sigma&quot;))</code></pre>
+<p>Unsurprisingly, I find a positive effect for <code>bbar</code> which indicates that contraception is used more frequently in urban areas.</p>
+<p>Looking deeper into the posterior estimates:</p>
+<pre class="r"><code>precis(m_H1, depth = 3, pars = c(&quot;Rho&quot;, &quot;Sigma&quot;))</code></pre>
 <pre><code>##                mean           sd       5.5%      94.5%     n_eff     Rhat4
 ## Rho[1,1]  1.0000000 0.000000e+00  1.0000000  1.0000000       NaN       NaN
 ## Rho[1,2] -0.6512997 1.696069e-01 -0.8680436 -0.3443487 1431.4457 1.0003693
@@ -578,13 +583,14 @@ m14H1.1 &lt;- ulam(
 ## Rho[2,2]  1.0000000 5.972661e-17  1.0000000  1.0000000 7485.2487 0.9994999
 ## Sigma[1]  0.5762512 9.710360e-02  0.4308600  0.7404430 1990.0617 1.0021542
 ## Sigma[2]  0.7731623 1.991282e-01  0.4617857  1.0991674  967.7497 1.0034399</code></pre>
-<pre class="r"><code>post &lt;- extract.samples(m14H1.1)
+<p>shows a negative correlation between the intercepts and slopes (<code>Rho[1,2]</code> or <code>Rho[2,1]</code>).</p>
+<p>Let’s plot this relationship between the varying effects to get a better understanding of what is happening:</p>
+<pre class="r"><code>post &lt;- extract.samples(m_H1)
 a &lt;- apply(post$a, 2, mean)
 b &lt;- apply(post$b, 2, mean)
 plot(a, b, xlab = &quot;a (intercept)&quot;, ylab = &quot;b (urban slope)&quot;)
 abline(h = 0, lty = 2)
 abline(v = 0, lty = 2)
-library(ellipse)
 R &lt;- apply(post$Rho, 2:3, mean)
 s &lt;- apply(post$Sigma, 2, mean)
 S &lt;- diag(s) %*% R %*% diag(s)
@@ -593,45 +599,27 @@ for (l in ll) {
   el &lt;- ellipse(S, centre = c(mean(post$abar), mean(post$bbar)), level = l)
   lines(el, col = &quot;black&quot;, lwd = 0.5)
 }</code></pre>
-<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-26-1.png" width="1440" /></p>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-27-1.png" width="1440" /></p>
+<p>So districts with higher use of contraception outside of urban areas come with smaller slopes. Basically, what this means is that districts which boast a high use of contraception outside of urban areas do not have a marked shift in use of contraceptives when moving to urban areas.</p>
+<p>We can also show this in probability scale by applying inverse logit transformation to our estimates:</p>
 <pre class="r"><code>u0 &lt;- inv_logit(a)
 u1 &lt;- inv_logit(a + b)
 plot(u0, u1, xlim = c(0, 1), ylim = c(0, 1), xlab = &quot;urban = 0&quot;, ylab = &quot;urban = 1&quot;)
 abline(h = 0.5, lty = 2)
 abline(v = 0.5, lty = 2)</code></pre>
-<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-27-1.png" width="1440" /></p>
-<pre class="r"><code># version with matrix instead of slopes
-dat_list$uid &lt;- dat_list$urban + 1L
-m14H1.2 &lt;- ulam(
-  alist(
-    C ~ bernoulli(p),
-    logit(p) &lt;- a[did, uid],
-    vector[2]:a[did] ~ multi_normal(c(abar, bbar), Rho, Sigma),
-    abar ~ normal(0, 1),
-    bbar ~ normal(0, 1),
-    Rho ~ lkj_corr(2),
-    Sigma ~ exponential(1)
-  ),
-  data = dat_list, chains = 4, cores = 4, iter = 4000
-)
-precis(m14H1.2, depth = 3, pars = &quot;Rho&quot;)</code></pre>
-<pre><code>##               mean          sd       5.5%     94.5%    n_eff     Rhat4
-## Rho[1,1]  1.000000 0.00000e+00  1.0000000 1.0000000      NaN       NaN
-## Rho[1,2] -0.099816 2.83942e-01 -0.5358482 0.3780365 1778.076 1.0013818
-## Rho[2,1] -0.099816 2.83942e-01 -0.5358482 0.3780365 1778.076 1.0013818
-## Rho[2,2]  1.000000 9.14476e-17  1.0000000 1.0000000 7621.047 0.9994999</code></pre>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-28-1.png" width="1440" /></p>
 </div>
 <div id="practice-h2" class="section level2">
 <h2>Practice H2</h2>
 <p><strong>Question:</strong> Varying effects models are useful for modelling time series, as well as spatial clustering. In a time series, the observations cluster by entities that have continuity through time, such as individuals. Since observations within individuals are likely highly correlated, the multilevel structure can help quite a lot. You’ll use the data in <code>data(Oxboys)</code>, which is 234 height measurements on 26 boys from an Oxford Boys Club (I think these were like youth athletic leagues?), at 9 different ages (centred and standardized) per boy.</p>
 <p>You’ll be interested in predicting <code>height</code>, using <code>age</code>, clustered by <code>Subject</code> (individual boy). Fit a model with varying intercepts and slopes (on <code>age</code>), clustered by <code>Subject</code>. Present and interpret the parameter estimates. Which varying effect contributes more variation to the heights, the intercept or the slope?</p>
-<p><strong>Answer:</strong></p>
+<p><strong>Answer:</strong> I start with loading the data, standardising the age data, and making the subject IDs into an index:</p>
 <pre class="r"><code>data(Oxboys)
 d &lt;- Oxboys
 d$A &lt;- standardize(d$age)
-d$id &lt;- coerce_index(d$Subject)
-
-m14H4.1 &lt;- ulam(
+d$id &lt;- coerce_index(d$Subject)</code></pre>
+<p>Armed with my data, I can now turn to modelling:</p>
+<pre class="r"><code>m_H2 &lt;- ulam(
   alist(
     height ~ dnorm(mu, sigma),
     mu &lt;- a_bar + a[id] + (b_bar + b[id]) * A,
@@ -643,37 +631,42 @@ m14H4.1 &lt;- ulam(
     sigma ~ dexp(1)
   ),
   data = d, chains = 4, cores = 4, iter = 4000
-)
-
-## R code 14.32
-precis(m14H4.1, depth = 2, pars = c(&quot;a_bar&quot;, &quot;b_bar&quot;, &quot;sigma_id&quot;))</code></pre>
-<pre><code>##                   mean        sd       5.5%      94.5%     n_eff    Rhat4
-## a_bar       149.553864 1.3599070 147.392988 151.730080  261.2183 1.017370
-## b_bar         4.233350 0.2065606   3.908525   4.576870  442.0682 1.009450
-## sigma_id[1]   7.330378 0.8850019   6.075158   8.865113 5532.0068 1.000994
-## sigma_id[2]   1.062759 0.1487670   0.851210   1.320576 5813.4313 1.001454</code></pre>
-<pre class="r"><code>## R code 14.33
-plot(height ~ age, type = &quot;n&quot;, data = d)
+)</code></pre>
+<p>The model has compiled and I am interested in the output it produced concerning average effects and variation:</p>
+<pre class="r"><code>precis(m_H2, depth = 2, pars = c(&quot;a_bar&quot;, &quot;b_bar&quot;, &quot;sigma_id&quot;))</code></pre>
+<pre><code>##                   mean        sd        5.5%      94.5%     n_eff    Rhat4
+## a_bar       149.523993 1.3844230 147.2887666 151.690432  293.0144 1.011856
+## b_bar         4.230315 0.2073667   3.8999943   4.554123  414.4092 1.003962
+## sigma_id[1]   7.331832 0.8789976   6.0675622   8.840290 4173.7730 1.001038
+## sigma_id[2]   1.065676 0.1525730   0.8508899   1.336301 4141.6398 1.000750</code></pre>
+<p>Since age is standardised, <code>a_bar</code> represent the average height at average age in the data set. The average slope <code>b_bar</code> represents change in height for a one-unit change in standardised age.</p>
+<p>I don’t like interpreting standardised data coefficients like that. Let’s rather plot it:</p>
+<pre class="r"><code>plot(height ~ age, type = &quot;n&quot;, data = d)
 for (i in 1:26) {
   h &lt;- d$height[d$Subject == i]
   a &lt;- d$age[d$Subject == i]
   lines(a, h, col = col.alpha(&quot;slateblue&quot;, 0.5), lwd = 2)
 }</code></pre>
-<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-29-1.png" width="1440" /></p>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-32-1.png" width="1440" /></p>
+<p>Now the the task at hand. Which effect contributes more to the overall heights of our individuals? Given the plot above, I’d argue that it is the varying intercepts which provide us with most of the variation in heights. However, this is very much down to the data and should not be generalised beyond this data set. It might completely fall apart if we had longer time-series of data values.</p>
 </div>
 <div id="practice-h3" class="section level2">
 <h2>Practice H3</h2>
 <p><strong>Question:</strong> Now consider the correlation between the varying intercepts and slopes. Can you explain its value? How would this estimated correlation influence your predictions about a new sample of boys?</p>
-<p><strong>Answer:</strong></p>
-<pre class="r"><code>precis(m14H4.1, depth = 3, pars = &quot;Rho_id&quot;)</code></pre>
+<p><strong>Answer:</strong> For this, we look at the correlation matrix <code>Rho_id</code>:</p>
+<pre class="r"><code>precis(m_H2, depth = 3, pars = &quot;Rho_id&quot;)</code></pre>
 <pre><code>##                  mean           sd      5.5%     94.5%    n_eff     Rhat4
 ## Rho_id[1,1] 1.0000000 0.000000e+00 1.0000000 1.0000000      NaN       NaN
-## Rho_id[1,2] 0.5306803 1.301624e-01 0.3046068 0.7146637 5306.552 1.0005286
-## Rho_id[2,1] 0.5306803 1.301624e-01 0.3046068 0.7146637 5306.552 1.0005286
-## Rho_id[2,2] 1.0000000 7.816530e-17 1.0000000 1.0000000 8032.358 0.9994999</code></pre>
-<pre class="r"><code>rho &lt;- extract.samples(m14H4.1)$Rho_id[, 1, 2]
-dens(rho, xlab = &quot;rho&quot;, xlim = c(-1, 1))</code></pre>
-<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-31-1.png" width="1440" /></p>
+## Rho_id[1,2] 0.5307351 1.283373e-01 0.3046972 0.7170573 4627.842 1.0007918
+## Rho_id[2,1] 0.5307351 1.283373e-01 0.3046972 0.7170573 4627.842 1.0007918
+## Rho_id[2,2] 1.0000000 7.886203e-17 1.0000000 1.0000000 7829.277 0.9994999</code></pre>
+<p>So there is a positive correlation. Let’s visualise that:</p>
+<pre class="r"><code>ggplot() +
+  stat_halfeye(aes(x = extract.samples(m_H2)$Rho_id[, 1, 2])) +
+  theme_bw() +
+  labs(x = &quot;Rho&quot;)</code></pre>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-34-1.png" width="1440" /></p>
+<p>The positive correlation implies that larger intercepts are associated with steeper slopes. What this means is that taller boys grow faster.</p>
 </div>
 <div id="practice-h4" class="section level2">
 <h2>Practice H4</h2>
@@ -682,33 +675,35 @@ dens(rho, xlab = &quot;rho&quot;, xlim = c(-1, 1))</code></pre>
 <p>Note that you can construct an arbitrary variance-covariance matrix to pass to either <code>mvrnorm</code> or <code>rmvnorm</code> with something like:</p>
 <pre class="r"><code>S &lt;- matrix(c(sa^2, sa * sb * rho, sa * sb * rho, sb^2), nrow = 2)</code></pre>
 <p>where <code>sa</code> is the standard deviation of the first variable, <code>sb</code> is the standard deviation of the second variable, and <code>rho</code> is the correlation between them.</p>
-<p><strong>Answer:</strong></p>
-<pre class="r"><code>post &lt;- extract.samples(m14H4.1)
+<p><strong>Answer:</strong> To simulate new observations we need to obtain the estimates of our model so far:</p>
+<pre class="r"><code>post &lt;- extract.samples(m_H2)
 rho &lt;- mean(post$Rho_id[, 1, 2])
 sb &lt;- mean(post$sigma_id[, 2])
 sa &lt;- mean(post$sigma_id[, 1])
 sigma &lt;- mean(post$sigma)
 a &lt;- mean(post$a_bar)
 b &lt;- mean(post$b_bar)</code></pre>
+<p>Now we can define the variance-covariance matrix:</p>
 <pre class="r"><code>S &lt;- matrix(c(sa^2, sa * sb * rho, sa * sb * rho, sb^2), nrow = 2)
 round(S, 2)</code></pre>
 <pre><code>##       [,1] [,2]
-## [1,] 53.73 4.13
-## [2,]  4.13 1.13</code></pre>
-<pre class="r"><code>library(MASS)
-ve &lt;- mvrnorm(10, c(0, 0), Sigma = S)
+## [1,] 53.76 4.15
+## [2,]  4.15 1.14</code></pre>
+<p>Subsequently, we can sample from the multivariate normal distribution given our variance-covariance matrix to obtain a bivariate distribution of intercepts and slopes:</p>
+<pre class="r"><code>ve &lt;- mvrnorm(10, c(0, 0), Sigma = S)
 ve</code></pre>
 <pre><code>##             [,1]       [,2]
-##  [1,]  8.8118718  0.3425282
-##  [2,] -1.5223373  1.5489810
-##  [3,] -9.5160175 -0.6946599
-##  [4,]  7.6528054 -0.3613894
-##  [5,]  5.4696745 -0.3052917
-##  [6,] -0.3546606  0.1441858
-##  [7,]  7.2702030  2.9999903
-##  [8,]  2.8137520  0.1648644
-##  [9,] -6.3572098 -1.0134032
-## [10,] -7.1036042 -0.5961259</code></pre>
+##  [1,] -0.2914409 -0.8985609
+##  [2,]  8.8137562  0.3436168
+##  [3,] -1.5233131  1.5530926
+##  [4,] -9.5179212 -0.6967038
+##  [5,]  7.6547083 -0.3622056
+##  [6,]  5.4710535 -0.3060008
+##  [7,] -0.3548003  0.1445644
+##  [8,]  7.2706590  3.0081540
+##  [9,]  2.8143313  0.1653603
+## [10,] -6.3582595 -1.0162374</code></pre>
+<p>These are individual intercepts and slopes of 10 random boys have which we only need to add to the average intercept and slope values to generate predicted heights for them. Here, we simulate the trend for each boy and add it to a plot:</p>
 <pre class="r"><code>age.seq &lt;- seq(from = -1, to = 1, length.out = 9)
 plot(0, 0, type = &quot;n&quot;, xlim = range(d$age), ylim = range(d$height), xlab = &quot;age (centered)&quot;, ylab = &quot;height&quot;)
 for (i in 1:nrow(ve)) {
@@ -718,7 +713,7 @@ for (i in 1:nrow(ve)) {
   )
   lines(age.seq, h, col = col.alpha(&quot;slateblue&quot;, 0.5))
 }</code></pre>
-<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-36-1.png" width="1440" /></p>
+<p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-39-1.png" width="1440" /></p>
 </div>
 </div>
 <div id="session-info" class="section level1">
@@ -738,7 +733,7 @@ for (i in 1:nrow(ve)) {
 ## [1] parallel  stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ellipse_0.4.2        tidybayes_2.3.1      ape_5.4-1            MASS_7.3-51.6        rethinking_2.13      rstan_2.21.2         ggplot2_3.3.3        StanHeaders_2.21.0-7
+## [1] tidybayes_2.3.1      ape_5.4-1            ellipse_0.4.2        MASS_7.3-51.6        rethinking_2.13      rstan_2.21.2         ggplot2_3.3.3        StanHeaders_2.21.0-7
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] sass_0.3.1           tidyr_1.1.3          jsonlite_1.7.2       R.utils_2.10.1       bslib_0.2.4          RcppParallel_5.0.3   assertthat_0.2.1     distributional_0.2.2 highr_0.8           
