@@ -46,12 +46,12 @@ That being said, I realise that what I propose is quite a big-time commitment â€
 ## Meetings:
 -	Scheduling:  
     - Friday 1300-1600 GMT+1 (sessions end earlier if we are done earlier, of course)  
-    - Weekly (see Proposed [Timeline](/project/aubayes/Schedule.pdf/))  
+    - Weekly (see Proposed [Timeline](/project/aubayes/Schedule.pdf))  
 -	Location: Zoom @ https://aarhusuniversity.zoom.us/j/65455334420 (meetings will be recorded to make sure everyone can stay up-to-date even if they miss one or more sessions or are unable to join on-time, or stay for the entire duration).  
 
 ## Contents
 - We follow the material noted further down under Group Material  
-- We prepare ourselves by working through the material noted for each session in the Preparation Column in Proposed [Timeline](/project/aubayes/Schedule.pdf/)  
+- We prepare ourselves by working through the material noted for each session in the Preparation Column in Proposed [Timeline](/project/aubayes/Schedule.pdf)  
 - At the start of each session, either me or a volunteer quickly presents a summary of the preparation material. This does not mean a presenter should have mastered the material at all â€“ simply be able to provide a red-thread through the contents and get a discussion going. We then go into questions/challenges concerning the material, practical examples, and personal implementations.  
 
 ## Material
