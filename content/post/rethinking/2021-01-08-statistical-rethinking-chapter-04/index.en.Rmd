@@ -9,7 +9,7 @@ tags:
   - Statistics
   - Bayesian Statistics
   - AU Bayes Study Group
-subtitle: 'Small Worlds in Large Worlds'
+subtitle: 'Geocentric Models'
 summary: 'Answers and solutions to the exercises belonging to chapter 4 in [Satistical Rethinking 2](https://xcelab.net/rm/statistical-rethinking/) by Richard McElreath.'
 authors: []
 lastmod: '2021-01-08T09:00:00+01:00'
@@ -27,6 +27,11 @@ output:
 header-includes:
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+links: 
+- icon: file-powerpoint
+  icon_pack: fas
+  name: Slides - Chapter 4
+  url: /post/rethinking/3__08-01-2021_SUMMARY_-Linear-Regressions.html
 ---
 
 ```{r setup, include=FALSE}

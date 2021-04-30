@@ -27,6 +27,15 @@ output:
 header-includes:
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+links:
+- icon: file-powerpoint
+  icon_pack: fas
+  name: Slides - Chapter 10
+  url: /post/rethinking/11__05-03-2021_SUMMARY_-Generalised-Linear-Models.html
+- icon: file-powerpoint
+  icon_pack: fas
+  name: Slides - Chapter 11
+  url: /post/rethinking/13__19-03-2021_SUMMARY_-Discrete-Outcomes.html
 ---
 
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -191,9 +200,9 @@ m11.4 &lt;- ulam(
 ## Chain 1: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.445 seconds (Warm-up)
-## Chain 1:                0.509 seconds (Sampling)
-## Chain 1:                0.954 seconds (Total)
+## Chain 1:  Elapsed Time: 0.444 seconds (Warm-up)
+## Chain 1:                0.32 seconds (Sampling)
+## Chain 1:                0.764 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &#39;80e2b6267e3dc4ff0c2916d0cf0879e8&#39; NOW (CHAIN 2).
@@ -216,9 +225,9 @@ m11.4 &lt;- ulam(
 ## Chain 2: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.482 seconds (Warm-up)
-## Chain 2:                0.412 seconds (Sampling)
-## Chain 2:                0.894 seconds (Total)
+## Chain 2:  Elapsed Time: 0.472 seconds (Warm-up)
+## Chain 2:                0.345 seconds (Sampling)
+## Chain 2:                0.817 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &#39;80e2b6267e3dc4ff0c2916d0cf0879e8&#39; NOW (CHAIN 3).
@@ -241,9 +250,9 @@ m11.4 &lt;- ulam(
 ## Chain 3: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.431 seconds (Warm-up)
-## Chain 3:                0.323 seconds (Sampling)
-## Chain 3:                0.754 seconds (Total)
+## Chain 3:  Elapsed Time: 0.438 seconds (Warm-up)
+## Chain 3:                0.4 seconds (Sampling)
+## Chain 3:                0.838 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL &#39;80e2b6267e3dc4ff0c2916d0cf0879e8&#39; NOW (CHAIN 4).
@@ -266,23 +275,23 @@ m11.4 &lt;- ulam(
 ## Chain 4: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.485 seconds (Warm-up)
-## Chain 4:                0.332 seconds (Sampling)
-## Chain 4:                0.817 seconds (Total)
+## Chain 4:  Elapsed Time: 0.433 seconds (Warm-up)
+## Chain 4:                0.434 seconds (Sampling)
+## Chain 4:                0.867 seconds (Total)
 ## Chain 4:</code></pre>
 <pre class="r"><code>precis(m11.4, depth = 2)</code></pre>
-<pre><code>##             mean        sd        5.5%       94.5%     n_eff    Rhat4
-## a[1] -0.45350213 0.3289994 -1.00056594  0.06297082  752.6281 1.004181
-## a[2]  3.87772441 0.7581549  2.78739066  5.18963736 1087.4008 1.002890
-## a[3] -0.75629495 0.3309180 -1.28111524 -0.22684279  794.6715 1.003310
-## a[4] -0.75432022 0.3287244 -1.28859343 -0.22706321  703.7670 1.006296
-## a[5] -0.44227937 0.3233380 -0.96726036  0.07212239  794.9729 1.003323
-## a[6]  0.47199432 0.3352950 -0.06084106  1.01828636  746.1647 1.003032
-## a[7]  1.95799331 0.4144738  1.29986007  2.62585083  929.4140 1.005476
-## b[1] -0.04367392 0.2764061 -0.48454507  0.39286108  664.4983 1.005725
-## b[2]  0.48701340 0.2819234  0.04139252  0.93745991  677.1801 1.005220
-## b[3] -0.38634421 0.2829264 -0.84318768  0.08653495  668.6513 1.007385
-## b[4]  0.37602499 0.2749174 -0.04839728  0.82252808  661.5928 1.003542</code></pre>
+<pre><code>##             mean        sd        5.5%       94.5%     n_eff     Rhat4
+## a[1] -0.44319668 0.3201347 -0.95932632  0.06464311  898.0088 1.0042187
+## a[2]  3.91690073 0.7508824  2.80452863  5.18343634 1145.0790 0.9994056
+## a[3] -0.73763664 0.3206042 -1.24420231 -0.23999186  822.7311 1.0035635
+## a[4] -0.74451936 0.3185414 -1.25899987 -0.24484663  903.2400 1.0032082
+## a[5] -0.43663373 0.3169569 -0.94212415  0.08394583  776.0552 1.0006315
+## a[6]  0.48631795 0.3175601 -0.02888975  0.99752243  863.4668 1.0038621
+## a[7]  1.96374347 0.4207835  1.31028877  2.64342603 1123.7412 1.0031777
+## b[1] -0.04412256 0.2761392 -0.47976601  0.39672121  767.8359 1.0035811
+## b[2]  0.46665942 0.2741883  0.02494360  0.90318970  780.3438 1.0049308
+## b[3] -0.38624974 0.2807846 -0.83367927  0.05851045  757.8729 1.0028561
+## b[4]  0.35815870 0.2804942 -0.07952841  0.81113205  831.6124 1.0022704</code></pre>
 <pre class="r"><code>## Quap Model
 m11.4quap &lt;- quap(
   alist(
@@ -368,9 +377,9 @@ dens(postq$a[, 2], add = TRUE, lwd = 2, col = rangi2)</code></pre>
 ## Chain 1: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.438 seconds (Warm-up)
-## Chain 1:                0.347 seconds (Sampling)
-## Chain 1:                0.785 seconds (Total)
+## Chain 1:  Elapsed Time: 0.454 seconds (Warm-up)
+## Chain 1:                0.372 seconds (Sampling)
+## Chain 1:                0.826 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &#39;80e2b6267e3dc4ff0c2916d0cf0879e8&#39; NOW (CHAIN 2).
@@ -393,15 +402,15 @@ dens(postq$a[, 2], add = TRUE, lwd = 2, col = rangi2)</code></pre>
 ## Chain 2: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.426 seconds (Warm-up)
-## Chain 2:                0.449 seconds (Sampling)
-## Chain 2:                0.875 seconds (Total)
+## Chain 2:  Elapsed Time: 0.484 seconds (Warm-up)
+## Chain 2:                0.401 seconds (Sampling)
+## Chain 2:                0.885 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &#39;80e2b6267e3dc4ff0c2916d0cf0879e8&#39; NOW (CHAIN 3).
 ## Chain 3: 
-## Chain 3: Gradient evaluation took 0.001 seconds
-## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 10 seconds.
+## Chain 3: Gradient evaluation took 0 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
 ## Chain 3: Adjust your expectations accordingly!
 ## Chain 3: 
 ## Chain 3: 
@@ -418,9 +427,9 @@ dens(postq$a[, 2], add = TRUE, lwd = 2, col = rangi2)</code></pre>
 ## Chain 3: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.446 seconds (Warm-up)
-## Chain 3:                0.423 seconds (Sampling)
-## Chain 3:                0.869 seconds (Total)
+## Chain 3:  Elapsed Time: 0.598 seconds (Warm-up)
+## Chain 3:                0.43 seconds (Sampling)
+## Chain 3:                1.028 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL &#39;80e2b6267e3dc4ff0c2916d0cf0879e8&#39; NOW (CHAIN 4).
@@ -443,16 +452,16 @@ dens(postq$a[, 2], add = TRUE, lwd = 2, col = rangi2)</code></pre>
 ## Chain 4: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.506 seconds (Warm-up)
-## Chain 4:                0.401 seconds (Sampling)
-## Chain 4:                0.907 seconds (Total)
+## Chain 4:  Elapsed Time: 0.486 seconds (Warm-up)
+## Chain 4:                0.376 seconds (Sampling)
+## Chain 4:                0.862 seconds (Total)
 ## Chain 4:</code></pre>
 <p>To compare these, we can run:</p>
 <pre class="r"><code>(comp &lt;- compare(m11.1, m11.3, m11.4))</code></pre>
-<pre><code>##           WAIC        SE    dWAIC      dSE     pWAIC       weight
-## m11.4 531.8877 18.864245   0.0000       NA 8.3161813 1.000000e+00
-## m11.3 682.1032  9.088814 150.2155 18.32534 3.4542133 2.405025e-33
-## m11.1 687.9213  7.161993 156.0336 18.90700 0.9904429 1.311424e-34</code></pre>
+<pre><code>##           WAIC        SE    dWAIC      dSE    pWAIC       weight
+## m11.4 532.1514 18.913222   0.0000       NA 8.447116 1.000000e+00
+## m11.3 682.9607  9.082503 150.8093 18.40470 3.850675 1.787184e-33
+## m11.1 687.9642  7.148185 155.8128 18.95571 1.012012 1.464445e-34</code></pre>
 <pre class="r"><code>plot(comp)</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-11-1.png" width="1440" /></p>
 <p>This shows clearly that the model accounting for individual intercepts as well as treatment effects (<code>m11.4</code>) outperforms the simpler models.</p>
@@ -514,9 +523,9 @@ mH3ulam &lt;- ulam(f, data = d, chains = 4, log_lik = TRUE)</code></pre>
 ## Chain 1: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.033 seconds (Warm-up)
-## Chain 1:                0.027 seconds (Sampling)
-## Chain 1:                0.06 seconds (Total)
+## Chain 1:  Elapsed Time: 0.03 seconds (Warm-up)
+## Chain 1:                0.026 seconds (Sampling)
+## Chain 1:                0.056 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &#39;4eaf24dd51e5e9fce10e2cc7d32e0b01&#39; NOW (CHAIN 2).
@@ -564,8 +573,8 @@ mH3ulam &lt;- ulam(f, data = d, chains = 4, log_lik = TRUE)</code></pre>
 ## Chain 3: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.029 seconds (Warm-up)
-## Chain 3:                0.028 seconds (Sampling)
+## Chain 3:  Elapsed Time: 0.031 seconds (Warm-up)
+## Chain 3:                0.026 seconds (Sampling)
 ## Chain 3:                0.057 seconds (Total)
 ## Chain 3: 
 ## 
@@ -611,12 +620,12 @@ to use the <code>quap</code> estimates. Otherwise stick to <code>ulam</code> est
 <p>Let’s start by getting a baseline understanding of how often a non-adult, small-bodied pirate is able to fetch a salmon from a small-bodied victim(all dummy variables are at value 0) - this is our intercept <code>a</code>. These are log-odds:</p>
 <pre class="r"><code>post &lt;- extract.samples(mH3ulam)
 mean(logistic(post$a))</code></pre>
-<pre><code>## [1] 0.5726483</code></pre>
+<pre><code>## [1] 0.5732395</code></pre>
 <p>We expect about 0.57% of all of our immature, small pirates to be successful when pirating on small victims.</p>
 <p>Now that we are armed with our baseline, we are ready to look at how our slope parameters affect what’s happening in our model.</p>
 <p>First, we start with the effect of pirate-body-size (<code>bP</code>):</p>
 <pre class="r"><code>mean(logistic(post$a + post$bP))</code></pre>
-<pre><code>## [1] 0.8690942</code></pre>
+<pre><code>## [1] 0.8696391</code></pre>
 <p>Damn. Large-bodied pirates win almost all of the time! We could repeat this for all slope parameters, but I find it prudent to move on to our actual task:</p>
 <ol style="list-style-type: decimal">
 <li><strong>Probability</strong> of success:</li>
@@ -702,8 +711,8 @@ for (i in 1:8) lines(c(i, i), y.PI[, i])</code></pre>
 ## Chain 1: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.039 seconds (Warm-up)
-## Chain 1:                0.034 seconds (Sampling)
+## Chain 1:  Elapsed Time: 0.041 seconds (Warm-up)
+## Chain 1:                0.032 seconds (Sampling)
 ## Chain 1:                0.073 seconds (Total)
 ## Chain 1: 
 ## 
@@ -727,9 +736,9 @@ for (i in 1:8) lines(c(i, i), y.PI[, i])</code></pre>
 ## Chain 2: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.04 seconds (Warm-up)
-## Chain 2:                0.037 seconds (Sampling)
-## Chain 2:                0.077 seconds (Total)
+## Chain 2:  Elapsed Time: 0.033 seconds (Warm-up)
+## Chain 2:                0.034 seconds (Sampling)
+## Chain 2:                0.067 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &#39;3f6607198507ea4881438baca721629d&#39; NOW (CHAIN 3).
@@ -752,9 +761,9 @@ for (i in 1:8) lines(c(i, i), y.PI[, i])</code></pre>
 ## Chain 3: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.039 seconds (Warm-up)
-## Chain 3:                0.035 seconds (Sampling)
-## Chain 3:                0.074 seconds (Total)
+## Chain 3:  Elapsed Time: 0.036 seconds (Warm-up)
+## Chain 3:                0.031 seconds (Sampling)
+## Chain 3:                0.067 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL &#39;3f6607198507ea4881438baca721629d&#39; NOW (CHAIN 4).
@@ -777,14 +786,14 @@ for (i in 1:8) lines(c(i, i), y.PI[, i])</code></pre>
 ## Chain 4: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.039 seconds (Warm-up)
-## Chain 4:                0.038 seconds (Sampling)
-## Chain 4:                0.077 seconds (Total)
+## Chain 4:  Elapsed Time: 0.037 seconds (Warm-up)
+## Chain 4:                0.035 seconds (Sampling)
+## Chain 4:                0.072 seconds (Total)
 ## Chain 4:</code></pre>
 <pre class="r"><code>compare(mH3ulam, mH3c)</code></pre>
 <pre><code>##             WAIC       SE    dWAIC      dSE    pWAIC    weight
-## mH3ulam 58.91314 11.69245 0.000000       NA 8.236279 0.7393412
-## mH3c    60.99823 11.61813 2.085095 1.572937 9.219315 0.2606588</code></pre>
+## mH3ulam 58.68285 11.53306 0.000000       NA 8.151474 0.7332741
+## mH3c    60.70545 11.82203 2.022596 1.527644 8.977427 0.2667259</code></pre>
 <p>This is quite obviously a tie. So what about the model estimates?</p>
 <pre class="r"><code>plot(coeftab(mH3ulam, mH3c),
   labels = paste(rep(rownames(coeftab(mH3ulam, mH3c)@coefs), each = 2),
@@ -868,9 +877,9 @@ mH4a &lt;- ulam(f, data = d, chains = 4)</code></pre>
 ## Chain 1: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.028 seconds (Warm-up)
-## Chain 1:                0.027 seconds (Sampling)
-## Chain 1:                0.055 seconds (Total)
+## Chain 1:  Elapsed Time: 0.025 seconds (Warm-up)
+## Chain 1:                0.021 seconds (Sampling)
+## Chain 1:                0.046 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &#39;ce27f50b1ba56f91eaeb68bb1bf4432c&#39; NOW (CHAIN 2).
@@ -893,9 +902,9 @@ mH4a &lt;- ulam(f, data = d, chains = 4)</code></pre>
 ## Chain 2: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.025 seconds (Warm-up)
-## Chain 2:                0.024 seconds (Sampling)
-## Chain 2:                0.049 seconds (Total)
+## Chain 2:  Elapsed Time: 0.028 seconds (Warm-up)
+## Chain 2:                0.027 seconds (Sampling)
+## Chain 2:                0.055 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &#39;ce27f50b1ba56f91eaeb68bb1bf4432c&#39; NOW (CHAIN 3).
@@ -918,9 +927,9 @@ mH4a &lt;- ulam(f, data = d, chains = 4)</code></pre>
 ## Chain 3: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.026 seconds (Warm-up)
-## Chain 3:                0.022 seconds (Sampling)
-## Chain 3:                0.048 seconds (Total)
+## Chain 3:  Elapsed Time: 0.028 seconds (Warm-up)
+## Chain 3:                0.029 seconds (Sampling)
+## Chain 3:                0.057 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL &#39;ce27f50b1ba56f91eaeb68bb1bf4432c&#39; NOW (CHAIN 4).
@@ -944,8 +953,8 @@ mH4a &lt;- ulam(f, data = d, chains = 4)</code></pre>
 ## Chain 4: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 4: 
 ## Chain 4:  Elapsed Time: 0.027 seconds (Warm-up)
-## Chain 4:                0.023 seconds (Sampling)
-## Chain 4:                0.05 seconds (Total)
+## Chain 4:                0.024 seconds (Sampling)
+## Chain 4:                0.051 seconds (Total)
 ## Chain 4:</code></pre>
 <pre class="r"><code>mH4aquap &lt;- quap(f, data = d)
 plot(coeftab(mH4a, mH4aquap),
@@ -999,9 +1008,9 @@ mH4b &lt;- ulam(f2, data = d, chains = 4)</code></pre>
 ## Chain 1: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 0.039 seconds (Warm-up)
-## Chain 1:                0.037 seconds (Sampling)
-## Chain 1:                0.076 seconds (Total)
+## Chain 1:  Elapsed Time: 0.038 seconds (Warm-up)
+## Chain 1:                0.034 seconds (Sampling)
+## Chain 1:                0.072 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &#39;4850e2c86bda45f77f837aaee26a4da5&#39; NOW (CHAIN 2).
@@ -1024,9 +1033,9 @@ mH4b &lt;- ulam(f2, data = d, chains = 4)</code></pre>
 ## Chain 2: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 0.04 seconds (Warm-up)
-## Chain 2:                0.038 seconds (Sampling)
-## Chain 2:                0.078 seconds (Total)
+## Chain 2:  Elapsed Time: 0.039 seconds (Warm-up)
+## Chain 2:                0.035 seconds (Sampling)
+## Chain 2:                0.074 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &#39;4850e2c86bda45f77f837aaee26a4da5&#39; NOW (CHAIN 3).
@@ -1049,9 +1058,9 @@ mH4b &lt;- ulam(f2, data = d, chains = 4)</code></pre>
 ## Chain 3: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 0.041 seconds (Warm-up)
-## Chain 3:                0.039 seconds (Sampling)
-## Chain 3:                0.08 seconds (Total)
+## Chain 3:  Elapsed Time: 0.042 seconds (Warm-up)
+## Chain 3:                0.041 seconds (Sampling)
+## Chain 3:                0.083 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL &#39;4850e2c86bda45f77f837aaee26a4da5&#39; NOW (CHAIN 4).
@@ -1074,15 +1083,15 @@ mH4b &lt;- ulam(f2, data = d, chains = 4)</code></pre>
 ## Chain 4: Iteration: 900 / 1000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 1000 / 1000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 0.039 seconds (Warm-up)
+## Chain 4:  Elapsed Time: 0.042 seconds (Warm-up)
 ## Chain 4:                0.037 seconds (Sampling)
-## Chain 4:                0.076 seconds (Total)
+## Chain 4:                0.079 seconds (Total)
 ## Chain 4:</code></pre>
 <pre class="r"><code>precis(mH4b)</code></pre>
-<pre><code>##         mean        sd       5.5%     94.5%    n_eff    Rhat4
-## a  0.4907557 0.1395195  0.2625130 0.6996702 868.0426 1.001685
-## bA 0.0182695 0.1001303 -0.1470489 0.1743950 881.6340 1.008275
-## bC 1.0332802 0.1793381  0.7593776 1.3205069 786.1359 1.007009</code></pre>
+<pre><code>##          mean        sd       5.5%     94.5%     n_eff     Rhat4
+## a  0.48501073 0.1356178  0.2703595 0.6914366  779.7624 0.9999625
+## bA 0.01929243 0.0912697 -0.1286403 0.1673758 1115.1168 1.0034886
+## bC 1.04010957 0.1724133  0.7783443 1.3096594  803.6413 1.0015651</code></pre>
 <p>Fascinating! The estimate for <code>bA</code> is nearly <span class="math inline">\(0\)</span> with a lot of certainty (i.e. a small interval) behind it. While conditioning on percent cover, forest age does not influence salamander count. This looks like a post-treatment effect to me.</p>
 </div>
 </div>
@@ -1104,16 +1113,16 @@ mH4b &lt;- ulam(f2, data = d, chains = 4)</code></pre>
 ## [1] parallel  stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] MASS_7.3-51.6        tidybayes_2.3.1      rethinking_2.13      rstan_2.21.2         ggplot2_3.3.2        StanHeaders_2.21.0-7
+## [1] MASS_7.3-51.6        tidybayes_2.3.1      rethinking_2.13      rstan_2.21.2         ggplot2_3.3.3        StanHeaders_2.21.0-7
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_1.0.5           mvtnorm_1.1-1        lattice_0.20-41      tidyr_1.1.2          prettyunits_1.1.1    ps_1.3.4             assertthat_0.2.1     digest_0.6.27        V8_3.2.0            
-## [10] plyr_1.8.6           R6_2.5.0             backports_1.1.10     stats4_4.0.2         evaluate_0.14        coda_0.19-4          blogdown_1.0.2       pillar_1.4.6         rlang_0.4.10        
-## [19] curl_4.3             rstudioapi_0.11      callr_3.5.1          R.utils_2.10.1       R.oo_1.24.0          rmarkdown_2.6        styler_1.3.2         stringr_1.4.0        loo_2.4.1           
-## [28] munsell_0.5.0        compiler_4.0.2       xfun_0.20            pkgconfig_2.0.3      pkgbuild_1.1.0       shape_1.4.5          htmltools_0.5.0      tidyselect_1.1.0     tibble_3.0.3        
-## [37] gridExtra_2.3        bookdown_0.21        arrayhelpers_1.1-0   codetools_0.2-16     matrixStats_0.56.0   fansi_0.4.1          crayon_1.3.4         dplyr_1.0.2          withr_2.3.0         
-## [46] R.methodsS3_1.8.1    ggdist_2.4.0         grid_4.0.2           distributional_0.2.1 jsonlite_1.7.2       gtable_0.3.0         lifecycle_0.2.0      magrittr_2.0.1       scales_1.1.1        
-## [55] RcppParallel_5.0.2   cli_2.2.0            stringi_1.5.3        farver_2.0.3         ellipsis_0.3.1       generics_0.0.2       vctrs_0.3.4          rematch2_2.1.2       tools_4.0.2         
-## [64] forcats_0.5.0        svUnit_1.0.3         R.cache_0.14.0       glue_1.4.2           purrr_0.3.4          processx_3.4.4       yaml_2.2.1           inline_0.3.16        colorspace_1.4-1    
-## [73] knitr_1.30</code></pre>
+##  [1] Rcpp_1.0.6           mvtnorm_1.1-1        lattice_0.20-41      tidyr_1.1.3          prettyunits_1.1.1    ps_1.6.0             assertthat_0.2.1     digest_0.6.27        utf8_1.2.1          
+## [10] V8_3.4.0             plyr_1.8.6           R6_2.5.0             backports_1.2.1      stats4_4.0.2         evaluate_0.14        coda_0.19-4          highr_0.9            blogdown_1.3        
+## [19] pillar_1.6.0         rlang_0.4.10         curl_4.3             callr_3.7.0          jquerylib_0.1.3      R.utils_2.10.1       R.oo_1.24.0          rmarkdown_2.7        styler_1.4.1        
+## [28] stringr_1.4.0        loo_2.4.1            munsell_0.5.0        compiler_4.0.2       xfun_0.22            pkgconfig_2.0.3      pkgbuild_1.2.0       shape_1.4.5          htmltools_0.5.1.1   
+## [37] tidyselect_1.1.0     tibble_3.1.1         gridExtra_2.3        bookdown_0.21        arrayhelpers_1.1-0   codetools_0.2-16     matrixStats_0.58.0   fansi_0.4.2          crayon_1.4.1        
+## [46] dplyr_1.0.5          withr_2.4.2          R.methodsS3_1.8.1    distributional_0.2.2 ggdist_2.4.0         grid_4.0.2           jsonlite_1.7.2       gtable_0.3.0         lifecycle_1.0.0     
+## [55] DBI_1.1.1            magrittr_2.0.1       scales_1.1.1         RcppParallel_5.1.2   cli_2.4.0            stringi_1.5.3        farver_2.1.0         bslib_0.2.4          ellipsis_0.3.1      
+## [64] generics_0.1.0       vctrs_0.3.7          rematch2_2.1.2       forcats_0.5.1        tools_4.0.2          svUnit_1.0.6         R.cache_0.14.0       glue_1.4.2           purrr_0.3.4         
+## [73] processx_3.5.1       yaml_2.2.1           inline_0.3.17        colorspace_2.0-0     knitr_1.32           sass_0.3.1</code></pre>
 </div>

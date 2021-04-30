@@ -27,6 +27,11 @@ output:
 header-includes:
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+links:
+- icon: file-powerpoint
+  icon_pack: fas
+  name: Slides - Chapter 9
+  url: /post/rethinking/10__26-02-2021_SUMMARY_-MCMC.pptx.html
 ---
 
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -207,19 +212,19 @@ m.M1Uni &lt;- ulam(
 ## nobs      170     170</code></pre>
 <p>These are strikingly the same. What about the individual model outputs in more detail?</p>
 <pre class="r"><code>precis(m.M1Exp, depth = 2)</code></pre>
-<pre><code>##             mean          sd         5.5%       94.5%    n_eff     Rhat4
-## a[1]   0.8870009 0.016426009  0.860792179  0.91311718 3058.788 0.9996989
-## a[2]   1.0505361 0.010071546  1.034204572  1.06683596 2441.124 0.9999430
-## b[1]   0.1301043 0.077527323  0.004816816  0.25715720 2608.055 1.0003659
-## b[2]  -0.1406151 0.057408481 -0.229519391 -0.04690189 2217.859 0.9990160
-## sigma  0.1116362 0.006415611  0.102074010  0.12233708 1975.102 0.9998487</code></pre>
+<pre><code>##             mean          sd        5.5%       94.5%    n_eff     Rhat4
+## a[1]   0.8865564 0.015510598  0.86200325  0.91138982 3031.800 1.0015043
+## a[2]   1.0505815 0.009906150  1.03476280  1.06587747 3009.023 0.9986602
+## b[1]   0.1316994 0.073266600  0.01442329  0.24912656 2567.528 0.9994985
+## b[2]  -0.1427205 0.054396078 -0.23250879 -0.05435822 2577.099 0.9994622
+## sigma  0.1115593 0.006429337  0.10149863  0.12232310 3008.556 0.9983962</code></pre>
 <pre class="r"><code>precis(m.M1Uni, depth = 2)</code></pre>
 <pre><code>##             mean          sd        5.5%       94.5%    n_eff     Rhat4
-## a[1]   0.8868006 0.016145899  0.86083581  0.91210244 2324.419 0.9996491
-## a[2]   1.0503724 0.009881112  1.03492424  1.06566846 2246.733 0.9984072
-## b[1]   0.1349258 0.077868755  0.01094043  0.25535022 2022.241 0.9987576
-## b[2]  -0.1412553 0.056157769 -0.22859115 -0.04936888 2147.391 0.9994074
-## sigma  0.1116857 0.006618065  0.10138439  0.12259272 3154.068 0.9994567</code></pre>
+## a[1]   0.8863745 0.016118776  0.86099192  0.91194583 2611.365 1.0010248
+## a[2]   1.0503312 0.009879485  1.03510955  1.06537664 2731.848 0.9985196
+## b[1]   0.1317989 0.076187921  0.01015468  0.25606572 2151.178 1.0005439
+## b[2]  -0.1428677 0.057582799 -0.23752882 -0.05317706 2172.248 1.0006485
+## sigma  0.1115922 0.005954098  0.10270642  0.12160327 3098.717 1.0002062</code></pre>
 <p>Again, these are very similar aside from the effective number of samples (<code>n_eff</code>) which is much higher for all parameter estimates in the model with the exponential prior on <code>sigma</code> (<code>m.M1Exp</code>) except for <code>sigma</code> itself, which boasts a higher <code>n_eff</code> in the uniform-prior model (<code>m.M1Uni</code>). As such, we conclude that while the different priors have an impact on <code>n_eff</code>, they do not change the posterior distributions. Let me visualise this:</p>
 <pre class="r"><code>Plot_df &lt;- data.frame(
   Posteriors = c(
@@ -284,7 +289,7 @@ coeftab(Explist[[1]], Explist[[2]], Explist[[3]], Explist[[4]])</code></pre>
 ## a[1]     0.89         0.89         0.89         0.89     
 ## a[2]     1.05         1.05         1.05         1.05     
 ## b[1]     0.13         0.13         0.13         0.13     
-## b[2]    -0.14        -0.14        -0.14        -0.14     
+## b[2]    -0.14        -0.15        -0.14        -0.14     
 ## sigma    0.11         0.11         0.11         0.09     
 ## nobs      170          170          170          170</code></pre>
 <pre class="r"><code>coeftab(Caulist[[1]], Caulist[[2]], Caulist[[3]], Caulist[[4]])</code></pre>
@@ -354,12 +359,12 @@ for (i in 1:length(warm_list)) { # loop over warm_list and collect n_eff
 colnames(n_eff) &lt;- rownames(precis(m_temp, 2))
 rownames(n_eff) &lt;- warm_list
 n_eff # columns show parameters, rows show n_eff</code></pre>
-<pre><code>##             a[1]        a[2]        b[1]        b[2]       sigma
-## 5       5.903345    3.527661    7.476369    1.618142    3.695732
-## 10   2011.987593 1640.917138  973.329525 1104.374945  916.737856
-## 100  1661.106196 2258.688740  842.458239 1321.829745 1291.113859
-## 500  3189.427465 3502.669365 2790.076526 2624.348711 2221.655063
-## 1000 2702.581240 3247.665141 2185.635917 3004.055507 2912.602052</code></pre>
+<pre><code>##           a[1]       a[2]       b[1]       b[2]      sigma
+## 5     183.2503   43.06876   26.56609    9.49538   30.68489
+## 10   1675.4694 1585.83557  987.57928 1437.60536 1349.10366
+## 100  2677.0793 2128.86831  795.72972 1198.74889 1123.86516
+## 500  3270.1775 2784.87502 2475.93012 2193.86536 2377.33134
+## 1000 2697.5280 2604.32903 2596.03499 2307.15721 2235.93952</code></pre>
 <p>As we can see, past just 10 warmup samples, <code>n_eff</code> does not change much (in terms of how useful our samples are). In this case, we could be quite happy with a warmup of 10.</p>
 </div>
 </div>
@@ -383,9 +388,9 @@ n_eff # columns show parameters, rows show n_eff</code></pre>
 <p>Compare the samples for the parameters <code>a</code> and <code>b</code>. Can you explain the different trace plots, using what you know about the Cauchy distribution?</p>
 <p><strong>Answer:</strong> First of all, let’s inspect the posterior:</p>
 <pre class="r"><code>precis(mp)</code></pre>
-<pre><code>##           mean         sd      5.5%    94.5%    n_eff     Rhat4
-## a -0.001658073  0.9929496 -1.609535 1.576197 13228.47 0.9999635
-## b  0.211343696 17.6493463 -5.057218 5.139947  5656.09 0.9999865</code></pre>
+<pre><code>##          mean        sd      5.5%    94.5%     n_eff    Rhat4
+## a -0.02047831  1.001006 -1.641422 1.563926 13542.438 0.999995
+## b -0.14880387 12.056711 -5.619659 5.696048  2565.544 1.001984</code></pre>
 <p>Oof. Those uncertainties don’t look good at all! So what does the model even do? It simply just samples <code>a</code> from a normal distribution with mean 0 and standard deviation 1. <code>b</code> is sampled from a cauchy distribution. Let’s look at the traceplot for this:</p>
 <pre class="r"><code>plot(mp, n_cols = 1, col = &quot;royalblue4&quot;)</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-14-1.png" width="1440" /></p>
@@ -456,22 +461,22 @@ m5.3_stan &lt;- ulam(
 )</code></pre>
 <p>Now we compare the models:</p>
 <pre class="r"><code>compare(m5.1_stan, m5.2_stan, m5.3_stan, func = PSIS)</code></pre>
-<pre><code>##               PSIS        SE     dPSIS       dSE    pPSIS       weight
-## m5.1_stan 125.8327 12.851006  0.000000        NA 3.668253 0.6999619781
-## m5.3_stan 127.5320 12.816489  1.699247 0.8162701 4.701011 0.2992869363
-## m5.2_stan 139.5072  9.915891 13.674523 9.3466661 3.046405 0.0007510857</code></pre>
+<pre><code>##               PSIS        SE     dPSIS       dSE    pPSIS      weight
+## m5.1_stan 126.2612 13.117772  0.000000        NA 3.964718 0.748742859
+## m5.3_stan 128.4547 13.082707  2.193473 0.8111425 5.159298 0.250049605
+## m5.2_stan 139.1208  9.856804 12.859628 9.6374970 2.834047 0.001207536</code></pre>
 <pre class="r"><code>compare(m5.1_stan, m5.2_stan, m5.3_stan, func = WAIC)</code></pre>
-<pre><code>##               WAIC        SE     dWAIC       dSE    pWAIC       weight
-## m5.1_stan 125.7438 12.671502  0.000000        NA 3.623802 0.6865441502
-## m5.3_stan 127.3165 12.569254  1.572727 0.8350809 4.593300 0.3127195815
-## m5.2_stan 139.4195  9.772618 13.675663 9.2952338 3.002524 0.0007362682</code></pre>
+<pre><code>##               WAIC        SE     dWAIC       dSE    pWAIC      weight
+## m5.1_stan 126.1634 12.929713  0.000000        NA 3.915828 0.717680850
+## m5.3_stan 128.0375 12.679415  1.874051 0.8754981 4.950698 0.281181179
+## m5.2_stan 139.0570  9.728896 12.893556 9.5812746 2.802120 0.001137971</code></pre>
 <p>WAIC tells a similar story as PSIS, but the model only containing age (<code>m5.1_stan</code>) wins. The model with both predictors (<code>m5.3_stan</code>) does almost as well. However, their respective PSIS and WAIC values are nearly identical. Furthermore, both models get assigned all of the WAIC weight. Let’s call these equal in performance and investigate why:</p>
 <pre class="r"><code>precis(m5.3_stan)</code></pre>
-<pre><code>##               mean         sd       5.5%      94.5%    n_eff     Rhat4
-## a      0.001911015 0.10156156 -0.1593126  0.1619227 1411.228 0.9998513
-## bA    -0.613121357 0.15881769 -0.8630583 -0.3599152 1256.856 0.9996824
-## bM    -0.068096219 0.15901946 -0.3143977  0.1921707 1210.006 1.0004537
-## sigma  0.827959793 0.08583939  0.7048266  0.9760780 1518.261 0.9992775</code></pre>
+<pre><code>##               mean         sd       5.5%      94.5%    n_eff    Rhat4
+## a     -0.002532436 0.10071982 -0.1608884  0.1556612 1798.064 1.003274
+## bA    -0.604340251 0.16532280 -0.8622220 -0.3403890 1135.186 1.001120
+## bM    -0.061063639 0.16503227 -0.3267091  0.2006084 1079.065 1.000238
+## sigma  0.830525323 0.08932759  0.7003602  0.9876803 1260.195 1.000651</code></pre>
 <p>While <code>m5.3_stan</code> contains the marriage predictor, it is very unsure of it’s influence. In practical terms, this means that <code>m5.1_stan</code> and <code>m5.3_stan</code> make basically the same predictions</p>
 </div>
 <div id="practice-h3" class="section level2">
@@ -581,9 +586,9 @@ m.H4_2 &lt;- ulam(
 )</code></pre>
 <p>Now we compare them with WAIC:</p>
 <pre class="r"><code>compare(m.H4_1, m.H4_2)</code></pre>
-<pre><code>##            WAIC       SE     dWAIC      dSE    pWAIC    weight
-## m.H4_1 205.2138 10.78402 0.0000000       NA 3.230116 0.6027191
-## m.H4_2 206.0474 11.32360 0.8336155 2.593928 2.533800 0.3972809</code></pre>
+<pre><code>##            WAIC       SE     dWAIC       dSE    pWAIC  weight
+## m.H4_2 184.1422 11.79268 0.0000000        NA 3.150165 0.57075
+## m.H4_1 184.7120 11.69593 0.5698236 0.3362031 3.410374 0.42925</code></pre>
 <p>The models are pretty much tied. The model with truncated priors (<code>m.H4_2</code>) is less flexible as indicated by <code>pWAIC</code>. This is because the prior is more informative and the variance in the posterior distribution is smaller as a result.</p>
 </div>
 <div id="practice-h5" class="section level2">
@@ -668,16 +673,16 @@ abline(v = median(p_sample))</code></pre>
 ## [1] parallel  stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] tidybayes_2.3.1      rethinking_2.13      rstan_2.21.2         ggplot2_3.3.2        StanHeaders_2.21.0-7
+## [1] tidybayes_2.3.1      rethinking_2.13      rstan_2.21.2         ggplot2_3.3.3        StanHeaders_2.21.0-7
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_1.0.5           mvtnorm_1.1-1        lattice_0.20-41      tidyr_1.1.2          prettyunits_1.1.1    ps_1.3.4             assertthat_0.2.1     digest_0.6.27        V8_3.2.0            
-## [10] plyr_1.8.6           R6_2.5.0             backports_1.1.10     stats4_4.0.2         evaluate_0.14        coda_0.19-4          blogdown_1.0.2       pillar_1.4.6         rlang_0.4.10        
-## [19] curl_4.3             rstudioapi_0.11      callr_3.5.1          R.utils_2.10.1       R.oo_1.24.0          rmarkdown_2.6        styler_1.3.2         labeling_0.3         stringr_1.4.0       
-## [28] loo_2.4.1            munsell_0.5.0        compiler_4.0.2       xfun_0.20            pkgconfig_2.0.3      pkgbuild_1.1.0       shape_1.4.5          htmltools_0.5.0      tidyselect_1.1.0    
-## [37] tibble_3.0.3         gridExtra_2.3        bookdown_0.21        arrayhelpers_1.1-0   codetools_0.2-16     matrixStats_0.56.0   fansi_0.4.1          crayon_1.3.4         dplyr_1.0.2         
-## [46] withr_2.3.0          MASS_7.3-51.6        R.methodsS3_1.8.1    ggdist_2.4.0         grid_4.0.2           distributional_0.2.1 jsonlite_1.7.2       gtable_0.3.0         lifecycle_0.2.0     
-## [55] magrittr_2.0.1       scales_1.1.1         KernSmooth_2.23-17   RcppParallel_5.0.2   cli_2.2.0            stringi_1.5.3        farver_2.0.3         ellipsis_0.3.1       generics_0.0.2      
-## [64] vctrs_0.3.4          rematch2_2.1.2       tools_4.0.2          forcats_0.5.0        svUnit_1.0.3         R.cache_0.14.0       glue_1.4.2           purrr_0.3.4          processx_3.4.4      
-## [73] yaml_2.2.1           inline_0.3.16        colorspace_1.4-1     knitr_1.30</code></pre>
+##  [1] Rcpp_1.0.6           mvtnorm_1.1-1        lattice_0.20-41      tidyr_1.1.3          prettyunits_1.1.1    ps_1.6.0             assertthat_0.2.1     digest_0.6.27        utf8_1.2.1          
+## [10] V8_3.4.0             plyr_1.8.6           R6_2.5.0             backports_1.2.1      stats4_4.0.2         evaluate_0.14        coda_0.19-4          highr_0.9            blogdown_1.3        
+## [19] pillar_1.6.0         rlang_0.4.10         curl_4.3             callr_3.7.0          jquerylib_0.1.3      R.utils_2.10.1       R.oo_1.24.0          rmarkdown_2.7        styler_1.4.1        
+## [28] labeling_0.4.2       stringr_1.4.0        loo_2.4.1            munsell_0.5.0        compiler_4.0.2       xfun_0.22            pkgconfig_2.0.3      pkgbuild_1.2.0       shape_1.4.5         
+## [37] htmltools_0.5.1.1    tidyselect_1.1.0     tibble_3.1.1         gridExtra_2.3        bookdown_0.21        arrayhelpers_1.1-0   codetools_0.2-16     matrixStats_0.58.0   fansi_0.4.2         
+## [46] crayon_1.4.1         dplyr_1.0.5          withr_2.4.2          MASS_7.3-51.6        R.methodsS3_1.8.1    distributional_0.2.2 ggdist_2.4.0         grid_4.0.2           jsonlite_1.7.2      
+## [55] gtable_0.3.0         lifecycle_1.0.0      DBI_1.1.1            magrittr_2.0.1       scales_1.1.1         KernSmooth_2.23-17   RcppParallel_5.1.2   cli_2.4.0            stringi_1.5.3       
+## [64] farver_2.1.0         bslib_0.2.4          ellipsis_0.3.1       generics_0.1.0       vctrs_0.3.7          rematch2_2.1.2       forcats_0.5.1        tools_4.0.2          svUnit_1.0.6        
+## [73] R.cache_0.14.0       glue_1.4.2           purrr_0.3.4          processx_3.5.1       yaml_2.2.1           inline_0.3.17        colorspace_2.0-0     knitr_1.32           sass_0.3.1</code></pre>
 </div>

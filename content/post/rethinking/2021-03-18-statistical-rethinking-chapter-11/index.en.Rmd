@@ -27,6 +27,15 @@ output:
 header-includes:
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+links:
+- icon: file-powerpoint
+  icon_pack: fas
+  name: Slides - Chapter 10
+  url: /post/rethinking/11__05-03-2021_SUMMARY_-Generalised-Linear-Models.html
+- icon: file-powerpoint
+  icon_pack: fas
+  name: Slides - Chapter 11
+  url: /post/rethinking/13__19-03-2021_SUMMARY_-Discrete-Outcomes.html
 ---
 
 ```{r setup, include=FALSE}
@@ -34,7 +43,7 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, tidy='style
 options(width = 200)
 ```
 
-# Introduction
+# Introduction 
 These are answers and solutions to the exercises at the end of chapter 11 in [Satistical Rethinking 2](https://xcelab.net/rm/statistical-rethinking/) by Richard McElreath. For anyone reading through these in order and wondering why I skipped chapter 10: chapter 10 did not contain any exercises (to my dismay, as you can imagine). I have created these notes as a part of my ongoing involvement in the [AU Bayes Study Group](/project/aubayes/). Much of my inspiration for these solutions, where necessary, has been obtained from [Taras Svirskyi](https://github.com/jffist/statistical-rethinking-solutions/blob/master/ch10_hw.R), [William Wolf](https://github.com/cavaunpeu/statistical-rethinking/blob/master/chapter-10/homework.R), and [Corrie Bartelheimer](https://www.samples-of-thoughts.com/projects/statistical-rethinking/chapter_10/chp10-ex/) as well as the solutions provided to instructors by Richard McElreath himself.
 
 # `R` Environment

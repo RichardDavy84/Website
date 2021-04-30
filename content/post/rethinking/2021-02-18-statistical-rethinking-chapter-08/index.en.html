@@ -27,6 +27,11 @@ output:
 header-includes:
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+links:
+- icon: file-powerpoint
+  icon_pack: fas
+  name: Slides - Chapter 8
+  url: /post/rethinking/9__19-02-2021_SUMMARY_-Interactions.html
 ---
 
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -159,8 +164,8 @@ library(viridis)</code></pre>
 <h2>Practice M3</h2>
 <p><strong>Question:</strong> In parts of North America, ravens depend upon wolves for their food. This is because ravens are carnivorous but cannot usually kill or open carcasses of prey. Wolves however can and do kill and tear open animals, and they tolerate ravens co-feeding at their kills. This species relationship is generally described as a “species interaction.” Can you invent a hypothetical set of data on raven population size in which this relationship would manifest as a statistical interaction? Do you think the biological interaction could be linear? Why or why not?</p>
 <p><strong>Answer:</strong> Here’s our regression:</p>
-<p><span class="math inline">\(Ravens∼Normal(μ,σ)\)</span>
-<span class="math inline">\(μ=α+β_pPrey+β_wWolves+β_{pw}Prey*Wolves\)</span></p>
+<p><span class="math inline">\(Ravens∼Normal(μ,σ)\)</span></p>
+<p><span class="math inline">\(μ=α+β_pPrey+β_wWolves+β_{pw}Prey*Wolves\)</span></p>
 <p>with <span class="math inline">\(Ravens\)</span>, <span class="math inline">\(Wolves\)</span>, and <span class="math inline">\(Prey\)</span> being the number of ravens, wolves, and prey animals respectively, in a given habitat.</p>
 <p>Now let’s make up some data with an in-built interaction effect:</p>
 <pre class="r"><code>N &lt;- 1e5 # simulation size
@@ -194,11 +199,11 @@ plot(ravens ~ wolves, data = d, main = &quot;Ravens like wolves?&quot;)</code></
 )
 precis(m)</code></pre>
 <pre><code>##              mean           sd        5.5%       94.5%
-## a      4.50859248 0.6936130174  3.40006491  5.61712004
-## bW    -0.30490482 0.0234754912 -0.34242319 -0.26738646
-## bP     0.05262504 0.0070951113  0.04128568  0.06396439
-## bPW    0.19995825 0.0002320752  0.19958735  0.20032915
-## sigma  9.04120174 0.0202191329  9.00888766  9.07351582</code></pre>
+## a      5.23865661 0.6934537526  4.13038358  6.34692964
+## bW    -0.32555056 0.0233550073 -0.36287638 -0.28822475
+## bP     0.04189237 0.0071095594  0.03052992  0.05325482
+## bPW    0.20027792 0.0002315187  0.19990791  0.20064793
+## sigma  9.01647173 0.0201640543  8.98424568  9.04869778</code></pre>
 <p>And we successfully reconstructed our input interactions.</p>
 </div>
 </div>
@@ -242,7 +247,7 @@ precis(m.H1, depth = 2)</code></pre>
 <h2>Practice H2</h2>
 <p><strong>Question:</strong> Use WAIC to compare the model from H1 to a model that omits bed. What do you infer from this comparison? Can you reconcile the WAIC results with the posterior distribution of the bed coefficients?</p>
 <p><strong>Answer:</strong></p>
-<pre class="r"><code>m.H2 &lt;- map(
+<pre class="r"><code>m.H2 &lt;- quap(
   alist(
     blooms ~ dnorm(mu, sigma),
     mu &lt;- a + bW * water_cent + bS * shade_cent + bWS * water_cent * shade_cent,
@@ -266,7 +271,7 @@ precis(m.H2)</code></pre>
 <pre><code>##          WAIC        SE    dWAIC      dSE     pWAIC    weight
 ## m.H2 295.0441  9.873189 0.000000       NA  6.062662 0.6776652
 ## m.H1 296.5302 10.544146 1.486126 8.181914 10.771689 0.3223348</code></pre>
-<p>The model including the bed index variables (<code>m.H1</code>) shows a slightly better WAIC than the model that omits the bed variable (<code>m.H2</code>), and most of the Akaike weight. Judging from this (and the variation in the bed intercepts of model <code>m.H1</code>), we can infer that there’s a lot of variability between the flower beds which model <code>m.H1</code> addresses. Let me visualise this in a plot:</p>
+<p>The model including the bed index variables (<code>m.H2</code>) shows a slightly better WAIC than the model that contains the bed variable (<code>m.H1</code>), and most of the Akaike weight. Judging from this (and the variation in the bed intercepts of model <code>m.H1</code>), we can infer that there’s a lot of variability between the flower beds which model <code>m.H1</code> addresses, but might overfit in doing so. Let me visualise this in a plot:</p>
 <pre class="r"><code>post &lt;- extract.samples(m.H1)
 post.a &lt;- post$a[, 1]
 post.b &lt;- post$a[, 2]
@@ -461,7 +466,7 @@ shade(mu.PI, sd.growing.season.seq)</code></pre>
 <h3>Part C</h3>
 <p><strong>Question:</strong> Finally, evaluate the hypothesis that <code>mean.growing.season</code> and <code>sd.growing.season</code> interact to synergistically reduce language diversity. The idea is that, in nations with longer average growing seasons, high variance makes storage and redistribution even more important than it would be otherwise. That way, people can cooperate to preserve and protect windfalls to be used during the droughts. These forces in turn may lead to greater social integration and fewer languages.</p>
 <p><strong>Answer:</strong> Again, I build a model which conditions on centred logarithmic area of nations, while building an interaction between <code>mean.growing.season</code> and <code>sd.growing.season</code>:</p>
-<pre class="r"><code>m.H4c &lt;- map(
+<pre class="r"><code>m.H4c &lt;- quap(
   alist(
     log_lpc ~ dnorm(mu, sigma),
     mu &lt;- a +
@@ -560,14 +565,15 @@ for (group in levels(d$mean.growing.season.group)) {
 ## [1] parallel  stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] viridis_0.5.1        viridisLite_0.3.0    rethinking_2.13      rstan_2.21.2         ggplot2_3.3.2        StanHeaders_2.21.0-6
+## [1] viridis_0.6.0        viridisLite_0.4.0    rethinking_2.13      rstan_2.21.2         ggplot2_3.3.3        StanHeaders_2.21.0-7
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] styler_1.3.2       shape_1.4.5        tidyselect_1.1.0   xfun_0.20          rematch2_2.1.2     purrr_0.3.4        lattice_0.20-41    V8_3.2.0           colorspace_1.4-1   vctrs_0.3.4       
-## [11] generics_0.0.2     htmltools_0.5.0    stats4_4.0.2       loo_2.4.1          yaml_2.2.1         rlang_0.4.10       pkgbuild_1.1.0     R.oo_1.24.0        pillar_1.4.6       glue_1.4.2        
-## [21] withr_2.3.0        R.utils_2.10.1     matrixStats_0.56.0 R.cache_0.14.0     lifecycle_0.2.0    stringr_1.4.0      munsell_0.5.0      blogdown_1.0.2     gtable_0.3.0       R.methodsS3_1.8.1 
-## [31] mvtnorm_1.1-1      coda_0.19-4        codetools_0.2-16   evaluate_0.14      inline_0.3.16      knitr_1.30         callr_3.5.1        ps_1.3.4           curl_4.3           fansi_0.4.1       
-## [41] Rcpp_1.0.5         scales_1.1.1       backports_1.1.10   RcppParallel_5.0.2 jsonlite_1.7.2     gridExtra_2.3      digest_0.6.27      stringi_1.5.3      bookdown_0.21      processx_3.4.4    
-## [51] dplyr_1.0.2        grid_4.0.2         cli_2.2.0          tools_4.0.2        magrittr_2.0.1     tibble_3.0.3       crayon_1.3.4       pkgconfig_2.0.3    MASS_7.3-51.6      ellipsis_0.3.1    
-## [61] prettyunits_1.1.1  assertthat_0.2.1   rmarkdown_2.6      rstudioapi_0.11    R6_2.5.0           compiler_4.0.2</code></pre>
+##  [1] Rcpp_1.0.6         mvtnorm_1.1-1      lattice_0.20-41    prettyunits_1.1.1  ps_1.6.0           assertthat_0.2.1   digest_0.6.27      utf8_1.2.1         V8_3.4.0           R6_2.5.0          
+## [11] backports_1.2.1    stats4_4.0.2       evaluate_0.14      coda_0.19-4        highr_0.9          blogdown_1.3       pillar_1.6.0       rlang_0.4.10       curl_4.3           callr_3.7.0       
+## [21] jquerylib_0.1.3    R.utils_2.10.1     R.oo_1.24.0        rmarkdown_2.7      styler_1.4.1       stringr_1.4.0      loo_2.4.1          munsell_0.5.0      compiler_4.0.2     xfun_0.22         
+## [31] pkgconfig_2.0.3    pkgbuild_1.2.0     shape_1.4.5        htmltools_0.5.1.1  tidyselect_1.1.0   tibble_3.1.1       gridExtra_2.3      bookdown_0.21      codetools_0.2-16   matrixStats_0.58.0
+## [41] fansi_0.4.2        crayon_1.4.1       dplyr_1.0.5        withr_2.4.2        MASS_7.3-51.6      R.methodsS3_1.8.1  grid_4.0.2         jsonlite_1.7.2     gtable_0.3.0       lifecycle_1.0.0   
+## [51] DBI_1.1.1          magrittr_2.0.1     scales_1.1.1       RcppParallel_5.1.2 cli_2.4.0          stringi_1.5.3      bslib_0.2.4        ellipsis_0.3.1     generics_0.1.0     vctrs_0.3.7       
+## [61] rematch2_2.1.2     tools_4.0.2        R.cache_0.14.0     glue_1.4.2         purrr_0.3.4        processx_3.5.1     yaml_2.2.1         inline_0.3.17      colorspace_2.0-0   knitr_1.32        
+## [71] sass_0.3.1</code></pre>
 </div>

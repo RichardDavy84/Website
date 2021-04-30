@@ -27,6 +27,11 @@ output:
 header-includes:
   <script src = "https://polyfill.io/v3/polyfill.min.js?features = es6"></script>
   <script id = "MathJax-script" async src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+links:
+- icon: file-powerpoint
+  icon_pack: fas
+  name: Slides - Chapter 12
+  url: /post/rethinking/14__26-03-2021_SUMMARY_-Hybrid-_-Ordered-Models.html
 ---
 
 <script src = "https://polyfill.io/v3/polyfill.min.js?features = es6"></script>
@@ -180,9 +185,9 @@ for (i in 1:N) {
 <p>I’d think that’s pretty alright. We allow for both positive and negative trends between death toll and femininity of hurricane name, but don’t have a lot of explosive trends in our priors. These strong trends are quite unintuitive. Our vast majority of trends however are very ambiguous and so I proceed with these priors and run the model:</p>
 <pre class="r"><code>mH1 &lt;- ulam(f, data = dat, chains = 4, cores = 4, log_lik = TRUE)
 precis(mH1)</code></pre>
-<pre><code>##         mean         sd      5.5%    94.5%   n_eff    Rhat4
-## a  3.0011225 0.02305395 2.9643139 3.037858 1095.81 1.003173
-## bF 0.2381546 0.02551419 0.1961523 0.277802 1097.82 1.000425</code></pre>
+<pre><code>##         mean         sd      5.5%     94.5%   n_eff     Rhat4
+## a  2.9998653 0.02345130 2.9622623 3.0368836 1198.55 1.0013218
+## bF 0.2378941 0.02423528 0.1999448 0.2766489 1367.56 0.9983856</code></pre>
 <p>So according to this, there is a positive relationship between hurricane name femininity and death toll. Which hurricanes do we actually retrodict well, though? Let’s plot, this:</p>
 <pre class="r"><code># plot raw data
 plot(dat$F, dat$D,
@@ -234,9 +239,9 @@ dat &lt;- list(D = d$deaths, F = d$fem_std)</code></pre>
 )
 precis(mH2)</code></pre>
 <pre><code>##            mean         sd        5.5%     94.5%    n_eff     Rhat4
-## a     2.9750833 0.15241943  2.73135328 3.2201295 1840.907 1.0007037
-## bF    0.2096633 0.15852806 -0.06066977 0.4568753 1737.687 1.0032361
-## scale 0.4526717 0.06157111  0.36177002 0.5563013 1582.942 0.9992381</code></pre>
+## a     2.9735807 0.15873978  2.71980856 3.2273444 2096.943 0.9997735
+## bF    0.2172123 0.15302770 -0.03677845 0.4554010 1538.676 0.9986574
+## scale 0.4534511 0.06101545  0.36222346 0.5564104 1850.649 1.0007542</code></pre>
 <p>Cool. Our previously identified positive relationship between standardised femininity of hurricane name and death toll is still there albeit slightly diminished in magnitude. However, the credible interval around it has widened considerably and overlaps zero now.</p>
 <p>Let’s compare the estimates of our models side by side:</p>
 <pre class="r"><code>plot(coeftab(mH1, mH2))</code></pre>
@@ -315,12 +320,12 @@ dat$S &lt;- standardize(d$damage_norm)</code></pre>
   data = dat, cores = 4, chains = 4, log_lik = TRUE
 )
 precis(mH3a)</code></pre>
-<pre><code>##             mean        sd        5.5%      94.5%    n_eff     Rhat4
-## a      2.7537263 0.1424118  2.52897893  2.9792885 1963.049 1.0005362
-## bFP    0.2990569 0.1459108  0.06688069  0.5357764 2269.179 0.9992969
-## bP    -0.6696190 0.1329508 -0.88662471 -0.4614541 2139.785 1.0017446
-## bF     0.2990252 0.1359571  0.07565061  0.5161007 2723.733 0.9993269
-## scale  0.5519572 0.0774131  0.43834593  0.6890679 2393.376 0.9992983</code></pre>
+<pre><code>##             mean         sd        5.5%      94.5%    n_eff     Rhat4
+## a      2.7480924 0.14797040  2.51802706  2.9826248 2779.554 0.9991208
+## bFP    0.3033002 0.14366822  0.07765289  0.5252648 2038.177 0.9998207
+## bP    -0.6775038 0.13796539 -0.89876426 -0.4637189 2245.162 0.9994850
+## bF     0.3020955 0.14253393  0.06907292  0.5218616 2758.835 1.0009592
+## scale  0.5519101 0.08253778  0.42639517  0.6899619 2521.881 0.9991405</code></pre>
 <p>As minimum pressure gets lower, a storm grows stronger (I was confused by that myself when answering these exercises). Quite obviously, the lower the pressure in a storm, the more severe the storm, and the more people die which is reflected by the negative value in <code>bP</code>. <code>bF</code> is still estimated to be positive. This time, the interval doesn’t even overlap zero. Meanwhile, the interaction effect <code>bFP</code> is positive. I find it hard to interpret this so I’d rather plot some predictions against real data:</p>
 <pre class="r"><code>P_seq &lt;- seq(from = -3, to = 2, length.out = 1e2) # pressure sequence
 # &#39;masculine&#39; storms
@@ -362,11 +367,11 @@ shade(sqrt(lambda_f.PI), P_seq, col = col.alpha(&quot;red&quot;, 0.2))</code></p
 )
 precis(mH3b)</code></pre>
 <pre><code>##             mean        sd        5.5%     94.5%    n_eff     Rhat4
-## a     2.56908000 0.1304770  2.36671231 2.7842179 2216.515 0.9982028
-## bFS   0.30400794 0.2087427 -0.04176328 0.6273293 1759.598 0.9991150
-## bS    1.25268501 0.2180578  0.91212949 1.6077408 1727.055 1.0016337
-## bF    0.08772286 0.1277631 -0.12208114 0.2925342 2042.188 1.0000276
-## scale 0.68204570 0.1074155  0.52088876 0.8662395 2122.844 0.9997403</code></pre>
+## a     2.57124612 0.1337868  2.35859198 2.7875071 2385.847 1.0001830
+## bFS   0.31046602 0.1988274 -0.02343345 0.6104912 2263.938 1.0016245
+## bS    1.25128079 0.2248294  0.90735742 1.6330986 2179.841 1.0001087
+## bF    0.08612896 0.1262273 -0.12038911 0.2904270 2270.913 0.9994756
+## scale 0.68412665 0.1023655  0.52962462 0.8539851 2156.253 1.0014874</code></pre>
 <p>That just eradicated the effect of femininity of hurricane name (<code>bF</code>)! The newly added interaction parameter <code>bFS</code> is incredibly strong and positive. Again, let’s visualise this:</p>
 <pre class="r"><code>S_seq &lt;- seq(from = -1, to = 5.5, length.out = 1e2) # damage sequence
 # &#39;masculine&#39; storms
@@ -415,8 +420,8 @@ dat$S2 &lt;- standardize(log(d$damage_norm))</code></pre>
 )
 compare(mH3b, mH4, func = PSIS)</code></pre>
 <pre><code>##          PSIS       SE    dPSIS      dSE    pPSIS       weight
-## mH4  630.3565 31.16778  0.00000       NA 5.200415 1.000000e+00
-## mH3b 671.1035 34.18459 40.74705 13.56113 7.021102 1.418702e-09</code></pre>
+## mH4  630.3395 31.13000  0.00000       NA 5.204153 1.000000e+00
+## mH3b 671.2661 34.22309 40.92665 13.62399 7.131042 1.296855e-09</code></pre>
 <p>Model <code>mH4</code> clearly outperforms the earlier (non-logarithmic) model <code>mH3b</code>. How do the parameter estimates look in comparison?</p>
 <pre class="r"><code>plot(coeftab(mH3b, mH4),
   labels = paste(rep(rownames(coeftab(mH3b, mH4)@coefs), each = 2),
@@ -478,24 +483,24 @@ mH5 &lt;- ulam(
   data = dat, chains = 4, cores = 4
 )
 precis(mH5, depth = 2)</code></pre>
-<pre><code>##                     mean         sd        5.5%      94.5%     n_eff     Rhat4
-## bIC[1]       -1.28438200 0.12682014 -1.48593219 -1.0786062 1483.8645 1.0007833
-## bIC[2]       -1.15279691 0.13987567 -1.38692760 -0.9303505 1399.8671 0.9988174
-## bIA[1]       -0.43368695 0.10445101 -0.60309334 -0.2645401 1078.3233 1.0014753
-## bIA[2]       -0.42464118 0.11274618 -0.60784122 -0.2498690 1180.3230 1.0013085
-## bC[1]        -0.48255246 0.09045891 -0.62685739 -0.3355816 1434.0651 1.0007258
-## bC[2]        -0.20223405 0.09853238 -0.35574113 -0.0354319 1598.8968 1.0001636
-## bI[1]        -0.34052448 0.07603971 -0.46111657 -0.2150078  890.4560 1.0022788
-## bI[2]        -0.25487005 0.08285436 -0.38371043 -0.1202881 1248.4622 1.0000670
-## bA[1]        -0.59641470 0.07128879 -0.70926375 -0.4792439 1035.6017 1.0021891
-## bA[2]        -0.33229148 0.07614396 -0.45198569 -0.2097412 1200.5916 1.0019337
-## a            -0.79053735 0.08251425 -0.92076174 -0.6597924  828.2629 1.0014635
-## cutpoints[1] -3.02541699 0.06486695 -3.12800448 -2.9200314  919.5311 1.0015704
-## cutpoints[2] -2.33124553 0.06242165 -2.42611561 -2.2310173  969.8017 1.0015733
-## cutpoints[3] -1.73194007 0.06032940 -1.82575050 -1.6319519  938.9117 1.0013917
-## cutpoints[4] -0.67649052 0.05840257 -0.76802852 -0.5804489  911.9953 1.0010693
-## cutpoints[5]  0.01411382 0.05881650 -0.07819344  0.1118190  919.6721 1.0013928
-## cutpoints[6]  0.94416666 0.05918589  0.85270343  1.0392702 1074.9609 1.0014996</code></pre>
+<pre><code>##                     mean         sd        5.5%       94.5%     n_eff     Rhat4
+## bIC[1]       -1.28776413 0.12452329 -1.49349376 -1.09043808 1210.4762 1.0001366
+## bIC[2]       -1.15514189 0.13629426 -1.37697516 -0.93731630 1291.4985 0.9991484
+## bIA[1]       -0.43745288 0.10184632 -0.60350695 -0.27738267 1525.4676 0.9991819
+## bIA[2]       -0.42701493 0.11528001 -0.60877149 -0.24292151 1426.6589 0.9982597
+## bC[1]        -0.47894931 0.09009984 -0.62355913 -0.33291247 1110.8138 1.0006476
+## bC[2]        -0.20209081 0.09928662 -0.36387442 -0.04410148 1291.8395 0.9992070
+## bI[1]        -0.33743538 0.07394627 -0.45406548 -0.22173726 1139.1604 1.0011958
+## bI[2]        -0.25429907 0.08275479 -0.38873521 -0.12311571 1198.5963 0.9982721
+## bA[1]        -0.59429031 0.07235707 -0.70868384 -0.47803201 1167.8686 1.0010484
+## bA[2]        -0.33249883 0.07800468 -0.45872190 -0.20674815 1240.8940 0.9992808
+## a            -0.78641535 0.08390429 -0.91792954 -0.65361595  900.4896 1.0011368
+## cutpoints[1] -3.02272722 0.06529648 -3.12770540 -2.92015258 1084.9758 1.0014825
+## cutpoints[2] -2.32822869 0.06142668 -2.42573329 -2.23193379 1099.1906 1.0005929
+## cutpoints[3] -1.72837561 0.05989128 -1.82493937 -1.63501623 1041.7192 1.0015730
+## cutpoints[4] -0.67227857 0.05731897 -0.76242491 -0.57960853 1056.7917 1.0018666
+## cutpoints[5]  0.01783675 0.05619122 -0.07240868  0.10860230 1120.0222 1.0022789
+## cutpoints[6]  0.94726231 0.05829195  0.85344993  1.04378423 1170.5995 1.0018747</code></pre>
 <p>The parameter estimates of interest here are:<br />
 1. <code>a</code> (-0.79) - main effect of being female on cumulative log-odds. On average women, have more moral qualms about the trolley problem it seems.<br />
 2. <code>bC[2]</code> (-0.2) - the interaction effect of being both female and in a contact scenario as opposed to <code>bc[1]</code> (-0.48) which is the same scenario but for men. Women in our set-up had less moral issues with contact events.</p>
@@ -542,22 +547,22 @@ mH6 &lt;- ulam(
 )
 precis(mH6)</code></pre>
 <pre><code>##           mean         sd       5.5%       94.5%    n_eff     Rhat4
-## a   -2.0827958 0.23806049 -2.4541585 -1.70779825 1156.618 0.9990500
-## a0  -0.4635851 0.26744553 -0.8969130 -0.04395758 1213.361 1.0010042
-## bl   0.1692413 0.03462809  0.1141219  0.22357230 1412.497 1.0007789
-## bc  -0.8320385 0.10720187 -1.0059716 -0.66061146 1483.686 1.0020438
-## bp   0.8630329 0.04402118  0.7940947  0.93581617 1666.485 1.0013829
-## bb   1.4082633 0.19082596  1.1064338  1.71448825 1045.216 0.9987293
-## bc0  0.9714286 0.22031870  0.6186413  1.31780300 1613.988 1.0008665
-## bC0 -0.6470108 0.29389112 -1.1325184 -0.17872663 1548.749 1.0009879</code></pre>
+## a   -2.0808366 0.24498827 -2.4844336 -1.70047414 1144.879 1.0007799
+## a0  -0.4594813 0.27584773 -0.8874882 -0.03156759 1341.574 0.9994358
+## bl   0.1683819 0.03488956  0.1148935  0.22670272 1407.210 1.0018504
+## bc  -0.8362166 0.10888732 -1.0065860 -0.65821472 1469.922 1.0037577
+## bp   0.8613102 0.04366810  0.7935201  0.93331197 1414.751 0.9998013
+## bb   1.4132781 0.19281123  1.1202646  1.73085696 1210.522 1.0001570
+## bc0  0.9744269 0.22258670  0.6239488  1.32434268 1580.138 1.0020808
+## bC0 -0.6584943 0.29483444 -1.1374854 -0.18031343 1423.052 0.9991185</code></pre>
 <p>Remember that <span class="math inline">\(p\)</span> stands for the probability of <strong>not</strong> going to fish. Overall, park visitors are pretty likely to fish (<code>a0 =</code>-0.46, logit scale). In line with my intuition, campers are more likely to fish (<code>bC0</code>) while children are less likely to fish (<code>bc0</code>).</p>
 <p>Once one is actually fishing, one is not likely to catch much fish (<code>a=</code>-2.08). The parameters pertaining to number of fish caught are expressed on log-scale and so transforming <code>a</code> into the outcome scale (counts of fish) by exponentiating, an adult who fishes by themselves without livebait (this is what <code>a</code> refers to) catches around 0.1249302 fish on average. More people catch more fish (<code>bp</code>). Using livebait is effective (<code>bb</code>). In line with my intuition, children catch less fish than adults (<code>bc</code>). Lastly, the more time one spends fishing, the more fish one catches (<code>bl</code>).</p>
 <p>Let’s turn to some actual model predictions of <code>p</code> and <code>mu</code>:</p>
 <pre class="r"><code>zip_link &lt;- link(mH6)
 str(zip_link)</code></pre>
 <pre><code>## List of 2
-##  $ p : num [1:2000, 1:250] 0.425 0.432 0.481 0.29 0.379 ...
-##  $ mu: num [1:2000, 1:250] 0.429 0.465 0.511 0.645 0.469 ...</code></pre>
+##  $ p : num [1:2000, 1:250] 0.435 0.358 0.391 0.48 0.437 ...
+##  $ mu: num [1:2000, 1:250] 0.668 0.462 0.533 0.697 0.244 ...</code></pre>
 <p><code>p</code> cases provide estimates for additional zeros not obtained through the actual Poisson-process behind fishing catches whose output lies with <code>mu</code>.</p>
 <p>For example, if $p =$0.39 (the inverse logit of <code>a0</code> in the model above) and <span class="math inline">\(μ = 1\)</span> (much higher than <code>a</code> in the model above for ease here), then the implied predictive distribution is:</p>
 <pre class="r"><code>zeros &lt;- rbinom(
@@ -571,7 +576,7 @@ simplehist(obs_fish)</code></pre>
 <p>Let’s see what our model would predict given the estimated parameters:</p>
 <pre class="r"><code>fish_sim &lt;- sim(mH6)
 str(fish_sim)</code></pre>
-<pre><code>##  num [1:1000, 1:250] 0 0 0 0 0 0 0 1 1 0 ...</code></pre>
+<pre><code>##  num [1:1000, 1:250] 0 1 0 0 1 1 0 0 0 1 ...</code></pre>
 <p>This now contains a simulation output for each sample in our data! We could now plot ourselves into oblivion with counterfactual plots. We can also produce counterfactual posterior predictions. As an example, I assume a party of 1 adult spending 1 hour in the park without any use of livebait and not staying the night as a camper:</p>
 <pre class="r"><code># new data
 pred_dat &lt;- list(
@@ -587,11 +592,11 @@ fish_link &lt;- link(mH6, data = pred_dat)
 p &lt;- fish_link$p
 mu &lt;- fish_link$mu
 (expected_fish_mean &lt;- mean((1 - p) * mu))</code></pre>
-<pre><code>## [1] 0.1841286</code></pre>
+<pre><code>## [1] 0.1840517</code></pre>
 <pre class="r"><code>(expected_fish_PI &lt;- PI((1 - p) * mu))</code></pre>
 <pre><code>##        5%       94% 
-## 0.1264631 0.2512246</code></pre>
-<p>This tells us that this hypothetical person is expected to catch 0.1841286 fish with the interval displayed above.</p>
+## 0.1248585 0.2547767</code></pre>
+<p>This tells us that this hypothetical person is expected to catch 0.1840517 fish with the interval displayed above.</p>
 </div>
 </div>
 <div id="session-info" class="section level1">
@@ -611,16 +616,16 @@ mu &lt;- fish_link$mu
 ## [1] parallel  stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] tidybayes_2.3.1      rethinking_2.13      rstan_2.21.2         ggplot2_3.3.2        StanHeaders_2.21.0-7
+## [1] tidybayes_2.3.1      rethinking_2.13      rstan_2.21.2         ggplot2_3.3.3        StanHeaders_2.21.0-7
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_1.0.5           mvtnorm_1.1-1        lattice_0.20-41      tidyr_1.1.2          prettyunits_1.1.1    ps_1.3.4             assertthat_0.2.1     digest_0.6.27        V8_3.2.0            
-## [10] plyr_1.8.6           R6_2.5.0             backports_1.1.10     stats4_4.0.2         evaluate_0.14        coda_0.19-4          blogdown_1.0.2       pillar_1.4.6         rlang_0.4.10        
-## [19] curl_4.3             rstudioapi_0.11      callr_3.5.1          R.utils_2.10.1       R.oo_1.24.0          rmarkdown_2.6        styler_1.3.2         labeling_0.3         stringr_1.4.0       
-## [28] loo_2.4.1            munsell_0.5.0        compiler_4.0.2       xfun_0.20            pkgconfig_2.0.3      pkgbuild_1.1.0       shape_1.4.5          htmltools_0.5.0      tidyselect_1.1.0    
-## [37] tibble_3.0.3         gridExtra_2.3        bookdown_0.21        arrayhelpers_1.1-0   codetools_0.2-16     matrixStats_0.56.0   fansi_0.4.1          crayon_1.3.4         dplyr_1.0.2         
-## [46] withr_2.3.0          MASS_7.3-51.6        R.methodsS3_1.8.1    ggdist_2.4.0         grid_4.0.2           distributional_0.2.1 jsonlite_1.7.2       gtable_0.3.0         lifecycle_0.2.0     
-## [55] magrittr_2.0.1       scales_1.1.1         RcppParallel_5.0.2   cli_2.2.0            stringi_1.5.3        farver_2.0.3         ellipsis_0.3.1       generics_0.0.2       vctrs_0.3.4         
-## [64] rematch2_2.1.2       tools_4.0.2          forcats_0.5.0        svUnit_1.0.3         R.cache_0.14.0       glue_1.4.2           purrr_0.3.4          processx_3.4.4       yaml_2.2.1          
-## [73] inline_0.3.16        colorspace_1.4-1     knitr_1.30</code></pre>
+##  [1] Rcpp_1.0.6           mvtnorm_1.1-1        lattice_0.20-41      tidyr_1.1.3          prettyunits_1.1.1    ps_1.6.0             assertthat_0.2.1     digest_0.6.27        utf8_1.2.1          
+## [10] V8_3.4.0             plyr_1.8.6           R6_2.5.0             backports_1.2.1      stats4_4.0.2         evaluate_0.14        coda_0.19-4          highr_0.9            blogdown_1.3        
+## [19] pillar_1.6.0         rlang_0.4.10         curl_4.3             callr_3.7.0          jquerylib_0.1.3      R.utils_2.10.1       R.oo_1.24.0          rmarkdown_2.7        styler_1.4.1        
+## [28] labeling_0.4.2       stringr_1.4.0        loo_2.4.1            munsell_0.5.0        compiler_4.0.2       xfun_0.22            pkgconfig_2.0.3      pkgbuild_1.2.0       shape_1.4.5         
+## [37] htmltools_0.5.1.1    tidyselect_1.1.0     tibble_3.1.1         gridExtra_2.3        bookdown_0.21        arrayhelpers_1.1-0   codetools_0.2-16     matrixStats_0.58.0   fansi_0.4.2         
+## [46] crayon_1.4.1         dplyr_1.0.5          withr_2.4.2          MASS_7.3-51.6        R.methodsS3_1.8.1    distributional_0.2.2 ggdist_2.4.0         grid_4.0.2           jsonlite_1.7.2      
+## [55] gtable_0.3.0         lifecycle_1.0.0      DBI_1.1.1            magrittr_2.0.1       scales_1.1.1         RcppParallel_5.1.2   cli_2.4.0            stringi_1.5.3        farver_2.1.0        
+## [64] bslib_0.2.4          ellipsis_0.3.1       generics_0.1.0       vctrs_0.3.7          rematch2_2.1.2       forcats_0.5.1        tools_4.0.2          svUnit_1.0.6         R.cache_0.14.0      
+## [73] glue_1.4.2           purrr_0.3.4          processx_3.5.1       yaml_2.2.1           inline_0.3.17        colorspace_2.0-0     knitr_1.32           sass_0.3.1</code></pre>
 </div>

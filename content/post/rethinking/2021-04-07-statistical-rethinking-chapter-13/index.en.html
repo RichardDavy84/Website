@@ -27,6 +27,11 @@ output:
 header-includes:
   <script src = "https://polyfill.io/v3/polyfill.min.js?features = es6"></script>
   <script id = "MathJax-script" async src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+links:
+- icon: file-powerpoint
+  icon_pack: fas
+  name: Slides - Chapter 13
+  url: /post/rethinking/15__09-04-2021_SUMMARY_-Multi-Level-Models.html
 ---
 
 <script src = "https://polyfill.io/v3/polyfill.min.js?features = es6"></script>
@@ -232,12 +237,12 @@ m_Interaction &lt;- ulam(
 <p><strong>Question:</strong> Compare the models you fit just above, using WAIC. Can you reconcile the differences in WAIC with the posterior distributions of the models?</p>
 <p><strong>Answer:</strong></p>
 <pre class="r"><code>compare(m_Tank, m_Pred, m_Size, m_Additive, m_Interaction)</code></pre>
-<pre><code>##                   WAIC       SE     dWAIC      dSE    pWAIC    weight
-## m_Interaction 199.1227 9.029985 0.0000000       NA 18.84375 0.2783925
-## m_Pred        199.3265 8.945044 0.2037632 3.191529 19.44067 0.2514264
-## m_Additive    200.1592 8.681357 1.0364473 2.140539 19.25073 0.1658043
-## m_Tank        200.1739 7.181858 1.0512249 6.062151 20.92016 0.1645838
-## m_Size        200.5005 7.107029 1.3777394 6.192483 21.05452 0.1397929</code></pre>
+<pre><code>##                   WAIC       SE    dWAIC      dSE    pWAIC    weight
+## m_Pred        198.9747 9.101172 0.000000       NA 19.19582 0.2922969
+## m_Interaction 199.1153 9.043545 0.140576 3.347008 18.96013 0.2724573
+## m_Additive    200.1413 8.791646 1.166586 1.989342 19.23412 0.1631185
+## m_Size        200.4820 7.288823 1.507247 5.822058 21.05662 0.1375719
+## m_Tank        200.5263 7.189803 1.551587 5.727868 21.10876 0.1345555</code></pre>
 <p>Evidently, all of our models are expected to perform similarly in out-of-sample predictions. So how do the posterior samples look like? Here, I write a function to extract all parameter samples from the posterior given any of our models except the <span class="math inline">\(\alpha\)</span> parameters and feed them into a <code>ggplot</code> using the beautiful <code>stat_halfeye()</code> from the <code>tidybayes</code> package:</p>
 <pre class="r"><code>na.omit.list &lt;- function(y) {
   return(y[!sapply(y, function(x) all(is.na(x)))])
@@ -374,20 +379,20 @@ dat_list &lt;- list(
 )</code></pre>
 <p>Finally, let’s compare these two models:</p>
 <pre class="r"><code>precis(m13.4, 2, pars = c(&quot;a_bar&quot;, &quot;b&quot;))</code></pre>
-<pre><code>##             mean        sd        5.5%        94.5%    n_eff    Rhat4
-## a_bar  0.5898045 0.7414068 -0.58941287  1.714563583 802.5366 1.000006
-## b[1]  -0.1137550 0.2866964 -0.57376433  0.343386819 382.4522 1.007804
-## b[2]   0.4154800 0.2876003 -0.05074325  0.884746595 400.9560 1.007413
-## b[3]  -0.4633131 0.2897282 -0.91723369 -0.001719039 393.1238 1.007591
-## b[4]   0.3009618 0.2894617 -0.15618660  0.768419665 427.4242 1.006898</code></pre>
+<pre><code>##             mean        sd        5.5%      94.5%    n_eff    Rhat4
+## a_bar  0.5844539 0.7365950 -0.62772691 1.72387082 975.4089 1.000693
+## b[1]  -0.1070542 0.2938756 -0.60140254 0.35093884 385.6204 1.013885
+## b[2]   0.4198289 0.2918217 -0.04669014 0.87577466 312.0779 1.018954
+## b[3]  -0.4616056 0.3028643 -0.95057085 0.02690594 385.3360 1.011342
+## b[4]   0.3042398 0.2961935 -0.18469104 0.77684764 257.9167 1.018949</code></pre>
 <pre class="r"><code>precis(m_M4, 2, pars = c(&quot;a_bar&quot;, &quot;b&quot;, &quot;g_bar&quot;))</code></pre>
 <pre><code>##             mean        sd        5.5%       94.5%    n_eff    Rhat4
-## a_bar  0.3198359 1.1505809 -1.47991648  2.16586069 306.6777 1.020268
-## b[1]  -0.1495630 0.2992619 -0.63927401  0.32046860 612.2148 1.001768
-## b[2]   0.3748737 0.2909288 -0.09350332  0.85150945 709.9501 1.001781
-## b[3]  -0.4939060 0.2950855 -0.94899879 -0.02405335 758.6020 1.001979
-## b[4]   0.2690136 0.2893491 -0.18432939  0.74142789 568.4459 1.006819
-## g_bar  0.3956139 1.1601243 -1.40975832  2.19274266 225.5811 1.029494</code></pre>
+## a_bar  0.1557378 1.0863984 -1.47738871  2.00667760 294.3402 1.016706
+## b[1]  -0.1312543 0.2905214 -0.62534463  0.31157896 499.1896 1.004770
+## b[2]   0.3808051 0.2834239 -0.08220991  0.85398669 491.1810 1.003676
+## b[3]  -0.5158402 0.3062087 -0.97695207 -0.02473181 176.0296 1.031852
+## b[4]   0.2670428 0.2898480 -0.17386278  0.73332458 481.9273 1.006920
+## g_bar  0.5738878 1.1300917 -1.32018475  2.10967371 122.1002 1.039616</code></pre>
 <p>Oof. That new model (<code>m_M4</code>) did not work well. I gleam that its sampling was extremely inefficient from looking at the number of effective samples (<code>n_eff</code>) and Gelman-Rubin statistic (<code>Rhat</code>) above. The numbers of effective samples are much worse for all of our parameters in <code>m_M4</code> when compared to the original model (<code>m13.4</code>).</p>
 <p>Why is that? Well, <code>m_M4</code> is what is called <em>over-parameterised</em>. Both means of our intercepts (<code>a[actor]</code>, <code>g[block_id]</code>) are defined via varying priors now. So since there are two parameters for our means, one inside each adaptive prior, we end up with an infinite number of combinations of values of <span class="math inline">\(\bar\alpha\)</span> and <span class="math inline">\(\bar\gamma\)</span> to produce the same sum. This makes the posterior poorly defined and hard to sample. It is worth pointing out, however, that the estimated parameters are almost exactly the same between the two models. Conclusively, over-parameterisation is inefficient in sampling, but will land on similar values if run long enough. We should still avoid coding our models this way in the first place, of course.</p>
 </div>
@@ -510,26 +515,26 @@ dat &lt;- list(
 )</code></pre>
 <p>Let’s start comparing these two models by looking at their parameter estimates:</p>
 <pre class="r"><code>precis(m12.5)</code></pre>
-<pre><code>##           mean         sd       5.5%      94.5%     n_eff     Rhat4
-## bIC -1.2384098 0.09818226 -1.3962994 -1.0857730  909.1105 1.0016918
-## bIA -0.4359614 0.08000620 -0.5643759 -0.3084317  842.2750 1.0012348
-## bC  -0.3424371 0.06737819 -0.4488498 -0.2293999 1045.2677 0.9999049
-## bI  -0.2897214 0.05743393 -0.3822430 -0.1999096  754.7380 1.0013395
-## bA  -0.4714657 0.05555236 -0.5603521 -0.3815220  918.1179 1.0007517</code></pre>
+<pre><code>##           mean         sd       5.5%      94.5%    n_eff    Rhat4
+## bIC -1.2349455 0.09517628 -1.3857011 -1.0803525 985.9460 1.001813
+## bIA -0.4329550 0.08129964 -0.5629604 -0.3010041 998.8177 1.003276
+## bC  -0.3423165 0.06672705 -0.4481048 -0.2360053 937.5845 1.002720
+## bI  -0.2913013 0.05762502 -0.3856415 -0.1989529 876.9377 1.004560
+## bA  -0.4719565 0.05543713 -0.5574047 -0.3840748 869.4944 1.004553</code></pre>
 <pre class="r"><code>precis(m_H2)</code></pre>
 <pre><code>##             mean         sd       5.5%      94.5%    n_eff    Rhat4
-## bIC   -1.6649528 0.09785549 -1.8245758 -1.5077783 1383.525 1.000957
-## bIA   -0.5580764 0.08257261 -0.6902176 -0.4237373 1162.240 0.999627
-## bC    -0.4523694 0.06947524 -0.5630698 -0.3396668 1327.164 1.000112
-## bI    -0.3850469 0.05730140 -0.4748499 -0.2939068 1065.763 1.000903
-## bA    -0.6491313 0.05490379 -0.7352049 -0.5584155 1111.015 1.001019
-## sigma  1.9153715 0.08381431  1.7831854  2.0502868 2388.732 1.000086</code></pre>
+## bIC   -1.6678626 0.10203258 -1.8312033 -1.5020663 1296.375 1.002579
+## bIA   -0.5586418 0.08199819 -0.6914514 -0.4308503 1257.213 1.002380
+## bC    -0.4519755 0.07097154 -0.5649322 -0.3367547 1493.433 1.000488
+## bI    -0.3848289 0.06027534 -0.4803754 -0.2871362 1196.996 1.002867
+## bA    -0.6471996 0.05725764 -0.7379916 -0.5549669 1321.381 1.001593
+## sigma  1.9186947 0.08606937  1.7872644  2.0638235 2631.937 0.999496</code></pre>
 <p>When moving to varying intercepts, in this case, all parameter estimates have become stronger in magnitude while remaining negative in sign. Why is that? Because there is a lot of variation among the individual intercepts. <code>sigma</code> tells us that. Remember that is on the logit scale, so there is a lot of variation here in probability scale. Conclusively, the average formulation we explored in chapter 12 (<code>m12.5</code>) hid a lot of the effect of the different treatments.</p>
 <p>Finally, let’s compare our models using WAIC:</p>
 <pre class="r"><code>compare(m12.5, m_H2)</code></pre>
 <pre><code>##           WAIC        SE    dWAIC      dSE     pWAIC weight
-## m_H2  31054.80 179.43409    0.000       NA 354.36135      1
-## m12.5 36929.22  80.72793 5874.422 173.6122  10.96662      0</code></pre>
+## m_H2  31058.74 179.47335    0.000       NA 357.02898      1
+## m12.5 36929.59  80.67689 5870.846 173.6576  11.13641      0</code></pre>
 <p>Now it’s official. Conditioning on the individual (<code>id</code>) really made a massive difference here in understanding the assignments of morality among our data. Effectively, this tells us that our few variables which we used previously to understand how people of different backgrounds and genders perceive morality are not enough to fully understand the matter at hand.</p>
 </div>
 <div id="practice-h3" class="section level2">
@@ -554,13 +559,13 @@ dat &lt;- list(
 )</code></pre>
 <pre class="r"><code>precis(m_H3)</code></pre>
 <pre><code>##             mean         sd       5.5%      94.5%     n_eff     Rhat4
-## bIC   -1.2907165 0.11361690 -1.4747982 -1.1106034 1829.5883 1.0006634
-## bIA   -0.5307410 0.08377347 -0.6650821 -0.3927469 1872.9945 0.9993704
-## bC    -1.0725635 0.09731879 -1.2298485 -0.9169722 1539.8251 1.0001563
-## bI    -0.4570712 0.06941330 -0.5677110 -0.3465337 1740.1407 0.9999585
-## bA    -0.8874246 0.06749024 -0.9945992 -0.7777338 1613.9623 0.9992398
-## sigma  1.9703168 0.07646136  1.8525437  2.0974782  299.1041 1.0115747
-## tau    0.5350242 0.13741374  0.3648926  0.7773243 1640.8594 1.0007383</code></pre>
+## bIC   -1.2869675 0.11724174 -1.4656744 -1.0957278 1444.0294 0.9993869
+## bIA   -0.5264087 0.08500476 -0.6607661 -0.3895823 1321.5118 0.9996537
+## bC    -1.0761557 0.09941972 -1.2347156 -0.9212300 1230.7585 0.9990101
+## bI    -0.4603625 0.07094480 -0.5740128 -0.3469882 1389.1081 0.9987849
+## bA    -0.8911782 0.06994057 -1.0028113 -0.7779542 1273.3707 0.9995828
+## sigma  1.9643148 0.08306072  1.8379313  2.1022956  287.2469 1.0082056
+## tau    0.5342887 0.12805825  0.3719151  0.7661012 1085.9889 1.0048425</code></pre>
 <p>The treatment variable estimates (<code>bIC</code>, <code>bIA</code>, etc.) are changed from the previous model (<code>m_H2</code>). Interestingly, the estimate for <code>sigma</code> (variation among individuals) has not changed much. The added variation among stories (<code>tau</code>) is noticeable, albeit much smaller than <code>sigma</code>. Let’s visualise this:</p>
 <pre class="r"><code>plot(coeftab(m_H2, m_H3), pars = c(&quot;bIC&quot;, &quot;bIA&quot;, &quot;bC&quot;, &quot;bI&quot;, &quot;bA&quot;, &quot;sigma&quot;, &quot;tau&quot;))</code></pre>
 <p><img src="{{< blogdown/postref >}}index.en_files/figure-html/unnamed-chunk-33-1.png" width="1440" /></p>
@@ -588,12 +593,12 @@ dat &lt;- list(
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] Rcpp_1.0.6           mvtnorm_1.1-1        lattice_0.20-41      tidyr_1.1.3          prettyunits_1.1.1    ps_1.6.0             assertthat_0.2.1     digest_0.6.27        utf8_1.2.1          
-## [10] V8_3.4.0             plyr_1.8.6           R6_2.5.0             backports_1.2.1      stats4_4.0.2         evaluate_0.14        coda_0.19-4          highr_0.8            blogdown_1.2        
-## [19] pillar_1.5.1         rlang_0.4.10         curl_4.3             callr_3.6.0          jquerylib_0.1.3      R.utils_2.10.1       R.oo_1.24.0          rmarkdown_2.7        styler_1.4.0        
+## [10] V8_3.4.0             plyr_1.8.6           R6_2.5.0             backports_1.2.1      stats4_4.0.2         evaluate_0.14        coda_0.19-4          highr_0.9            blogdown_1.3        
+## [19] pillar_1.6.0         rlang_0.4.10         curl_4.3             callr_3.7.0          jquerylib_0.1.3      R.utils_2.10.1       R.oo_1.24.0          rmarkdown_2.7        styler_1.4.1        
 ## [28] labeling_0.4.2       stringr_1.4.0        loo_2.4.1            munsell_0.5.0        compiler_4.0.2       xfun_0.22            pkgconfig_2.0.3      pkgbuild_1.2.0       shape_1.4.5         
-## [37] htmltools_0.5.1.1    tidyselect_1.1.0     tibble_3.1.0         gridExtra_2.3        bookdown_0.21        arrayhelpers_1.1-0   codetools_0.2-16     matrixStats_0.58.0   fansi_0.4.2         
-## [46] crayon_1.4.1         dplyr_1.0.5          withr_2.4.1          MASS_7.3-51.6        R.methodsS3_1.8.1    distributional_0.2.2 ggdist_2.4.0         grid_4.0.2           jsonlite_1.7.2      
-## [55] gtable_0.3.0         lifecycle_1.0.0      DBI_1.1.1            magrittr_2.0.1       scales_1.1.1         RcppParallel_5.0.3   cli_2.4.0            stringi_1.5.3        farver_2.1.0        
-## [64] bslib_0.2.4          ellipsis_0.3.1       generics_0.1.0       vctrs_0.3.7          rematch2_2.1.2       forcats_0.5.1        tools_4.0.2          svUnit_1.0.3         R.cache_0.14.0      
-## [73] glue_1.4.2           purrr_0.3.4          processx_3.5.1       yaml_2.2.1           inline_0.3.17        colorspace_2.0-0     knitr_1.31           sass_0.3.1</code></pre>
+## [37] htmltools_0.5.1.1    tidyselect_1.1.0     tibble_3.1.1         gridExtra_2.3        bookdown_0.21        arrayhelpers_1.1-0   codetools_0.2-16     matrixStats_0.58.0   fansi_0.4.2         
+## [46] crayon_1.4.1         dplyr_1.0.5          withr_2.4.2          MASS_7.3-51.6        R.methodsS3_1.8.1    distributional_0.2.2 ggdist_2.4.0         grid_4.0.2           jsonlite_1.7.2      
+## [55] gtable_0.3.0         lifecycle_1.0.0      DBI_1.1.1            magrittr_2.0.1       scales_1.1.1         RcppParallel_5.1.2   cli_2.4.0            stringi_1.5.3        farver_2.1.0        
+## [64] bslib_0.2.4          ellipsis_0.3.1       generics_0.1.0       vctrs_0.3.7          rematch2_2.1.2       forcats_0.5.1        tools_4.0.2          svUnit_1.0.6         R.cache_0.14.0      
+## [73] glue_1.4.2           purrr_0.3.4          processx_3.5.1       yaml_2.2.1           inline_0.3.17        colorspace_2.0-0     knitr_1.32           sass_0.3.1</code></pre>
 </div>
