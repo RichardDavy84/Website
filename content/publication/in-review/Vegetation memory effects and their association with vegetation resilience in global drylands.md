@@ -20,10 +20,10 @@ tags:
 - Resilience
 - Remote Sensing
 - Drylands
-url_code: https://github.com/ErikKusch/Vegetation-Memory
+# url_code: https://github.com/ErikKusch/Vegetation-Memory
 # url_dataset: ''
 # url_pdf: ""
-url_poster: /media/poster/2020_ISEC/Poster - Global Dryland Vegetation Memory.pdf
+# url_poster: /media/poster/2020_ISEC/Poster - Global Dryland Vegetation Memory.pdf
 # url_project: ""
 # url_slides: ""
 # url_source: '#'
