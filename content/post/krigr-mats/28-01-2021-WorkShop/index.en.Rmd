@@ -13,7 +13,7 @@ tags:
 subtitle: 'Climate Data for your Study Needs'
 summary: 'A short introduction to the KrigR R Package designed to download, aggregate, and statistically downscale state-of-the-art climate data.'
 authors: []
-lastmod: '2021-01-28T18:00:00+01:00'
+lastmod: '2021-05-05T10:00:00+01:00'
 featured: no
 image:
  caption: ''
@@ -284,7 +284,7 @@ For this part of the tutorial, we download air temperature for a three-day inter
 Notice that the downloading of ERA-family reanalysis data may take a short while to start as the download request gets queued with the CDS of the ECMWF before it is executed.
 </p>
 
-```{r ClimExt, results = 'hide', fig.keep = 'all', fig.height = 4}
+```{r ClimExt, fig.keep = 'all', fig.height = 4}
 State_Raw <- download_ERA(
   Variable = '2m_temperature',
   DataSet = 'era5-land',
@@ -298,6 +298,8 @@ State_Raw <- download_ERA(
   API_Key = API_Key)
 Plot_Raw(State_Raw, Dates = c("02-01-1995", "03-01-1995", "04-01-1995"))
 ```
+
+As you can see the `download_ERA()` function updates you on what it is currently working on at each major step. I implemented this to make sure people don't get too anxious staring at an empty console in `R`. If this feature is not appealing to you, you can turn this progress tracking off by setting `verbose = FALSE` in the function call to `download_ERA()`. For the rest of this workshop, I supress all output from `download_ERA()` via other means so that when you execute the code of this material by yourself, you get progress tracking.
 
 Now, let's look at the raster that was produced:
 ```{r ClimExtOutput}
