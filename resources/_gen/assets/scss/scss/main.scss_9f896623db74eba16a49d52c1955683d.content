@@ -8148,7 +8148,7 @@ a.summary-link {
  *  Page content
  **************************************************/
 .article-container {
-  max-width: 760px;
+  max-width: 3840px;
   padding: 0 20px 0 20px;
   margin: 0 auto 0 auto; }
 
