@@ -56,7 +56,7 @@ weight: 3
 <div id="theory" class="section level1">
 <h1>Theory</h1>
 <p>These are the solutions to the exercises contained within the handout to A Primer For Statistical Tests which walks you through the basics of variables, their scales and distributions. Keep in mind that there is probably a myriad of other ways to reach the same conclusions as presented in these solutions.</p>
-<p>I have prepared some <a href="/courses/An%20Introduction%20to%20Biostatistics/03---A-Primer-For-Statistical-Tests_Handout.pdf">Lecture Slides</a> for this session. Unfortunately, they are in pdf format, so you will have to download them straight to your PC.</p>
+<p>I have prepared some <a href="/courses/An%20Introduction%20to%20Biostatistics/03---A-Primer-For-Statistical-Tests_Handout.html">Lecture Slides</a> for this session.</p>
 </div>
 <div id="data" class="section level1">
 <h1>Data</h1>
@@ -64,22 +64,22 @@ weight: 3
 </div>
 <div id="loading-the-r-environment-object" class="section level1">
 <h1>Loading the <code>R</code> Environment Object</h1>
-<pre class="r"><code>load(&quot;Data/Primer.RData&quot;)  # load data file from Data folder</code></pre>
+<pre class="r"><code>load(&quot;Data/Primer.RData&quot;) # load data file from Data folder</code></pre>
 </div>
 <div id="variables" class="section level1">
 <h1>Variables</h1>
 <div id="finding-variables" class="section level2">
 <h2>Finding Variables</h2>
-<pre class="r"><code>ls()  # list all elements in working environment</code></pre>
+<pre class="r"><code>ls() # list all elements in working environment</code></pre>
 <pre><code>## [1] &quot;Colour&quot;               &quot;Depth&quot;                &quot;IndividualsPassingBy&quot;
 ## [4] &quot;Length&quot;               &quot;Reproducing&quot;          &quot;Sex&quot;                 
 ## [7] &quot;Size&quot;                 &quot;Temperature&quot;</code></pre>
 </div>
 <div id="colour" class="section level2">
 <h2><code>Colour</code></h2>
-<pre class="r"><code>class(Colour)  # mode</code></pre>
+<pre class="r"><code>class(Colour) # mode</code></pre>
 <pre><code>## [1] &quot;character&quot;</code></pre>
-<pre class="r"><code>barplot(table(Colour))  # fitting?</code></pre>
+<pre class="r"><code>barplot(table(Colour)) # fitting?</code></pre>
 <p><img src="/courses/An Introduction to Biostatistics/03---A-Primer-For-Statistical-Tests_files/figure-html/VColour-1.png" width="576" /></p>
 <table>
 <thead>
@@ -110,9 +110,9 @@ weight: 3
 </div>
 <div id="depth" class="section level2">
 <h2><code>Depth</code></h2>
-<pre class="r"><code>class(Depth)  # mode</code></pre>
+<pre class="r"><code>class(Depth) # mode</code></pre>
 <pre><code>## [1] &quot;numeric&quot;</code></pre>
-<pre class="r"><code>barplot(Depth)  # fitting?</code></pre>
+<pre class="r"><code>barplot(Depth) # fitting?</code></pre>
 <p><img src="/courses/An Introduction to Biostatistics/03---A-Primer-For-Statistical-Tests_files/figure-html/VDepth-1.png" width="576" /></p>
 <table>
 <thead>
@@ -143,9 +143,9 @@ weight: 3
 </div>
 <div id="individualspassingby" class="section level2">
 <h2><code>IndividualsPassingBy</code></h2>
-<pre class="r"><code>class(IndividualsPassingBy)  # mode</code></pre>
+<pre class="r"><code>class(IndividualsPassingBy) # mode</code></pre>
 <pre><code>## [1] &quot;integer&quot;</code></pre>
-<pre class="r"><code>barplot(IndividualsPassingBy)  # fitting?</code></pre>
+<pre class="r"><code>barplot(IndividualsPassingBy) # fitting?</code></pre>
 <p><img src="/courses/An Introduction to Biostatistics/03---A-Primer-For-Statistical-Tests_files/figure-html/VIndPass-1.png" width="576" /></p>
 <table>
 <thead>
@@ -176,9 +176,9 @@ weight: 3
 </div>
 <div id="length" class="section level2">
 <h2><code>Length</code></h2>
-<pre class="r"><code>class(Length)  # mode</code></pre>
+<pre class="r"><code>class(Length) # mode</code></pre>
 <pre><code>## [1] &quot;numeric&quot;</code></pre>
-<pre class="r"><code>barplot(Length)  # fitting?</code></pre>
+<pre class="r"><code>barplot(Length) # fitting?</code></pre>
 <p><img src="/courses/An Introduction to Biostatistics/03---A-Primer-For-Statistical-Tests_files/figure-html/VLength-1.png" width="576" /></p>
 <table>
 <thead>
@@ -209,9 +209,9 @@ weight: 3
 </div>
 <div id="reproducing" class="section level2">
 <h2><code>Reproducing</code></h2>
-<pre class="r"><code>class(Reproducing)  # mode</code></pre>
+<pre class="r"><code>class(Reproducing) # mode</code></pre>
 <pre><code>## [1] &quot;integer&quot;</code></pre>
-<pre class="r"><code>barplot(Reproducing)  # fitting?</code></pre>
+<pre class="r"><code>barplot(Reproducing) # fitting?</code></pre>
 <p><img src="/courses/An Introduction to Biostatistics/03---A-Primer-For-Statistical-Tests_files/figure-html/VRepro-1.png" width="576" /></p>
 <table>
 <thead>
@@ -242,9 +242,9 @@ weight: 3
 </div>
 <div id="sex" class="section level2">
 <h2><code>Sex</code></h2>
-<pre class="r"><code>class(Sex)  # mode</code></pre>
+<pre class="r"><code>class(Sex) # mode</code></pre>
 <pre><code>## [1] &quot;factor&quot;</code></pre>
-<pre class="r"><code>barplot(table(Sex))  # fitting?</code></pre>
+<pre class="r"><code>barplot(table(Sex)) # fitting?</code></pre>
 <p><img src="/courses/An Introduction to Biostatistics/03---A-Primer-For-Statistical-Tests_files/figure-html/VSex-1.png" width="576" /></p>
 <table>
 <thead>
@@ -275,9 +275,9 @@ weight: 3
 </div>
 <div id="size" class="section level2">
 <h2><code>Size</code></h2>
-<pre class="r"><code>class(Size)  # mode</code></pre>
+<pre class="r"><code>class(Size) # mode</code></pre>
 <pre><code>## [1] &quot;character&quot;</code></pre>
-<pre class="r"><code>barplot(table(Size))  # fitting?</code></pre>
+<pre class="r"><code>barplot(table(Size)) # fitting?</code></pre>
 <p><img src="/courses/An Introduction to Biostatistics/03---A-Primer-For-Statistical-Tests_files/figure-html/VSize-1.png" width="576" /></p>
 <table>
 <thead>
@@ -308,9 +308,9 @@ weight: 3
 </div>
 <div id="temperature" class="section level2">
 <h2><code>Temperature</code></h2>
-<pre class="r"><code>class(Temperature)  # mode</code></pre>
+<pre class="r"><code>class(Temperature) # mode</code></pre>
 <pre><code>## [1] &quot;numeric&quot;</code></pre>
-<pre class="r"><code>barplot(Temperature)  # fitting?</code></pre>
+<pre class="r"><code>barplot(Temperature) # fitting?</code></pre>
 <p><img src="/courses/An Introduction to Biostatistics/03---A-Primer-For-Statistical-Tests_files/figure-html/VTemp-1.png" width="576" /></p>
 <table>
 <thead>
@@ -344,9 +344,9 @@ weight: 3
 <h1>Distributions</h1>
 <div id="length-1" class="section level2">
 <h2><code>Length</code></h2>
-<pre class="r"><code>plot(density(Length))  # distribution plot</code></pre>
+<pre class="r"><code>plot(density(Length)) # distribution plot</code></pre>
 <p><img src="/courses/An Introduction to Biostatistics/03---A-Primer-For-Statistical-Tests_files/figure-html/DLength-1.png" width="576" /></p>
-<pre class="r"><code>shapiro.test(Length)  # normality check</code></pre>
+<pre class="r"><code>shapiro.test(Length) # normality check</code></pre>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
@@ -356,9 +356,9 @@ weight: 3
 </div>
 <div id="reproducing-1" class="section level2">
 <h2><code>Reproducing</code></h2>
-<pre class="r"><code>plot(density(Reproducing))  # distribution</code></pre>
+<pre class="r"><code>plot(density(Reproducing)) # distribution</code></pre>
 <p><img src="/courses/An Introduction to Biostatistics/03---A-Primer-For-Statistical-Tests_files/figure-html/DRepro-1.png" width="576" /></p>
-<pre class="r"><code>shapiro.test(Reproducing)  # normality check</code></pre>
+<pre class="r"><code>shapiro.test(Reproducing) # normality check</code></pre>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
@@ -368,9 +368,9 @@ weight: 3
 </div>
 <div id="individualspassingby-1" class="section level2">
 <h2><code>IndividualsPassingBy</code></h2>
-<pre class="r"><code>plot(density(IndividualsPassingBy))  # distribution</code></pre>
+<pre class="r"><code>plot(density(IndividualsPassingBy)) # distribution</code></pre>
 <p><img src="/courses/An Introduction to Biostatistics/03---A-Primer-For-Statistical-Tests_files/figure-html/DIndiv-1.png" width="576" /></p>
-<pre class="r"><code>shapiro.test(IndividualsPassingBy)  # normality check</code></pre>
+<pre class="r"><code>shapiro.test(IndividualsPassingBy) # normality check</code></pre>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
@@ -380,7 +380,7 @@ weight: 3
 </div>
 <div id="depth-1" class="section level2">
 <h2><code>Depth</code></h2>
-<pre class="r"><code>plot(density(Depth))  # distribution</code></pre>
+<pre class="r"><code>plot(density(Depth)) # distribution</code></pre>
 <p><img src="/courses/An Introduction to Biostatistics/03---A-Primer-For-Statistical-Tests_files/figure-html/DDepth-1.png" width="576" /></p>
 <p>The data is <strong>uniform distributed</strong>. You don’t know this distribution class from the lectures and I only wanted to confuse you with this to show you that there’s much more out there than I can show in our lectures.</p>
 </div>

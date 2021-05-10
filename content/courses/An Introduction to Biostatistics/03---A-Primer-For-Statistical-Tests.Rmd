@@ -34,7 +34,7 @@ knitr::opts_chunk$set(echo = TRUE, tidy = TRUE, fig.height = 4.5)
 # Theory
 These are the solutions to the exercises contained within the handout to A Primer For Statistical Tests which walks you through the basics of variables, their scales and distributions. Keep in mind that there is probably a myriad of other ways to reach the same conclusions as presented in these solutions.
 
-I have prepared some [Lecture Slides](/courses/An Introduction to Biostatistics/03---A-Primer-For-Statistical-Tests_Handout.pdf) for this session. Unfortunately, they are in pdf format, so you will have to download them straight to your PC.
+I have prepared some [Lecture Slides](/courses/An Introduction to Biostatistics/03---A-Primer-For-Statistical-Tests_Handout.html) for this session.
 
 # Data
 Find the data for this exercise [here](/courses/An Introduction to Biostatistics/Data/Primer.RData).

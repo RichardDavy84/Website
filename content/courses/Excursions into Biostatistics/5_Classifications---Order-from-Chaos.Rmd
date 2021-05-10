@@ -35,7 +35,7 @@ options(width = 200)
 # Theory
 These are exercises and solutions meant as a compendium to my talk on Model Selection and Model Building.  
 
-I have prepared some [Lecture Slides](/courses/Excursions-into-Biostatistics/Classifications---Order-from-Chaos.pdf) for this session. Unfortunately, they are in pdf format, so you will have to download them straight to your PC.
+I have prepared some [Lecture Slides](/courses/Excursions-into-Biostatistics/Classifications---Order-from-Chaos.html) for this session.
 
 # Our Resarch Project
 

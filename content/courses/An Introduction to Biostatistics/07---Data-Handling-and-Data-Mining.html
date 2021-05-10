@@ -78,7 +78,7 @@ weight: 7
 <div id="theory" class="section level1">
 <h1>Theory</h1>
 <p>Welcome to our first “real” practical experience in <code>R</code>. The following notes present you with an example of how data handling (also known as data cleaning) can be done. Obviously, the possibility for flaws to occur in any given data set are seemingly endless and so the following, tedious procedure should be thought of as less of an recipe of how to fix common flaws in biological data sets but make you aware of how important proper data collection and data entry is.</p>
-<p>I have prepared some <a href="/courses/An%20Introduction%20to%20Biostatistics/07---Data-Handling-and-Data-Mining_Handout.pdf">Lecture Slides</a> for this session. Unfortunately, they are in pdf format, so you will have to download them straight to your PC.</p>
+<p>I have prepared some <a href="/courses/An%20Introduction%20to%20Biostatistics/07---Data-Handling-and-Data-Mining_Handout.html">Lecture Slides</a> for this session.</p>
 </div>
 <div id="data" class="section level1">
 <h1>Data</h1>
@@ -295,7 +295,7 @@ To make sure we fix all problems, we may often wish to enlist the <code>summary(
 <pre><code>## [1] &quot;numeric&quot;</code></pre>
 <pre class="r"><code>table(Data_df$Latitude) # use this instead of summary due to station-dependency here</code></pre>
 <pre><code>## 
-## -51.75    -25  -21.1      4   14.6  17.25     31     54     55     60     70 
+## -51.75    -25  -21.1      4   10.5  17.25     31     54     55     60     70 
 ##     69     88     95    250    114    105     81     68     68     66     64</code></pre>
 <p>Indeed, they do behave just like we’d expect them to.</p>
 </div>
@@ -314,8 +314,8 @@ To make sure we fix all problems, we may often wish to enlist the <code>summary(
 <pre><code>## [1] &quot;numeric&quot;</code></pre>
 <pre class="r"><code>table(Data_df$Longitude) # use this instead of summary due to station-dependency here</code></pre>
 <pre><code>## 
-##    -97    -92    -90 -88.75 -59.17  -57.7    -53     -2   55.6    100    135 
-##     68     81     64    105     69    114    250     68     95     66     88</code></pre>
+##    -97    -92    -90 -88.75    -67 -59.17    -53     -2   55.6    100    135 
+##     68     81     64    105    114     69    250     68     95     66     88</code></pre>
 <p>Indeed, they do behave just like we’d expect them to.</p>
 </div>
 <div id="fixing-problems-3" class="section level3">

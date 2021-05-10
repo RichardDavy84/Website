@@ -69,7 +69,7 @@ header-includes:
 <div id="theory" class="section level1">
 <h1>Theory</h1>
 <p>These are exercises and solutions meant as a compendium to my talk on Model Selection and Model Building.</p>
-<p>I have prepared some <a href="/courses/Excursions-into-Biostatistics/Model-Selection-and-Statistical-Significance---Reporting-the-Best-Science.pdf">Lecture Slides</a> for this session. Unfortunately, they are in pdf format, so you will have to download them straight to your PC. For a more mathematical look at these concepts, I cannot recommend enough <a href="https://bookdown.org/egarpor/PM-UC3M/lm-ii-modsel.html">Eduardo García Portugués’ blog</a>.</p>
+<p>I have prepared some <a href="/courses/Excursions-into-Biostatistics/Model-Selection-and-Statistical-Significance---Reporting-the-Best-Science.html">Lecture Slides</a> for this session. For a more mathematical look at these concepts, I cannot recommend enough <a href="https://bookdown.org/egarpor/PM-UC3M/lm-ii-modsel.html">Eduardo García Portugués’ blog</a>.</p>
 </div>
 <div id="r-environment" class="section level1">
 <h1><code>R</code> Environment</h1>
@@ -93,13 +93,14 @@ package_vec &lt;- c(
   &quot;MASS&quot;, # for stepwise subset selection
   &quot;nlme&quot;, # for mixed effect models
   &quot;mclust&quot;, # for k-means clustering,
-  &quot;randomForest&quot; # for randomForest classifier
+  &quot;randomForest&quot;, # for randomForest classifier
+  &quot;lmeresampler&quot; # for validation of lmer models
 )
 sapply(package_vec, install.load.package)</code></pre>
 <pre><code>##         ggplot2         leaflet splitstackshape           caret            boot           tidyr       tidybayes            pROC           olsrr            MASS            nlme          mclust 
 ##            TRUE            TRUE            TRUE            TRUE            TRUE            TRUE            TRUE            TRUE            TRUE            TRUE            TRUE            TRUE 
-##    randomForest 
-##            TRUE</code></pre>
+##    randomForest    lmeresampler 
+##            TRUE            TRUE</code></pre>
 <p>Using the above function is way more sophisticated than the usual <code>install.packages()</code> &amp; <code>library()</code> approach since it automatically detects which packages require installing and only install these thus not overwriting already installed packages.</p>
 </div>
 <div id="our-resarch-project" class="section level1">
@@ -454,7 +455,7 @@ apply(H1_Test_mat, MARGIN = 2, FUN = function(x) sum((Test_df$Weight - x)^2))</c
 H1_LOOCV_ls &lt;- sapply(H1_Model_ls[-length(H1_Model_ls)], CV_LOOCV)
 End &lt;- Sys.time()
 End - Begin</code></pre>
-<pre><code>## Time difference of 11.43714 secs</code></pre>
+<pre><code>## Time difference of 16.66372 secs</code></pre>
 <pre class="r"><code>sapply(H1_LOOCV_ls, &quot;[[&quot;, &quot;results&quot;)[-1, ]</code></pre>
 <pre><code>##          Comp_Flock.Size Comp_Full Full     
 ## RMSE     1.894279        1.865854  1.609296 
@@ -492,7 +493,7 @@ Begin &lt;- Sys.time()
 H1_kFold_ls &lt;- sapply(H1_Model_ls[-length(H1_Model_ls)], CV_kFold)
 End &lt;- Sys.time()
 End - Begin</code></pre>
-<pre><code>## Time difference of 1.111821 secs</code></pre>
+<pre><code>## Time difference of 1.521967 secs</code></pre>
 <pre class="r"><code>sapply(H1_kFold_ls, &quot;[[&quot;, &quot;results&quot;)[-1, ]</code></pre>
 <pre><code>##            Comp_Flock.Size Comp_Full  Full      
 ## RMSE       1.889439        1.859135   1.603168  
@@ -524,7 +525,7 @@ Begin &lt;- Sys.time()
 H1_BootStrap_ls &lt;- sapply(H1_Model_ls[-length(H1_Model_ls)], BootStrap)
 End &lt;- Sys.time()
 End - Begin</code></pre>
-<pre><code>## Time difference of 2.213253 secs</code></pre>
+<pre><code>## Time difference of 3.131775 secs</code></pre>
 <pre class="r"><code>sapply(H1_BootStrap_ls, &quot;[[&quot;, &quot;results&quot;)[-1, ]</code></pre>
 <pre><code>##            Comp_Flock.Size Comp_Full  Full      
 ## RMSE       1.893652        1.871873   1.622079  
@@ -536,30 +537,33 @@ End - Begin</code></pre>
 <p>The full model is still doing great, of course.</p>
 <p>But what about our mixed effect model? Luckily, there is a function that can do bootstrapping for us on our <code>lme</code> objects:</p>
 <pre class="r"><code>## Bootstrap mixed model
-Mixed_boot &lt;- lmeresampler::bootstrap(H1_Model_ls[[length(H1_Model_ls)]], fn = fixef, type = &quot;parametric&quot;, B = 5e3)
+Mixed_boot &lt;- lmeresampler::bootstrap(H1_Model_ls[[length(H1_Model_ls)]], .f = fixef, type = &quot;parametric&quot;, B = 5e3)
 Mixed_boot</code></pre>
-<pre><code>## 
-## PARAMETRIC BOOTSTRAP
+<pre><code>## Bootstrap type: parametric 
 ## 
+## Number of resamples: 5000 
 ## 
-## Call:
-## parametric_bootstrap.lme(model = model, fn = fn, B = B)
+##                           term      observed     rep.mean          se          bias
+## 1                  (Intercept)  2.212717e+01 22.100033718 2.857455369 -2.713863e-02
+## 2       Predator.TypeNon-Avian  6.626664e-01  0.659594259 0.162145437 -3.072116e-03
+## 3            Predator.TypeNone  2.694373e-02  0.024167976 0.153223591 -2.775754e-03
+## 4                   Flock.Size  1.497092e-05  0.000155763 0.019233205  1.407921e-04
+## 5             Home.RangeMedium  1.261878e+00  1.265700088 0.880654705  3.821775e-03
+## 6              Home.RangeSmall  3.049068e+00  3.048900401 0.419089398 -1.673221e-04
+## 7                         TAvg  3.015153e-02  0.030242017 0.009928069  9.048261e-05
+## 8                          TSD  1.983744e-01  0.198364577 0.021245676 -9.773015e-06
+## 9  Flock.Size:Home.RangeMedium -1.208598e-01 -0.121279419 0.057966442 -4.196006e-04
+## 10  Flock.Size:Home.RangeSmall -2.110972e-01 -0.211294946 0.019856298 -1.977150e-04
 ## 
+## There were 0 messages, 0 warnings, and 0 errors.
 ## 
-## Bootstrap Statistics :
-##           original        bias    std. error
-## t1*   2.212717e+01 -2.713863e-02 2.857455369
-## t2*   6.626664e-01 -3.072116e-03 0.162145437
-## t3*   2.694373e-02 -2.775754e-03 0.153223591
-## t4*   1.497092e-05  1.407921e-04 0.019233205
-## t5*   1.261878e+00  3.821775e-03 0.880654705
-## t6*   3.049068e+00 -1.673221e-04 0.419089398
-## t7*   3.015153e-02  9.048261e-05 0.009928069
-## t8*   1.983744e-01 -9.773015e-06 0.021245676
-## t9*  -1.208598e-01 -4.196006e-04 0.057966442
-## t10* -2.110972e-01 -1.977150e-04 0.019856298</code></pre>
+## The most commonly occurring message was: NULL
+## 
+## The most commonly occurring warning was: NULL
+## 
+## The most commonly occurring error was: NULL</code></pre>
 <p>With this, we are getting into the heart of the bootstrap. Distributions of our parameter estimates. These give us an amazing understanding of just which parameter values our model sees as plausible given our data:</p>
-<pre class="r"><code>Estimates_df &lt;- data.frame(Mixed_boot[[&quot;t&quot;]])
+<pre class="r"><code>Estimates_df &lt;- data.frame(Mixed_boot[[&quot;replicates&quot;]])
 ## reshape estimates data frame for plotting
 Hist_df &lt;- data.frame(pivot_longer(
   data = Estimates_df,

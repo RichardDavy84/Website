@@ -30,7 +30,7 @@ weight: 10
 # Theory
 Welcome to our fourth practical experience in R. Throughout the following notes, I will introduce you to a couple statistical approaches for metric or ordinal data when wanting to compare two samples/populations that might be useful to you and are, to varying degrees, often used in biology. To do so, I will enlist the sparrow data set we handled in our first exercise.
 
-I have prepared some [Lecture Slides](/courses/An Introduction to Biostatistics/10---Ordinal-and-Metric-Test--Two-Sample-_Handout.pdf) for this session. Unfortunately, they are in pdf format, so you will have to download them straight to your PC.
+I have prepared some [Lecture Slides](/courses/An Introduction to Biostatistics/10---Ordinal-and-Metric-Test--Two-Sample-_Handout.html) for this session. 
 
 # Data
 Find the data for this exercise [here](/courses/An Introduction to Biostatistics/Data/1 - Sparrow_Data_READY.rds) and [here](/courses/An Introduction to Biostatistics/Data/2b - Sparrow_ResettledSIUK_READY.rds).

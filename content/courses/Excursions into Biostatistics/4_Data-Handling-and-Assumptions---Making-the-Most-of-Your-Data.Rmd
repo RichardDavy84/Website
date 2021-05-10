@@ -36,7 +36,7 @@ source("PersonalSettings.R") # I do this here to specify number of cores and API
 # Theory
 These are exercises and solutions meant as a compendium to my talk on Model Selection and Model Building.  
 
-I have prepared some [Lecture Slides](/courses/Excursions-into-Biostatistics/Data-Handling-and-Assumptions---Making-the-Most-of-Your-Data.pdf) for this session. Unfortunately, they are in pdf format, so you will have to download them straight to your PC.
+I have prepared some [Lecture Slides](/courses/Excursions-into-Biostatistics/Data-Handling-and-Assumptions---Making-the-Most-of-Your-Data.html) for this session.
 
 # Exercise
 First, imagine we have been out and about collecting samples for our sparrow populations. You can find the data came home with after our field work season [here](/courses/Excursions-into-Biostatistics/Data.rar). This data set contains errors/mis-specified data entry and other slip-ups that can happen as a part of data collection exercises. We need to fix that.

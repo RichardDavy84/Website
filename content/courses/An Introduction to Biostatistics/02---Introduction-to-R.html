@@ -49,7 +49,7 @@ weight: 2
 <div id="theory" class="section level1">
 <h1>Theory</h1>
 <p>These are the solutions to the exercises contained within the handout to Introduction to R which walks you through the basics of the <code>R</code> machinery. <code>R</code> is a coding language that can be highly individualised and hence there are often multiple solutions to the same problem. Within these solutions, I shall only present you with one solution for every given task. However, do keep in mind that there is probably a myriad of other ways to achieve your goal.</p>
-<p>I have prepared some <a href="/courses/An%20Introduction%20to%20Biostatistics/02---Introduction-to-R_Handout.pdf">Lecture Slides</a> for this session. Unfortunately, they are in pdf format, so you will have to download them straight to your PC.</p>
+<p>I have prepared some <a href="/courses/An%20Introduction%20to%20Biostatistics/02---Introduction-to-R_Handout.html">Lecture Slides</a> for this session.</p>
 </div>
 <div id="creating-and-inspecting-objects" class="section level1">
 <h1>Creating and Inspecting Objects</h1>
@@ -119,7 +119,7 @@ Numbers_fac</code></pre>
 <ul>
 <li>A factor reading: 1, 2, 3 but only levels 1 and 2 are allowed</li>
 </ul>
-<pre class="r"><code>Constrained_fac &lt;- factor(x = c(1, 2, 3), levels = c(1, 2))
+<pre class="r"><code>Constrained_fac &lt;- factor(x = c(1,2,3), levels = c(1,2))
 Constrained_fac</code></pre>
 <pre><code>## [1] 1    2    &lt;NA&gt;
 ## Levels: 1 2</code></pre>
@@ -128,7 +128,7 @@ Constrained_fac</code></pre>
 <ul>
 <li>A factor reading: 1, 2, 3 levels 1 - 4 are allowed</li>
 </ul>
-<pre class="r"><code>Expanded_fac &lt;- factor(x = c(1, 2, 3), levels = c(1, 2, 3, 4))
+<pre class="r"><code>Expanded_fac &lt;- factor(x = c(1,2,3), levels = c(1,2,3,4))
 Expanded_fac</code></pre>
 <pre><code>## [1] 1 2 3
 ## Levels: 1 2 3 4</code></pre>
@@ -187,7 +187,7 @@ Combine_df</code></pre>
 <li>The previous data frame with meaningful names</li>
 </ul>
 <pre class="r"><code>Names_df &lt;- Combine_df
-colnames(Names_df) &lt;- c(&quot;Numbers&quot;, &quot;Letters&quot;)
+colnames(Names_df) &lt;- c(&quot;Numbers&quot;, &quot;Letters&quot;) 
 Names_df</code></pre>
 <pre><code>##   Numbers Letters
 ## 1       1       A
@@ -224,7 +224,7 @@ Vectors_ls</code></pre>
 <ul>
 <li>The first column of <code>Combine_df</code> is shorter than <code>Vectors_ls</code>?</li>
 </ul>
-<pre class="r"><code>length(Combine_df[, 1]) &lt; length(Vectors_ls)</code></pre>
+<pre class="r"><code>length(Combine_df[,1]) &lt; length(Vectors_ls)</code></pre>
 <pre><code>## [1] FALSE</code></pre>
 <ul>
 <li>The elements of <code>Letters_vec</code> are the same as the elements of <code>Letters_fac</code>?</li>
@@ -237,17 +237,17 @@ Vectors_ls</code></pre>
 <ul>
 <li>Print each element of <code>Vectors_ls</code></li>
 </ul>
-<pre class="r"><code>for (i in 1:length(Vectors_ls)) {
-    print(Vectors_ls[[i]])
+<pre class="r"><code>for(i in 1:length(Vectors_ls)){
+  print(Vectors_ls[[i]])
 }</code></pre>
 <pre><code>## [1] 1 2 3
 ## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot;</code></pre>
 <ul>
 <li>Print each element of <code>Numbers_vec</code> + 1</li>
 </ul>
-<pre class="r"><code>Numbers_veca &lt;- Numbers_vec + 1
-for (i in 1:length(Numbers_veca)) {
-    print(Numbers_veca[i])
+<pre class="r"><code>Numbers_veca &lt;- Numbers_vec +1
+for(i in 1:length(Numbers_veca)){
+  print(Numbers_veca[i])
 }</code></pre>
 <pre><code>## [1] 2
 ## [1] 3
@@ -255,11 +255,11 @@ for (i in 1:length(Numbers_veca)) {
 <ul>
 <li>Subtract 1 from each element of the first column of <code>Combine_mat</code> and print each element separately</li>
 </ul>
-<pre class="r"><code>Mat_column &lt;- Combine_mat[, 1]  # extract data
-Mat_column &lt;- as.numeric(Mat_column)  # convert to numeric
-Mat_column &lt;- Mat_column - 1  # substract 1
-for (i in 1:length(Mat_column)) {
-    print(Mat_column[i])
+<pre class="r"><code>Mat_column &lt;- Combine_mat[,1] # extract data
+Mat_column &lt;- as.numeric(Mat_column) # convert to numeric
+Mat_column &lt;- Mat_column-1 # substract 1
+for(i in 1:length(Mat_column)){
+  print(Mat_column[i])
 }</code></pre>
 <pre><code>## [1] 0
 ## [1] 1
@@ -283,7 +283,7 @@ for (i in 1:length(Mat_column)) {
 <ul>
 <li>Get the help documentation for the <code>as.matrix()</code> function (again, I am not showing you the result as this only works directly in <code>R</code> or Rstudio)</li>
 </ul>
-<pre class="r"><code>`?`(as.matrix)</code></pre>
+<pre class="r"><code>?as.matrix</code></pre>
 <ul>
 <li>Install and load the <code>dplyr</code> package</li>
 </ul>
@@ -296,11 +296,11 @@ library(dplyr)</code></pre>
 <ul>
 <li>Clear your entire working environment</li>
 </ul>
-<pre class="r"><code>ls()  # this command shows you all the object in the environment</code></pre>
+<pre class="r"><code>ls() # this command shows you all the object in the environment</code></pre>
 <pre><code>##  [1] &quot;Big_vec&quot;         &quot;Combine_df&quot;      &quot;Combine_mat&quot;     &quot;Constrained_fac&quot;
 ##  [5] &quot;Expanded_fac&quot;    &quot;i&quot;               &quot;Letters_fac&quot;     &quot;Letters_vec&quot;    
 ##  [9] &quot;Mat_column&quot;      &quot;Names_df&quot;        &quot;Names_mat&quot;       &quot;Numbers_fac&quot;    
 ## [13] &quot;Numbers_vec&quot;     &quot;Numbers_veca&quot;    &quot;Pivot_mat&quot;       &quot;Seq_vec&quot;        
 ## [17] &quot;Vectors_ls&quot;</code></pre>
-<pre class="r"><code>rm(list = ls())</code></pre>
+<pre class="r"><code>rm(list=ls())</code></pre>
 </div>

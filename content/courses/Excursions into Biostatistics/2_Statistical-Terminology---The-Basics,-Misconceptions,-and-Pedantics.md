@@ -12,4 +12,4 @@ type: docs
 weight: 2
 ---
 
-I have prepared some {{< staticref "courses/Excursions-into-Biostatistics/Statistical-Terminology---The-Basics,-Misconceptions,-and-Pedantics.pdf" "newtab" >}} Lecture Slides {{< /staticref >}} for this session. Unfortunately, they are in pdf format, so you will have to download them straight to your PC.
+I have prepared some {{< staticref "courses/Excursions-into-Biostatistics/Statistical-Terminology---The-Basics,-Misconceptions,-and-Pedantics.html" "newtab" >}} Lecture Slides {{< /staticref >}} for this session.

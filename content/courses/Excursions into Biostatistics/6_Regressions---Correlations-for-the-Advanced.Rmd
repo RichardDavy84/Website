@@ -32,10 +32,10 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, tidy='style
 options(width = 200)
 ```
 
-# Theory
+# Theory 
 These are exercises and solutions meant as a compendium to my talk on Model Selection and Model Building.  
 
-I have prepared some [Lecture Slides](/courses/Excursions-into-Biostatistics/Regressions---Correlations-for-the-Advanced.pdf) for this session. Unfortunately, they are in pdf format, so you will have to download them straight to your PC.
+I have prepared some [Lecture Slides](/courses/Excursions-into-Biostatistics/Regressions---Correlations-for-the-Advanced.html) for this session.
 
 # Our Resarch Project
 

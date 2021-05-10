@@ -40,7 +40,7 @@ source("PersonalSettings.R") # I do this here to specify number of cores and API
 # Theory
 These are exercises and solutions meant as a compendium to my talk on Model Selection and Model Building.  
 
-I have prepared some [Lecture Slides](/courses/Excursions-into-Biostatistics/Model-Selection-and-Statistical-Significance---Reporting-the-Best-Science.pdf) for this session. Unfortunately, they are in pdf format, so you will have to download them straight to your PC. For a more mathematical look at these concepts, I cannot recommend enough [Eduardo García Portugués' blog](https://bookdown.org/egarpor/PM-UC3M/lm-ii-modsel.html).
+I have prepared some [Lecture Slides](/courses/Excursions-into-Biostatistics/Model-Selection-and-Statistical-Significance---Reporting-the-Best-Science.html) for this session. For a more mathematical look at these concepts, I cannot recommend enough [Eduardo García Portugués' blog](https://bookdown.org/egarpor/PM-UC3M/lm-ii-modsel.html).
 
 # `R` Environment
 
@@ -65,7 +65,8 @@ package_vec <- c(
   "MASS", # for stepwise subset selection
   "nlme", # for mixed effect models
   "mclust", # for k-means clustering,
-  "randomForest" # for randomForest classifier
+  "randomForest", # for randomForest classifier
+  "lmeresampler" # for validation of lmer models
 )
 sapply(package_vec, install.load.package)
 ```
@@ -420,13 +421,13 @@ The full model is still doing great, of course.
 But what about our mixed effect model? Luckily, there is a function that can do bootstrapping for us on our `lme` objects:
 ```{r}
 ## Bootstrap mixed model
-Mixed_boot <- lmeresampler::bootstrap(H1_Model_ls[[length(H1_Model_ls)]], fn=fixef, type="parametric",B=5e3)
+Mixed_boot <- lmeresampler::bootstrap(H1_Model_ls[[length(H1_Model_ls)]], .f=fixef, type="parametric",B=5e3)
 Mixed_boot
 ```
 With this, we are getting into the heart of the bootstrap. Distributions of our parameter estimates. These give us an amazing understanding of just which parameter values our model sees as plausible given our data:
 
 ```{r}
-Estimates_df <- data.frame(Mixed_boot[["t"]])
+Estimates_df <- data.frame(Mixed_boot[["replicates"]])
 ## reshape estimates data frame for plotting
 Hist_df <- data.frame(pivot_longer(
   data = Estimates_df,

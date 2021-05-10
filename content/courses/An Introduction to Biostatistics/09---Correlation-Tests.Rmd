@@ -27,10 +27,10 @@ type: docs
 weight: 9
 ---
 
-# Theory 
+# Theory
 Welcome to our third practical experience in R. Throughout the following notes, I will introduce you to a couple statistical correlation approaches that might be useful to you and are, to varying degrees, often used in biology. To do so, I will enlist the sparrow data set we handled in our first exercise.
 
-I have prepared some [Lecture Slides](/courses/An Introduction to Biostatistics/09---Correlation-Tests_Handout.pdf) for this session. Unfortunately, they are in pdf format, so you will have to download them straight to your PC.
+I have prepared some [Lecture Slides](/courses/An Introduction to Biostatistics/09---Correlation-Tests_Handout.html) for this session.
 
 # Data
 Find the data for this exercise [here](/courses/An Introduction to Biostatistics/Data/1 - Sparrow_Data_READY.rds).

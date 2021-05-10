@@ -59,7 +59,7 @@ weight: 6
 <div id="theory" class="section level1">
 <h1>Theory</h1>
 <p>These are exercises and solutions meant as a compendium to my talk on Model Selection and Model Building.</p>
-<p>I have prepared some <a href="/courses/Excursions-into-Biostatistics/Regressions---Correlations-for-the-Advanced.pdf">Lecture Slides</a> for this session. Unfortunately, they are in pdf format, so you will have to download them straight to your PC.</p>
+<p>I have prepared some <a href="/courses/Excursions-into-Biostatistics/Regressions---Correlations-for-the-Advanced.html">Lecture Slides</a> for this session.</p>
 </div>
 <div id="our-resarch-project" class="section level1">
 <h1>Our Resarch Project</h1>
@@ -607,7 +607,7 @@ hist(leverage(H1_Climate_ME_Sparrows)[, 1]) # Leverage, not really any outliers 
 Quite evidently, the assumption of linearity is violated. Notice that we would not like to use this model for predictions, but will carry it forward for the purpose of subsequent <a href="/courses/excursions-into-biostatistics/excursion-into-biostatistics/">Model Selection and Validation</a>.</p>
 <pre class="r"><code>summary(H1_Climate_ME_Sparrows)</code></pre>
 <pre><code>## Linear mixed-effects model fit by REML
-##  Data: Sparrows_df 
+##   Data: Sparrows_df 
 ##        AIC      BIC    logLik
 ##   3557.109 3586.922 -1772.554
 ## 
@@ -620,7 +620,7 @@ Quite evidently, the assumption of linearity is violated. Notice that we would n
 ##         (Intercept) Residual
 ## StdDev:    2.640311 1.237155
 ## 
-## Fixed effects: Weight ~ TAvg + TSD 
+## Fixed effects:  Weight ~ TAvg + TSD 
 ##                Value Std.Error   DF    t-value p-value
 ## (Intercept) 37.83099 31.229059 1055  1.2114034  0.2260
 ## TAvg        -0.03070  0.104602    7 -0.2934692  0.7777
@@ -655,7 +655,7 @@ hist(leverage(H1_Climate_ME_CNA)[, 1]) # Leverage, not really any outliers --&gt
 <p>With this model, all of our assumption are met nicely!</p>
 <pre class="r"><code>summary(H1_Climate_ME_CNA)</code></pre>
 <pre><code>## Linear mixed-effects model fit by REML
-##  Data: CentralNorthAm_df 
+##   Data: CentralNorthAm_df 
 ##        AIC      BIC    logLik
 ##   863.9566 881.5035 -426.9783
 ## 
@@ -664,7 +664,7 @@ hist(leverage(H1_Climate_ME_CNA)[, 1]) # Leverage, not really any outliers --&gt
 ##         (Intercept) Residual
 ## StdDev:   0.3802608 1.301734
 ## 
-## Fixed effects: Weight ~ TAvg + TSD 
+## Fixed effects:  Weight ~ TAvg + TSD 
 ##                 Value Std.Error  DF   t-value p-value
 ## (Intercept) 16.598661 13.291655 247 1.2488031  0.2129
 ## TAvg         0.042146  0.042863   0 0.9832757     NaN
@@ -849,9 +849,9 @@ We fixed it! Now just for the parameter estimates:</p>
 <div id="sessioninfo" class="section level1">
 <h1>SessionInfo</h1>
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>## R version 4.0.2 (2020-06-22)
+<pre><code>## R version 4.0.5 (2021-03-31)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 10 x64 (build 18363)
+## Running under: Windows 10 x64 (build 19041)
 ## 
 ## Matrix products: default
 ## 
@@ -863,13 +863,14 @@ We fixed it! Now just for the parameter estimates:</p>
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] HLMdiag_0.4.0 nlme_3.1-148  ggplot2_3.3.2
+## [1] HLMdiag_0.5.0 nlme_3.1-152  ggplot2_3.3.3
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_1.0.5        plyr_1.8.6        pillar_1.4.6      compiler_4.0.2    R.methodsS3_1.8.1 R.utils_2.10.1    tools_4.0.2       digest_0.6.27     lubridate_1.7.9   lattice_0.20-41  
-## [11] evaluate_0.14     lifecycle_0.2.0   tibble_3.0.3      gtable_0.3.0      R.cache_0.14.0    mgcv_1.8-31       pkgconfig_2.0.3   rlang_0.4.10      Matrix_1.2-18     rstudioapi_0.11  
-## [21] yaml_2.2.1        blogdown_1.0.2    xfun_0.20         janitor_2.1.0     withr_2.3.0       styler_1.3.2      stringr_1.4.0     dplyr_1.0.2       knitr_1.30        generics_0.0.2   
-## [31] vctrs_0.3.4       grid_4.0.2        tidyselect_1.1.0  snakecase_0.11.0  glue_1.4.2        R6_2.5.0          rmarkdown_2.6     bookdown_0.21     farver_2.0.3      reshape2_1.4.4   
-## [41] purrr_0.3.4       magrittr_2.0.1    rematch2_2.1.2    splines_4.0.2     MASS_7.3-51.6     backports_1.1.10  scales_1.1.1      ellipsis_0.3.1    htmltools_0.5.0   colorspace_1.4-1 
-## [51] labeling_0.3      stringi_1.5.3     munsell_0.5.0     crayon_1.3.4      R.oo_1.24.0</code></pre>
+##  [1] styler_1.4.1      tidyselect_1.1.0  xfun_0.22         bslib_0.2.4       janitor_2.1.0     rematch2_2.1.2    purrr_0.3.4       reshape2_1.4.4    splines_4.0.5     lattice_0.20-41  
+## [11] snakecase_0.11.0  colorspace_2.0-0  vctrs_0.3.7       generics_0.1.0    htmltools_0.5.1.1 yaml_2.2.1        mgcv_1.8-34       utf8_1.2.1        rlang_0.4.10      R.oo_1.24.0      
+## [21] jquerylib_0.1.4   pillar_1.6.0      glue_1.4.2        withr_2.4.2       R.utils_2.10.1    R.cache_0.14.0    lifecycle_1.0.0   plyr_1.8.6        stringr_1.4.0     munsell_0.5.0    
+## [31] blogdown_1.3      gtable_0.3.0      R.methodsS3_1.8.1 diagonals_6.0.0   evaluate_0.14     labeling_0.4.2    knitr_1.33        fansi_0.4.2       highr_0.9         Rcpp_1.0.6       
+## [41] scales_1.1.1      backports_1.2.1   jsonlite_1.7.2    farver_2.1.0      digest_0.6.27     stringi_1.5.3     bookdown_0.22     dplyr_1.0.5       grid_4.0.5        tools_4.0.5      
+## [51] magrittr_2.0.1    sass_0.3.1        tibble_3.1.1      crayon_1.4.1      pkgconfig_2.0.3   ellipsis_0.3.1    MASS_7.3-53.1     Matrix_1.3-2      lubridate_1.7.10  rmarkdown_2.7    
+## [61] R6_2.5.0          compiler_4.0.5</code></pre>
 </div>
