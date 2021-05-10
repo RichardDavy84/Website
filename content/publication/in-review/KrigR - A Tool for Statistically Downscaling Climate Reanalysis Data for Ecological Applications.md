@@ -9,7 +9,7 @@ doi: ""
 featured: true
 projects:
 - KrigR
-publication: "*Nature*"
+publication: "*Nature Scientific Data*"
 # publication_short: ""
 publication_types: # 1 = conference paper, 2 = journal article, 3 = preprint, 4 = conference paper, 5 = book, 6 = Book section, 7 = Thesis, 8 = patent
 - "3"
