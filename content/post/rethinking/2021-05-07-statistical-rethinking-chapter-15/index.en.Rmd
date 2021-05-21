@@ -24,14 +24,14 @@ output:
     toc: true
     toc_depth: 1
     number_sections: false
-header-includes:
-  <script src = "https://polyfill.io/v3/polyfill.min.js?features = es6"></script>
-  <script id = "MathJax-script" async src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 links:
 - icon: file-powerpoint
   icon_pack: fas
   name: Slides - Chapter 15
   url: /post/rethinking/18__07-05-2021_SUMMARY_-Measurement-Error-and-Missing-Data.html
+header-includes:
+  <script src = "https://polyfill.io/v3/polyfill.min.js?features = es6"></script>
+  <script id = "MathJax-script" async src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 ---
 
 ```{r setup, include = FALSE}
@@ -324,7 +324,7 @@ That's a pretty reliably positive relationship. Older elephants mate more.
 On to the measurement error model:
 
 ```{r echo = FALSE, "C-Stack error workaround attempt"}
-gc()
+# # gc()
 d$AGE0 <- d$AGE - 25 # add the sexual maturity consideration to the data
 if(!file.exists(file.path(getwd(), "m_H1_B.RData"))){
 m_H1_B <- ulam(
@@ -422,7 +422,7 @@ precis(lm(y~x, d))
 On to the imputation model:
 
 ```{r echo=FALSE}
-gc()
+# gc()
 if(!file.exists(file.path(getwd(), "m_H3.RData"))){
  m_H3 <- ulam(
     alist(
@@ -629,7 +629,7 @@ dat <- list(
 Finally, let's run the model and plot some samples from it:
 
 ```{r echo = FALSE, "C-Stack error workaround attempt2"}
-gc()
+# gc()
 if(!file.exists(file.path(getwd(), "m15H7.RData"))){
 m15H7 <- stan(model_code = code15H7, data = dat, chains = 4, cores = 4)
 save(m15H7, file = "m15H7.RData")

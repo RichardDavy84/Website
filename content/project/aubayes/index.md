@@ -33,6 +33,9 @@ title: Bayes Study Group
 # url_video: ""
 ---
 
+# Disclaimer
+This study group has come to an end. All information about it can still be found below. We are now coordinating through Slack to get our fix of all things Bayes. Our Slack Workspace is open to anyone who wants to join us. To do so, simply let me know by [contacting me](/contact). 
+
 # Motivation
 Have you ever read a paper and thought: “Wow, this is really cool”, then read on only to find the word “Bayesian” in the analysis specification and promptly get lost at the terminology and approach to statistics?
 
