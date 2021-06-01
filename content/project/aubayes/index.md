@@ -11,14 +11,14 @@ links:
   icon_pack: fab
   name: Follow
   url: https://twitter.com/KuschErik
-# - icon: github
-#   icon_pack: fab
-#   name: Download
-#   url: https://github.com/ErikKusch/KrigR
-# - icon: researchgate
-#   icon_pack: fab
-#   name: Updates
-#   url: https://www.researchgate.net/project/KrigR-Downloading-and-Downscaling-of-ERA5-data-using-R
+- icon: youtube
+  icon_pack: fab
+  name: Seminar Recordings
+  url: https://youtube.com/playlist?list=PLpqqT2K5TtB6p9caQMOPn44tDWEuAoRVr
+- icon: sticky-note
+  icon_pack: fas
+  name: Exercises & Slides
+  url: /category/statistical-rethinking/
 # slides: example
 summary: I have established and am running a group-exercise for learning Bayesian Statistics from the ground up with an assortment of colleagues. This group is run through zoom and open to anyone.
 tags:
@@ -34,7 +34,7 @@ title: Bayes Study Group
 ---
 
 # Disclaimer
-This study group has come to an end. All information about it can still be found below. We are now coordinating through Slack to get our fix of all things Bayes. Our Slack Workspace is open to anyone who wants to join us. To do so, simply let me know by [contacting me](/contact). 
+This study group has come to an end. All information about it can still be found below. We are now coordinating through Slack to get our fix of all things Bayes. Our Slack Workspace is open to anyone who wants to join us. To do so, simply let me know by [contacting me](/contact) and shortly introduce yourself. 
 
 # Motivation
 Have you ever read a paper and thought: “Wow, this is really cool”, then read on only to find the word “Bayesian” in the analysis specification and promptly get lost at the terminology and approach to statistics?
