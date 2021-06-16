@@ -20,8 +20,8 @@ summary: A web-based workshop to introduce the `R`-Package `KrigR` which introdu
 tags: [Statistical Downscaling, Climate Data, KrigR]
 title: KrigR - Downscaling State-of-the-Art Climate Data for Macroecologists
 url_code: "https://github.com/ErikKusch/KrigR"
-url_pdf: "/talks/KrigR---Climate-Data-for-your-Spatial-Analyses_HTML.html"
-url_slides: "https://github.com/ErikKusch/KrigR/tree/master/Workshop"
+url_pdf: post/krigr-mats/krigrworkshop/
+url_slides: 
 url_video: "https://www.youtube.com/watch?v=wwb107L4wVw&ab_channel=ErikKusch"
 ---
 
