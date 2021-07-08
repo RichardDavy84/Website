@@ -1,5 +1,5 @@
 ---
-abstract: Coding is essential to research. Throughout my own education in biostatistics and code implementation I picked up some hbaits - good, bad, and ugly. Here, I reflect on what I now regard as the good practices.
+abstract: Coding is essential to research. Throughout my own education in biostatistics and code implementation I picked up some habits - good, bad, and ugly. Here, I reflect on what I now regard as the good practices.
 all_day: false
 authors: [ErikKusch]
 date: "2021-07-08T10:00:00Z"
@@ -17,8 +17,8 @@ math: true
 publishDate: "2021-07-08T00:00:00Z"
 # slides: ""
 summary: Some of my ideas for how to improve coding practices that I presented to the SalGo-Team.
-# tags: [Biological Networks]
-title: Species Associations Across Scales of Organisation
+# tags: []
+title: Coding Practices in R
 # url_code: "https://github.com/ErikKusch/PhD-Project"
 # url_pdf: ""
 url_slides: "courses/Excursions-into-Biostatistics/2021-07-08-Coding-Practices_Web.html"
