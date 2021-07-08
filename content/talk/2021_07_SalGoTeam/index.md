@@ -19,7 +19,7 @@ publishDate: "2021-07-08T00:00:00Z"
 summary: Some of my ideas for how to improve coding practices that I presented to the SalGo-Team.
 # tags: []
 title: Coding Practices in R
-# url_code: "https://github.com/ErikKusch/PhD-Project"
+url_code: "courses/Excursions-into-Biostatistics/CodinBackBone.R"
 # url_pdf: ""
 url_slides: "courses/Excursions-into-Biostatistics/2021-07-08-Coding-Practices_Web.html"
 # url_video: ""
