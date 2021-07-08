@@ -12,4 +12,6 @@ type: docs
 weight: 3
 ---
 
-I have prepared some {{< staticref "courses/Excursions-into-Biostatistics/Coding-Practices---Life-With-R.html" "newtab" >}} Lecture Slides {{< /staticref >}} for this session.
+I have prepared some {{< staticref "courses/Excursions-into-Biostatistics/2021-07-08-Coding-Practices_Web.html" "newtab" >}} Lecture Slides {{< /staticref >}} for this session. I also provide the {{< staticref "courses/Excursions-into-Biostatistics/CodinBackBone.R" "newtab" >}} code structure {{< /staticref >}} I propose during the talk with useful helper functions.
+
+An older version of the lecture slides from previous talks on the same subject can be found {{< staticref "courses/Excursions-into-Biostatistics/Coding-Practices---Life-With-R.html" "newtab" >}} here {{< /staticref >}} and are much text-heavier.
