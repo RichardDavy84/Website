@@ -22,7 +22,7 @@ tags:
 - Drylands
 # url_code: https://github.com/ErikKusch/Vegetation-Memory
 # url_dataset: ''
-# url_pdf: ""
+url_pdf: https://www.biorxiv.org/content/10.1101/2021.08.22.457255v1
 # url_poster: /media/poster/2020_ISEC/Poster - Global Dryland Vegetation Memory.pdf
 # url_project: ""
 # url_slides: ""
