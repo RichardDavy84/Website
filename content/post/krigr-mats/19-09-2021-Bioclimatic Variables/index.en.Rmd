@@ -1,0 +1,668 @@
+---
+title: Bioclimatic Variables with the KrigR Package
+author: Erik Kusch
+date: '2021-09-19'
+slug: krigrbioclim
+categories:
+ - Bioclimatic Variables
+ - KrigR
+tags:
+ - Climate Data
+ - KrigR
+subtitle: 'Bioclimatic Variables As You Need Them'
+summary: 'A short introduction obtaining bioclimatic variables through the KrigR package.'
+authors: []
+lastmod: '2021-09-19T10:00:00+01:00'
+featured: no
+image:
+ caption: ''
+ focal_point: ''
+ preview_only: no
+projects: [KrigR]
+output:
+ blogdown::html_page:
+   toc: true
+   toc_depth: 2
+   number_sections: false
+# type: docs 
+---
+
+<style>
+
+#content {
+    max-width: 3200px !important;
+}
+
+p.atten {
+color: #ffffff;
+background-color: #a30000;
+padding: 15px;
+border: 1px;
+border-radius: 5px;
+}
+
+p.lookhere {
+color: #ffffff;
+background-color: #073b26;
+padding: 15px;
+border: 1px;
+border-radius: 5px;
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, tidy='styler', tidy.opts=list(strict=TRUE), fig.width = 15, fig.height = 8)
+options(width = 200)
+if("KrigR" %in% rownames(installed.packages()) == FALSE){ # KrigR check
+  Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS="true")
+  devtools::install_github("https://github.com/ErikKusch/KrigR")
+}
+library(KrigR)
+source("PersonalSettings.R") # I do this here to specify number of cores and API credentials and am thus not sharing this file
+```
+
+# Getting started with `KrigR`
+
+For the following tutorial, I will assume that you are already familiar with the basics of the `KrigR` package. If this is your first time engaging with `KrigR`, I strongly recommend taking a look at the [Introduction to `KrigR`](/post/krigr-mats/krigrworkshop/) which is available in a separate post.
+
+# Bioclimatic Variables
+
+Bioclimatic variables have been used as a shorthand for environmental conditions in many biological applications. Here, we adopt the bioclimatic variable scheme as laid out in the [WorldClim documentation](https://www.worldclim.org/data/bioclim.html):
+
++-----------------------+---------------------------------------------------------------+
+| Abbreviation          | Data/Information                                              |
++=======================+===============================================================+
+| BIO1                  | Annual Mean Temperature                                       |
++-----------------------+---------------------------------------------------------------+
+| BIO2                  | Mean Diurnal Range (Mean of monthly (max temp - min temp))    |
++-----------------------+---------------------------------------------------------------+
+| BIO3                  | Isothermality (BIO2/BIO7) (×100)                              |
++-----------------------+---------------------------------------------------------------+
+| BIO4                  | Temperature Seasonality (standard deviation ×100)             |
++-----------------------+---------------------------------------------------------------+
+| BIO5                  | Max Temperature of Warmest Month                              |
++-----------------------+---------------------------------------------------------------+
+| BIO6                  | Min Temperature of Coldest Month                              |
++-----------------------+---------------------------------------------------------------+
+| BIO7                  | Temperature Annual Range (BIO5-BIO6)                          |
++-----------------------+---------------------------------------------------------------+
+| BIO8                  | Mean Temperature of Wettest Quarter                           |
++-----------------------+---------------------------------------------------------------+
+| BIO9                  | Mean Temperature of Driest Quarter                            |
++-----------------------+---------------------------------------------------------------+
+| BIO10                 | Mean Temperature of Warmest Quarter                           |
++-----------------------+---------------------------------------------------------------+
+| BIO11                 | Mean Temperature of Coldest Quarter                           |
++-----------------------+---------------------------------------------------------------+
+| BIO12                 | Annual Precipitation                                          |
++-----------------------+---------------------------------------------------------------+
+| BIO13                 | Precipitation of Wettest Month                                |
++-----------------------+---------------------------------------------------------------+
+| BIO14                 | Precipitation of Driest Month                                 |
++-----------------------+---------------------------------------------------------------+
+| BIO15                 | Precipitation Seasonality (Coefficient of Variation)          |
++-----------------------+---------------------------------------------------------------+
+| BIO16                 | Precipitation of Wettest Quarter                              |
++-----------------------+---------------------------------------------------------------+
+| BIO17                 | Precipitation of Driest Quarter                               |
++-----------------------+---------------------------------------------------------------+
+| BIO18                 | Precipitation of Warmest Quarter                              |
++-----------------------+---------------------------------------------------------------+
+| BIO19                 | Precipitation of Coldest Quarter                              |
++-----------------------+---------------------------------------------------------------+
+
+As you can see, at their core, bioclimatic variables are all about temperature and water availability. To calculate all 19 bioclimatic variables, we need knowledge of:
+  
+  - Monthly minimum temperature
+  - Monthly maximum temperature
+  - Monthly average temperature
+  - Monthly average/total water availability/precipitation
+  
+As you can see, that's a tall order in terms of data availability and so pre-established data sets like the aforementioned WorldClim make these data sets available to you directly. There's a caveat with doing science like this:
+
+<p class="atten">
+**No one data set fits all applications!**
+</p>
+
+I would go one step further and argue that:
+
+<p class="atten">
+*Choosing an appropriate set of climate variables and their specifications should receive as much attention as any other data collection facette.*
+</p>
+
+WorldClim, for example, provides Bioclimatic variables for a span of 1970 to 2000. What if your data collection happened after this period, or concluded prior to 2000? The data offered by WorldClim will now approximate the conditions your study organisms experienced, but not reflect them to the best of our available knowledge. That is where `KrigR` comes in.
+
+<p class="lookhere">
+With `KrigR`, you can specify exactly what time-frame your bioclimatic variables are required to represent.
+</p>
+
+Additionally, as we uncover the importance of climatic extremes, we need to consider at which temporal scale to assess monthly minimum and maximum temperatures. With `KrigR`, we give you unprecedendet temporal resolution and control over extreme metric calculation:
+
+<p class="lookhere">
+Bioclimatic variables sourced through `KrigR` can be tailored to reflect hourly or daily extreme measures.
+</p>
+
+Lastly, as you may recall from our [Introduction to `KrigR`](/post/krigr-mats/krigrworkshop/), the data sets that `KrigR` leverages come at a native resolution of "only" up to 11x11km. End users may want to statistically downscale the bioclimatic products to fit your study resolution needs. `KrigR` can do this for you, but we highly recommend to **never statistically downscale precipitation data** as this task has proven nigh impossible to accomplish. Instead, we recommend you **statistically downscale soil moisture data** as your proxy of water availability.
+
+<p class="lookhere">
+Water availability in bioclimatic variables sourced through `KrigR` can be based on precipitation or any other variable contained within ERA5-(Land) data sets.
+</p>
+
+We recommend you use soil moisture.  
+
+# Setting Things Up
+## `KrigR`
+
+Even though previous exposure to `KrigR` is useful for the following, I will assume that eager people and those under crunch conditions will ignore the plea to head over to the [Introduction to `KrigR`](/post/krigr-mats/krigrworkshop/). 
+
+### Installation
+
+`KrigR` is still being prepared for submission to CRAN. Consequently, it is only available through the associated [GitHub repository](https://github.com/ErikKusch/KrigR) for the time being.
+
+Here, we use the `devtools` package within `R` to get access to the `install_github()` function. For this to run, we need to tell `R` to not stop the installation from GitHub as soon as a warning is produced. This would stop the installation process as early as one of the `KrigR` dependencies hits a warning as benign as "Package XYZ was built under R Version X.X.X" which can usually be ignored safely. 
+
+```{r InstallKrigR, eval = FALSE}
+Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS="true")
+devtools::install_github("https://github.com/ErikKusch/KrigR")
+library(KrigR)
+```
+
+### API Credentials
+
+Before we can proceed, you need to open up an account at the CDS and create an API key by following this [link](https://cds.climate.copernicus.eu/api-how-to). This is required so that you may issue download requests through the `KrigR` package. Once you have done so, please register the user ID and API Key as characters as seen below:
+
+```{r APICredentials, eval = FALSE}
+API_User <- 12345
+API_Key <- "XXXXXXX"
+```
+
+### Parallel Execution
+
+Since `KrigR` also supports parallel download execution, it pays to register as many cores as you can for use in `KrigR`:
+
+```{r Cores, eval = FALSE}
+numberOfCores <- parallel::detectCores()
+```
+
+## Additional Packages
+
+For the sake of this tutorial, we need some extra packages for visualisations. We check if they are already installed, subsequently install (if necessary) and load them with this user-defined function:
+```{r MiscPackages}
+install.load.package <- function(x){
+  if (!require(x, character.only = TRUE))
+    install.packages(x, repos='http://cran.us.r-project.org')
+  require(x, character.only = TRUE)
+}
+package_vec <- c("tidyr", # for turning rasters into ggplot-dataframes
+                 "ggplot2", # for plotting
+                 "viridis", # colour palettes
+                 "cowplot" # gridding multiple plots
+                 )
+sapply(package_vec, install.load.package)
+```
+
+## Setting Up Directories
+The tutorial is designed to run completely from scratch. For this to work in a structured way, we create a folder/directory structure so that we got some nice compartments on our hard drives for where each data set is stored. We create the following directories:  
+- A **data** directory for all of our individual Kriging processes  
+- A **shapefile** directory (located within our data directory) for all of the shapefiles that we will use  
+```{r Directories}
+Dir.Base <- getwd() # identifying the current directory
+Dir.Data <- file.path(Dir.Base, "Data") # folder path for data
+Dir.Shapes <- file.path(Dir.Data, "Shapes") # folder path for shapefiles
+Dirs <- sapply(c(Dir.Data, Dir.Shapes), function(x) if(!dir.exists(x)) dir.create(x))
+```
+
+## Shapefiles
+Here, we download a freely available country shapefile. For repeat code-sourcing, we have implemented checks which only trigger the download of a given shapefile set if the data in question is not present in our *Shapes* directory yet.
+
+```{r Countries}
+if(!file.exists(file.path(Dir.Shapes, "Countries.zip"))){ # if not downloaded yet
+  download.file("https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/cultural/ne_10m_admin_0_countries.zip", 
+                destfile = file.path(Dir.Shapes, "Countries.zip")) # download cultural vector
+  unzip(file.path(Dir.Shapes, "Countries.zip"), exdir = Dir.Shapes) # unzip data
+}
+Countries_shp <- readOGR(Dir.Shapes, "ne_10m_admin_0_countries", verbose = FALSE) # read
+```
+
+For this tutorial, I will focus on Scandinavia and will download/compute all bioclimatic data for Scandinavia. I do so by using a shapefile. While I select Norway, Sweden, Finland, and Denmark to represent Scanidnavia, I have to take the extra step of cropping to tell my shapefile to neglect Antarctic provinces and Svalbard. I do so to get the more common image of Scandinavia:
+
+```{r Scandi, fig.height = 8}
+Scandi_shp <- Countries_shp[Countries_shp$NAME %in% c("Norway", "Sweden", "Finland", "Denmark"), ]
+Scandi_shp <- crop(Scandi_shp, extent(c(4, 32, 54.5, 71)))
+ggplot() +
+  geom_polygon(data = Scandi_shp, aes(x = long, y = lat, group = group), colour = "darkred", fill = "black") +
+  theme_bw() +
+  labs(x = "Longitude", y = "Latitude")
+```
+
+Be aware, that the retrieval of bioclimatic variables with `KrigR` can take the same download specification as the basic `download_ERA()` function (using the `Extent` argument) in `KrigR` as discussed in [Introduction to `KrigR`](/post/krigr-mats/krigrworkshop/).
+
+## Plotting Functions
+In order to easily visualise our downloaded products without repeating too much of the same code, we create a plotting function of our own here.
+
+```{r PlotFunRaw}
+Plot_BC <- function(BC_ras, Shp = NULL, Water_Var = "Precipitation", which = "All"){
+  BC_names <- c("Annual Mean Temperature", "Mean Diurnal Range", "Isothermality", "Temperature Seasonality", "Max Temperature of Warmest Month", "Min Temperature of Coldest Month", "Temperature Annual Range (BIO5-BIO6)", "Mean Temperature of Wettest Quarter", "Mean Temperature of Driest Quarter", "Mean Temperature of Warmest Quarter", "Mean Temperature of Coldest Quarter", paste("Annual", Water_Var), paste(Water_Var, "of Wettest Month"), paste(Water_Var, "of Driest Month"), paste(Water_Var, "Seasonality"), paste(Water_Var, "of Wettest Quarter"), paste(Water_Var, "of Driest Quarter"), paste(Water_Var, "of Warmest Quarter"), paste(Water_Var, "of Coldest Quarter"))
+  BC_names <- paste0("BIO", 1:19, " - ", BC_names)
+  BC_df <- as.data.frame(BC_ras, xy = TRUE) # turn raster into dataframe
+  if(which == "All"){Iter <- 1:19}else{Iter <- which}
+  BCplots_ls <- as.list(rep(NA, length(Iter)))
+  counter <- 1
+  for(Plot_Iter in Iter){
+    Legend <- colnames(BC_df)[Plot_Iter+2]
+    Plot_df <- BC_df[, c(1:2, Plot_Iter+2)]
+    colnames(Plot_df)[3] <- "value"
+    if(Plot_Iter < 12){
+      col_grad <- inferno(1e3) 
+    }else{
+      col_grad <- mako(1e3)
+    }
+    BC_plot <- ggplot() + # create a plot
+      geom_raster(data = Plot_df, aes(x = x, y = y, fill = value)) + # plot the raw data
+      theme_bw() + labs(title = BC_names[Plot_Iter], x = "Longitude", y = "Latitude") + # make plot more readable
+      scale_fill_gradientn(name = "", colours = col_grad) # add colour and legend
+    if(!is.null(Shp)){ # if a shape has been designated
+      BC_plot <- BC_plot + geom_polygon(data = Shp, aes(x = long, y = lat, group = group), colour = "black", fill = "NA") # add shape
+    }
+    BCplots_ls[[counter]] <- BC_plot
+    counter <- counter+1
+  }
+  cowplot::plot_grid(plotlist = BCplots_ls, nrow = ceiling(length(Iter)/2))
+}
+```
+
+For some kriging at the end of this post, I also include the plotting functions previously used in the [Introduction to `KrigR`](/post/krigr-mats/krigrworkshop/), but am not showing you the code for them again here.
+
+```{r PlotFunCovs, echo = FALSE}
+Plot_Covs <- function(Covs, Shp = NULL){
+  Plots_ls <- as.list(rep(NA, nlayers(Covs[[1]])*2)) # create as many plots as there are covariates variables * 2
+  Counter <- 1 # counter for list position
+  for(Variable in 1:nlayers(Covs[[1]])){ # loop over all covariate variables
+    Covs_Iter <- list(Covs[[1]][[Variable]], Covs[[2]][[Variable]]) # extract the data for this variable
+    for(Plot in 1:2){ # loop over both resolutions for the current variable
+      Cov_df <- as.data.frame(Covs_Iter[[Plot]], xy = TRUE) # turn raster into data frame
+      colnames(Cov_df)[3] <- "Values" # assign a column name to the data column
+      Plots_ls[[Counter]] <- ggplot() + # create plot
+        geom_raster(data = Cov_df , aes(x = x, y = y, fill = Values)) + # plot the covariate data
+        theme_bw() + labs(x = "Longitude", y = "Latitude") + # make plot more readable
+        scale_fill_gradientn(name = names(Covs_Iter[[Plot]]), colours = cividis(100)) + # add colour and legend
+        theme(plot.margin = unit(c(0, 0, 0, 0), "cm")) # reduce margins (for fusing of plots)
+        if(!is.null(Shp)){ # if a shape has been designated
+          Plots_ls[[Counter]] <- Plots_ls[[Counter]] + geom_polygon(data = Shp, aes(x = long, y = lat, group = group), colour = "black", fill = "NA") # add shape
+        }
+      Counter <- Counter + 1 # raise list counter
+    } # end of resolution loop
+  } # end of variable loop
+  ggPlot <- plot_grid(plotlist = Plots_ls, ncol = 2, labels = "AUTO") # fuse the plots into one big plot
+  return(ggPlot)} # export the plot
+```
+
+```{r PlotFunKrigs, echo = FALSE}
+Plot_Krigs <- function(Krigs, Shp = NULL, Dates, Legend = "Air Temperature [K]"){
+  Type_vec <- c("Prediction", "Standard Error") # these are the output types of krigR
+  Colours_ls <- list(inferno(100), rev(viridis(100))) # we want separate colours for the types
+  Plots_ls <- as.list(NA, NA) # this list will be filled with the output plots
+  for(Plot in 1:2){ # loop over both output types
+    Krig_df <- as.data.frame(Krigs[[Plot]], xy = TRUE) # turn raster into dataframe
+    colnames(Krig_df)[c(-1,-2)] <- paste(Type_vec[Plot], Dates) # set colnames
+    Krig_df <- gather(data = Krig_df, key = Values, value = "value", colnames(Krig_df)[c(-1,-2)]) # make ggplot-ready
+    Plots_ls[[Plot]] <- ggplot() + # create plot
+      geom_raster(data = Krig_df , aes(x = x, y = y, fill = value)) + # plot the kriged data
+      facet_wrap(~Values) + # split raster layers up
+      theme_bw() + labs(x = "Longitude", y = "Latitude") + # make plot more readable
+      scale_fill_gradientn(name = Legend, colours = Colours_ls[[Plot]]) + # add colour and legend
+      theme(plot.margin = unit(c(0, 0, 0, 0), "cm")) # reduce margins (for fusing of plots)
+    if(!is.null(Shp)){ # if a shape has been designated
+          Plots_ls[[Plot]] <- Plots_ls[[Plot]] + geom_polygon(data = Shp, aes(x = long, y = lat, group = group), colour = "black", fill = "NA") # add shape
+        }
+  } # end of type-loop
+  ggPlot <- plot_grid(plotlist = Plots_ls, ncol = 1, labels = "AUTO") # fuse the plots into one big plot
+  return(ggPlot)} # export the plot
+```
+
+# BioClimatic Variables with `KrigR`
+To obtain bioclimatic data with `KrigR` we want to use the `BioClim()` function. In the next sections, I will show you how to use it and how the resulting data objects may differ and why.
+
+## Our First Bioclimatic Data Set
+Let's start with the most basic of bioclimatic data products. So what are the specifications? Well, we:  
+
+1. Query data for the period between 2010 (`Y_start`) and 2020 (`Y_end`, including 2020).  
+2. Obtain data from the era5-land (`DataSet`) catalogue of data.  
+3. Approximate water availability through precipitation (`Water_Var`) despite me earlier saying that I prefer soil moisture. We use precipitation here because people are used to it.  
+4. Extreme metrics for temperature minimum and maximum are calculated from daily (`T_res`) aggregates of the underlying hourly temperature data.  
+
+```{r BC1, fig.height=40, message = TRUE}
+Dir.Present <- file.path(Dir.Data, "Present")
+if(!dir.exists(Dir.Present)){dir.create(Dir.Present)}
+  BC2010_ras <- BioClim(
+      Water_Var = "total_precipitation",
+      Y_start = 2010,
+      Y_end = 2020,
+      DataSet = "era5-land",
+      T_res = "day",
+      Extent = Scandi_shp,
+      Dir = Dir.Present,
+      Keep_Monthly = TRUE,
+      FileName = "Present_BC",
+      API_User = API_User,
+      API_Key = API_Key,
+      Cores = numberOfCores,
+      TimeOut = 60^2*48,
+      SingularDL = TRUE,
+      verbose = TRUE,
+      Keep_Raw = FALSE,
+      TryDown = 5
+    )
+
+```
+As you can see, `BioClim()` informed us that some data products have already been processed. This happens because I have run this function before final compilation of the blogpost you are currently looking at and set the argument ` Keep_Monthly = TRUE`. This will prompt the function to retain monthly aggregates of temperature and water availability alongside the final output. When `BioClim()` recognises that any of the underlying data is already present, it will skip the steps necessary to create this data.
+
+Now let's plot our results. Note that temperature is recorded in Kelvin and precipitation in cubic metres (i.e. litres).
+
+```{r BC1b, fig.height=40}
+Plot_BC(BC2010_ras, Shp = Scandi_shp)
+```
+
+There's not much commenting on the output above as the output should look familiar to most macroecologists.
+
+## Time-Frames
+Let's move on to the first important functionality of the `KrigR::BioClim()` function: **selection of time-frames**. With this, you can obtain bioclimatic data for exactly the duration that your study requires. Here, we query data for the period between 1951 and 1960:
+```{r BC_Early, fig.height=40}
+Dir.Past <- file.path(Dir.Data, "Past")
+if(!file.exists(Dir.Past)){dir.create(Dir.Past)}
+  BC1951_ras <- BioClim(
+      Water_Var = "total_precipitation",
+      Y_start = 1951,
+      Y_end = 1960,
+      Extent = Scandi_shp,
+      Dir = Dir.Past,
+      Keep_Monthly = TRUE,
+      FileName = "Past_BC",
+      API_User = API_User,
+      API_Key = API_Key,
+      Cores = numberOfCores,
+      TimeOut = 60^2*48,
+      SingularDL = TRUE,
+      verbose = TRUE
+    )
+```
+
+I will forego plotting the data itself and instead plot the difference between our bioclimatic data of the present which we created prior and the newly created bioclimatic product of the past. Let me walk you through them 1 by 1.
+
+### Annual Temperature
+As you can see below, the time period of 2011 to 2020 was about 0.5-2 Kelvin warmer than the period of 1501 to 1960:
+```{r BC_Early1, fig.height=8}
+Plot_BC(BC2010_ras-BC1951_ras, Shp = Scandi_shp, which = 1)
+```
+
+### Temperatures
+Let's bundle the differences for all remaining temperature-related bioclimatic variables:
+```{r BC_Early2, fig.height=20}
+Plot_BC(BC2010_ras-BC1951_ras, Shp = Scandi_shp, which = 2:11)
+```
+Let me point out one specific thing here. As you can see, the measure of temperature seasonality is very sensitive to slight changes in time-series data (due to the multiplication by 100). This has drastic consequences for statistical/modelling applications.
+
+### Water Availability
+Now for the water-related bioclimatic variables:
+```{r BC_Early8, fig.height=16}
+Plot_BC(BC2010_ras-BC1951_ras, Shp = Scandi_shp, which = 12:19)
+```
+Clearly, Scandinavia turned much drier with more pronounced seasonality and extreme precipitation events.
+
+I hope that the above has clearly demonstrated on thing:
+
+<p class="atten">
+**Appropriate use of bioclimatic variables is largely dependant on data retrieval for relevant time frames.**
+</p>
+
+## Choice of Water-Availability Variables
+Earlier, I mentioned that I have gripes with the use of precipitation data in bioclimatic variable computation. Why is that? Well, for two reasons, I strongly believe that other water availability variables are much better suited for our analyses:  
+
+1. Bioclimatic products are usually derived from observation-based climate products (such as WorldClim) which do not do a terrific job at accurately representing precipitation to begin with.  
+2. Further downscaling of bioclimatic products containing precipitation information is terribly difficult.  
+
+Both issues are related to one central problem: **Statistical interpolation of precipitation data is difficult and usually done insufficiently**. 
+
+Luckily, with ERA5(-Land), we aren't tied to precipitation and can instead use other water availability metrics such as volumetric soil water content - also known as soil moisture. What's more, this data is available in four distinct depth layers which can be linked to root depth and growth forms. 
+
+Here, I demonstrate the use of the shallowest layer of soil moisture data. As you can see, we are using the same specification as for our basic biolcimatic product with the exception for the `Water_Var` argument:
+```{r BC_Qsoil}
+Dir.Qsoil <- file.path(Dir.Data, "Qsoil")
+if(file.exists(file.path(Dir.Qsoil, "Qsoil_BC.nc"))){
+  BCq_ras <- stack(file.path(Dir.Qsoil, "Qsoil_BC.nc"))
+}else{
+  dir.create(Dir.Qsoil)
+  BCq_ras <- BioClim(
+      Water_Var = "volumetric_soil_water_layer_1",
+      Y_start = 2010,
+      Y_end = 2020,
+      Extent = Scandi_shp,
+      Dir = Dir.Qsoil,
+      Keep_Monthly = FALSE,
+      FileName = "Qsoil_BC",
+      API_User = API_User,
+      API_Key = API_Key,
+      Cores = numberOfCores,
+      TimeOut = Inf,
+      SingularDL = TRUE
+    )
+}
+```
+
+That's how easy it is to obtain different bioclimatic products with `KrigR`. Let's plot this:
+```{r BC_QsoilB, fig.height=40}
+Plot_BC(BCq_ras, Shp = Scandi_shp, Water_Var = "Soil Moisture")
+```
+
+Again, I would like to investigate the changes in how we understand the climatic regimes across Scandinavia now that we are using soil moisture for our water availability as compared to when we used precipitation data.
+
+### Temperatures
+As is hardly surprising, there are no differences in annual temperature data or any other temperature variable except for BIO8 and BIO9. Since we change by what we quantify dryness and wetness, there is tremendous potential in quantifying temperature of driest and wettest quater differently:
+```{r BC_Q1, fig.height=4}
+Plot_BC(BC2010_ras-BCq_ras, Shp = Scandi_shp, which = 8:9)
+```
+
+### Water Availability
+Now for the water-related bioclimatic variables. This is where the rubber meets the road! Aside from the quantitative differences in water availability estimates when using soil moisture over precipitation records, please take note of the much more pronounced spatial patterns (particularly in Finland) when using soil moisture data. This is much more likely to accurately represent bioclimatic envelopes than the smooth patterns you can see for precipitation records.
+```{r BC_Q2, fig.height=16}
+Plot_BC(BC2010_ras-BCq_ras, Shp = Scandi_shp, which = 12:19)
+```
+
+I hope that the above has clearly demonstrated on thing:
+
+<p class="atten">
+**Choice of water availability variable has strong implicitations for how we quantify bioclimatic envelopes.**
+</p>
+
+<p class="lookhere">
+Volumetric soil moisture exhibits more pronounced spatial patterns than precipitation records do thus supplying bioclimatic modelling exercises with more pronounced information.
+</p>
+
+
+## Choice of Extreme Value Calculations
+Lastly, let us concern ourselves with the retrieval of extreme climate metrics which will affect almost all of our temperature-reliant bioclimatic variables. 
+
+So far, we have calculated monthly minimum and maximum temperatures from daily aggregates. However, with `KrigR::BioClim()` we can also obtain these extremes from hourly records simply by changing `T_res`:
+```{r BC_Hour}
+Dir.Hourly <- file.path(Dir.Data, "Hourly")
+if(file.exists(file.path(Dir.Hourly, "Hourly_BC.nc"))){
+  BCh_ras <- stack(file.path(Dir.Hourly, "Hourly_BC.nc"))
+}else{
+  dir.create(Dir.Hourly)
+  BCh_ras <- BioClim(
+    Water_Var = "volumetric_soil_water_layer_1",
+    Y_start = 2010,
+    Y_end = 2020,
+    T_res = "hour",
+    Extent = Scandi_shp,
+    Dir = Dir.Hourly,
+    Keep_Monthly = FALSE,
+    FileName = "Hourly_BC",
+    API_User = API_User,
+    API_Key = API_Key,
+    Cores = numberOfCores,
+    TimeOut = Inf,
+    SingularDL = TRUE
+  )
+}
+```
+
+Once again, let me plot the outcome of this.
+
+### Annual Temperature
+The differences in annual temperature are negligible and only arise through slight deviations in hourly aggregates to monthly aggregates and daily aggregates:
+```{r BC_Diff1, fig.height=8}
+Plot_BC(BCq_ras - BCh_ras, Shp = Scandi_shp, Water_Var = "Soil Moisture", which = 1)
+```
+### Temperatures
+Let's bundle the differences for all remaining temperature-related bioclimatic variables. 
+
+You will immediately see that all metrics reliant of mean values such as BIO4 and BIO8-BIO11 remain almost completely unaltered when using hourly aggregates. The stark differences manifest in all temperature-extreme variables:
+```{r BC_Diff2, fig.height=20}
+Plot_BC(BCq_ras - BCh_ras, Shp = Scandi_shp, Water_Var = "Soil Moisture", which = 2:11)
+```
+Quite obviously, the extraction of extremes at an hourly resolution amplifies said extremes.
+
+### Water Availability
+Unsurprisingly, there are no changes to our quantification of water availability metrics.
+
+I hope that the above has clearly demonstrated on thing:
+
+<p class="atten">
+**Choice of temporal resolution of extreme metrics changes how we quantify bioclimatic envelopes drastically.**
+</p>
+
+# Kriging of Bioclimatic Products
+
+You might be unhappy with the spatial resolution of the bioclimatic data products generated through `KrigR::BioClim()`. You can remedy this through statistical interpolation which is conveniently built into `KrigR`.
+
+When you do so, you do it at your own risk as I can not guarantee that the results will always be sensible. Investigate them before using them. Obviously, it would be wiser to downscale the underlying data rather than the finished product, but I don't feel like spending days on end kriging the underlying data so instead I show you how kriging can be performed, but I do so for the entire product.
+
+<p class="atten">
+**I do not recommend you use the outputs pertaining to** *average temperature of driest/wettest quarter/month* **and** *average water availability for coldest/warmest quarter/month***!**
+</p>
+
+
+<!-- ## Temperature Variables -->
+
+<!-- ### Covariates -->
+<!-- Temperature has been demonstrated to covary well with elevational data so we use the GMTED2010 DEM that is in-built into `KrigR` as our covariate of choice: -->
+<!-- ```{r, fig.height=4} -->
+<!-- Covs_ls <- download_DEM( -->
+<!--   Train_ras = BCh_ras, -->
+<!--   Target_res = 0.02, -->
+<!--   Shape = Scandi_shp, -->
+<!--   Dir = Dir.Data, -->
+<!--   Keep_Temporary = TRUE  -->
+<!-- ) -->
+<!-- Plot_Covs(Covs_ls) -->
+<!-- ``` -->
+
+<!-- ### Kriging -->
+<!-- Now we can statistically interpolate our temperature variables: -->
+<!-- ```{r} -->
+<!-- if(!file.exists(file.path(Dir.Data, "Temperature_Krig.nc"))){ -->
+<!--  Temp_Krig <- KrigR::krigR( -->
+<!--   Data = BCh_ras[[1:11]], -->
+<!--   Covariates_coarse = Covs_ls[[1]],  -->
+<!--   Covariates_fine = Covs_ls[[2]],    -->
+<!--   KrigingEquation = "ERA ~ DEM",   -->
+<!--   Cores = parallel::detectCores()/2,  -->
+<!--   Dir = Dir.Data,   -->
+<!--   FileName = "Temperature_Krig",  -->
+<!--   Keep_Temporary = TRUE, -->
+<!--   nmax = 40 -->
+<!-- )[[1]] -->
+<!-- }else{ -->
+<!--   Temp_Krig <- stack(file.path(Dir.Data, "Temperature_Krig.nc")) -->
+<!-- } -->
+<!-- ``` -->
+
+<!-- ## Water Variables -->
+<!-- ### Covariates -->
+<!-- In a [recent study](https://arxiv.org/abs/2108.03957), we have demonstrated the usefulness the following covariates for interpolation of volumetric soil moisture data: -->
+<!-- ```{r, eval = FALSE} -->
+<!-- SoilCovs_vec <- c("tkdry", "tksat", "csol", "k_s", "lambda", "psi", "theta_s") # need these names for addressing soil covariates, documentation of these can be found here http://globalchange.bnu.edu.cn/research/soil4.jsp -->
+<!-- # create lists to combine soil data into one -->
+<!-- SoilCovs_ls <- as.list(rep(NA, length(SoilCovs_vec))) -->
+<!-- names(SoilCovs_ls) <- c(SoilCovs_vec) -->
+<!-- ## Downloading, unpacking, and stacking -->
+<!-- for(Soil_Iter in SoilCovs_vec){ -->
+<!--   if(!file.exists(file.path(Dir.Data, paste0(Soil_Iter, ".nc")))) { # if not downloaded and processed yet -->
+<!--       print(paste("Handling", Soil_Iter, "data.")) -->
+<!--       Dir.Soil <- file.path(Dir.Data, Soil_Iter) -->
+<!--       dir.create(Dir.Soil) -->
+<!--       download.file(paste0("http://globalchange.bnu.edu.cn/download/data/worldptf/", Soil_Iter,".zip"), -->
+<!--                     destfile = file.path(Dir.Soil, paste0(Soil_Iter, ".zip")) -->
+<!--       ) # download data -->
+<!--       unzip(file.path(Dir.Soil, paste0(Soil_Iter, ".zip")), exdir = Dir.Soil) # unzip data -->
+<!--       File <- list.files(Dir.Soil, pattern = ".nc")[1] # only keep first soil layer -->
+<!--       Soil_ras <- raster(file.path(Dir.Soil, File)) # load data -->
+<!--       Soil_ras <- crop(Soil_ras, extent(Covs_ls[[2]])) # crop to data extent -->
+<!--       Soil_ras <- resample(Soil_ras, Temp_Krig) -->
+<!--       Soil_Mask <- KrigR::mask_Shape(Soil_ras, Scandi_shp[,"NAME"]) # identify which cells are covered by the shape -->
+<!--       Soil_ras <- mask(Soil_ras, Soil_Mask) # mask  -->
+<!--       SoilCovs_ls[[which(names(SoilCovs_ls) == Soil_Iter)]] <- Soil_ras # save to list -->
+<!--       writeRaster(x = Soil_ras, filename = file.path(Dir.Data, Soil_Iter), format = "CDF") -->
+<!--       unlink(Dir.Soil, recursive = TRUE) -->
+<!--       }else{ -->
+<!--         SoilCovs_ls[[which(names(SoilCovs_ls) == Soil_Iter)]] <- raster(file.path(Dir.Data, paste0(Soil_Iter, ".nc"))) -->
+<!--       } -->
+<!--   } -->
+<!-- ``` -->
+
+<!-- ```{r, eval = FALSE} -->
+<!-- # High-resolution to which we downscale -->
+<!-- Finecovs <- stack(SoilCovs_ls) -->
+<!-- # resample fine-resolution covariate data to match coarse input data -->
+<!-- Coarsecovs <- resample(x = Finecovs, y = BCh_ras) -->
+<!-- ``` -->
+
+<!-- ### Kriging -->
+<!-- ```{r} -->
+<!-- if(!file.exists(file.path(Dir.Data, "Water_Krig.nc"))){ -->
+<!--  Wate_Krig <- KrigR::krigR( -->
+<!--   Data = BCh_ras[[12:19]], -->
+<!--   Covariates_coarse = Coarsecovs,  -->
+<!--   Covariates_fine = Finecovs,    -->
+<!--   KrigingEquation = paste("ERA", paste(SoilCovs_vec, collapse = "+"), sep = "~"),   -->
+<!--   Cores = parallel::detectCores()/2,  -->
+<!--   Dir = Dir.Data,   -->
+<!--   FileName = "Water_Krig",  -->
+<!--   Keep_Temporary = TRUE, -->
+<!--   nmax = 40 -->
+<!-- )[[1]]  -->
+<!-- }else{ -->
+<!--   Wate_Krig <- stack(file.path(Dir.Data, "Water_Krig.nc")) -->
+<!-- } -->
+<!-- ``` -->
+
+<!-- ## Final Product -->
+
+<!-- ```{r} -->
+<!-- Wate_Krig <- resample(Wate_Krig, Temp_Krig) -->
+<!-- BC_Krig <- stack(Temp_Krig, Wate_Krig) -->
+<!-- ``` -->
+
+
+<!-- ```{r BC_Final1, fig.height=8} -->
+<!-- Plot_BC(BC_Krig, Shp = Scandi_shp,  -->
+<!--         Water_Var = "Soil Moisture", which = 1) -->
+<!-- ``` -->
+
+<!-- ```{r BC_Final2, fig.height=16} -->
+<!-- Plot_BC(BC_Krig, Shp = Scandi_shp,  -->
+<!--         Water_Var = "Soil Moisture", which = 2:11) -->
+<!-- ``` -->
+
+<!-- ```{r BC_Final3, fig.height=20} -->
+<!-- Plot_BC(BC_Krig, Shp = Scandi_shp,  -->
+<!--         Water_Var = "Soil Moisture", which = 12:19) -->
+<!-- ``` -->
+
+<!-- ## Data Uncertainty -->
+
+# Session Info
+```{r}
+sessionInfo()
+```
