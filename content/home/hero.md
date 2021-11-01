@@ -42,7 +42,7 @@ hero_media = "Toad.png"
 
 +++
 
-## Hi. I'm **Erik Kusch**, a PhD student of **Ecoinformatics and Biodiversity** who creates and applies novel statistical methods big-data.  
+## Hi. I'm **Erik Kusch**, a PhD student of **Ecoinformatics and Biodiversity** who creates and applies novel statistical methods to big-data.  
 
 I aim to understand how global and local processes and patterns in biological systems come about and are reinforced thus generating knowledge about the resilience of the Earth's ecosystems. My PhD project is under the guidance of [Alejandro Ordonez](https://pure.au.dk/portal/en/persons/alejandro-ordonez-gloria(93af1df3-ce78-48c3-94fa-2317fa00bd4a).html) and co-supervised by [Roberto Salguero-Gómez](https://www.zoo.ox.ac.uk/people/dr-rob-salguero-gomez). 
 
