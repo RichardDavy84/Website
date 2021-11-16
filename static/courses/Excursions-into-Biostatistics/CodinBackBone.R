@@ -14,7 +14,7 @@ rm(list=ls())
 ## Directories ------------------------------------------------------------
 ### Define dicrectories in relation to project directory
 Dir.Base <- getwd()
-Dir.Data <- file.path(Dir.Data, "Data")
+Dir.Data <- file.path(Dir.Base, "Data")
 Dir.Exports <- file.path(Dir.Base, "Exports")
 ### Create directories which aren't present yet
 Dirs <- c(Dir.Data, Dir.Exports)
