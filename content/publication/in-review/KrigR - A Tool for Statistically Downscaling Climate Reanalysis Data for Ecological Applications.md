@@ -1,5 +1,5 @@
 ---
-title: KrigR - A Tool for Statistically Downscaling Climate Reanalysis Data for Ecological Applications
+title: KrigR – A tool for downloading and statistically downscaling climate reanalysis data
 abstract: The abstract will be added after a publication date is communicated.
 authors:
 - ErikKusch
@@ -9,7 +9,7 @@ doi: ""
 featured: true
 projects:
 - KrigR
-publication: "*Methods in Ecology and Evolution*"
+publication: "*Environmental Research Letters*"
 # publication_short: ""
 publication_types: # 1 = conference paper, 2 = journal article, 3 = preprint, 4 = conference paper, 5 = book, 6 = Book section, 7 = Thesis, 8 = patent
 - "3"
